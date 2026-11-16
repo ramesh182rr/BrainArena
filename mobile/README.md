@@ -26,6 +26,7 @@ Add dependencies with `npx expo install <package>` so versions match the SDK.
 index.ts               # registers the root component
 src/
   app/                 # root component, providers, navigation, startup
+  design-system/       # tokens, contrast helpers, base components
   game-runtime/        # game module contract, lifecycle, events
   games/               # registry and one folder per game module
   data/sqlite/         # local schema, migrations, repositories
@@ -34,5 +35,6 @@ Imports may use the `@/` alias for `src/`. Tests live in `__tests__` folders nex
 
 ## Conventions
 - Game rules are pure TypeScript with no React or storage imports; UI holds no game logic.
+- Colours, spacing and type come from `src/design-system/tokens.ts`; do not hard-code them.
 - Navigation uses React Navigation (native stack + bottom tabs), not Expo Router.
 - Never commit secrets, keystores or `.env` files.

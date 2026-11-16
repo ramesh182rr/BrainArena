@@ -1,5 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+import { AppText, Screen } from '@/design-system';
 
 /**
  * Temporary root component. Navigation, providers and startup (SQLite
@@ -7,25 +9,12 @@ import { StyleSheet, Text, View } from 'react-native';
  */
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text accessibilityRole="header" style={styles.title}>
-        BrainArena Solo
-      </Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <Screen contentStyle={{ alignItems: 'center', justifyContent: 'center' }}>
+        <AppText variant="display">BrainArena Solo</AppText>
+        <AppText tone="secondary">Puzzle worlds are on their way.</AppText>
+      </Screen>
+      <StatusBar style="dark" />
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F7F8FC',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    color: '#17233F',
-    fontSize: 28,
-    fontWeight: '700',
-  },
-});
