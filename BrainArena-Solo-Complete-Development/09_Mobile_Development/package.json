@@ -1,0 +1,36 @@
+{
+  "name": "brainarena-solo-mobile",
+  "version": "0.1.0",
+  "private": true,
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "typecheck": "tsc --noEmit",
+    "test": "jest"
+  },
+  "dependencies": {
+    "expo": "latest",
+    "expo-sqlite": "latest",
+    "expo-secure-store": "latest",
+    "expo-notifications": "latest",
+    "react": "latest",
+    "react-native": "latest",
+    "react-native-reanimated": "latest",
+    "react-native-gesture-handler": "latest",
+    "react-native-svg": "latest",
+    "@react-navigation/native": "latest",
+    "@react-navigation/native-stack": "latest",
+    "@tanstack/react-query": "latest",
+    "zustand": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "latest",
+    "typescript": "latest",
+    "jest": "latest",
+    "jest-expo": "latest",
+    "@testing-library/react-native": "latest"
+  }
+}

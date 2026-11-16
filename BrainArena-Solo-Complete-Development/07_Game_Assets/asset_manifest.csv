@@ -1,0 +1,5 @@
+asset_id,path,description,source,licence_status,version,approval
+BA-VIS-001,06_Visual_Assets/brainarena_logo.svg,Logo concept,Original SVG concept,Internal concept,1.0,Pending brand review
+BA-VIS-002,06_Visual_Assets/app_icon_concept.svg,App icon concept,Original SVG concept,Internal concept,1.0,Pending store review
+BA-VIS-003,06_Visual_Assets/six_worlds_visual_reference.png,Six-world visual reference,Generated original concept,Review terms before commercial use,1.0,Concept only
+BA-VIS-004,06_Visual_Assets/brainarena_product_concept_board.png,Product concept board,Generated original concept,Review terms before commercial use,1.0,Concept only

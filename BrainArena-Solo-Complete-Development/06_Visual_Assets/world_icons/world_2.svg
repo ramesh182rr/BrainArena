@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+    <rect width="512" height="512" rx="96" fill="#17233F"/>
+    <circle cx="256" cy="230" r="158" fill="#55C9C2" opacity=".22"/>
+    <path d="M256 80 L390 210 L340 390 L172 390 L122 210 Z" fill="#55C9C2"/>
+    <circle cx="256" cy="240" r="72" fill="#fff" opacity=".9"/>
+    <path d="M220 240 L248 270 L300 205" stroke="#17233F" stroke-width="22" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="256" y="460" text-anchor="middle" font-family="Arial" font-size="28" font-weight="700" fill="#fff">Logic Kingdom</text>
+    </svg>

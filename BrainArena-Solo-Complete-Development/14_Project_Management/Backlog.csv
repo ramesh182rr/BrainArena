@@ -1,0 +1,17 @@
+ID,Area,Task,Priority,Dependency,Acceptance
+BA-001,Foundation,Create Expo TypeScript app,P0,None,Android dev build launches
+BA-002,Foundation,Create FastAPI service,P0,None,Health endpoint works
+BA-003,Foundation,Configure Neon migrations,P0,BA-002,Schema deploys to staging
+BA-004,Runtime,Implement game module contract,P0,BA-001,Unit tests pass
+BA-005,Runtime,Implement SQLite session/outbox,P0,BA-001,Offline result persists
+BA-006,Game,Build first vertical slice,P0,BA-004,Game completes offline
+BA-007,Generator,Implement deterministic seed contract,P0,BA-004,Seed regression tests pass
+BA-008,Game,Implement six first-batch games,P1,BA-006,Each GDD acceptance passes
+BA-009,Content,Build world catalogue UI,P1,BA-001,All six worlds discoverable
+BA-010,Personalisation,Implement per-game metrics,P1,BA-006,Metrics normalised per game
+BA-011,Arena,Implement Daily Arena selector,P1,BA-010,Selection is explainable
+BA-012,Sync,Implement idempotent sync API,P1,BA-003;BA-005,Duplicate events rejected safely
+BA-013,Account,Guest-to-account linking,P1,BA-012,Guest progress preserved
+BA-014,Monetisation,Rewarded ad adapter,P2,BA-012,Explicit opt-in and verified reward
+BA-015,Monetisation,Billing entitlement adapter,P2,BA-012,Server validates purchases
+BA-016,Release,Android QA and release prep,P1,All P0/P1,Release checklist passes
