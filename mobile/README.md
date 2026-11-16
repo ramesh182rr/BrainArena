@@ -29,7 +29,8 @@ src/
   design-system/       # tokens, contrast helpers, base components
   game-runtime/        # game contract, lifecycle, seeded RNG, events, session model
   games/               # catalogue (30 entries), registry, one folder per game module
-  data/sqlite/         # local schema, migrations, repositories
+  data/sqlite/         # SQL port, expo-sqlite adapter, migrations
+  data/repositories/   # profile, session, outbox repositories and GameStore
 ```
 Imports may use the `@/` alias for `src/`. Tests live in `__tests__` folders next to the code.
 
@@ -37,6 +38,8 @@ Imports may use the `@/` alias for `src/`. Tests live in `__tests__` folders nex
 - Game rules are pure TypeScript with no React or storage imports; UI holds no game logic.
 - Generators use `createRng` from `game-runtime/rng.ts`, never `Math.random`; the runtime gets time and ids through injected `RuntimeDeps`.
 - A catalogue entry is playable only when its module is registered in `games/registry.ts`.
+- Schema changes are new entries in `data/sqlite/migrations.ts`; never edit a shipped migration.
+- Repository tests run the real SQL against Node's built-in SQLite (`node:sqlite`), which is why Node 22 is required.
 - Colours, spacing and type come from `src/design-system/tokens.ts`; do not hard-code them.
 - Navigation uses React Navigation (native stack + bottom tabs), not Expo Router.
 - Never commit secrets, keystores or `.env` files.

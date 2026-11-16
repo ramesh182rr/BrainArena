@@ -17,3 +17,8 @@ All notable changes to BrainArena Solo are recorded here. Dates are ISO 8601.
   and fingerprint hash, domain events, and a pure session model (start, action, pause/resume, hint,
   summary, exit, snapshot/restore). Added the six-world, 30-game catalogue; a game is playable only
   when its module is registered.
+- 2026-11-17 — Step 4: added local persistence (`mobile/src/data`): a small SQL port with an
+  expo-sqlite adapter, versioned migrations tracked in `PRAGMA user_version`, and profile, session
+  and sync-outbox repositories behind a `GameStore` that saves a session and its events in one
+  transaction. Replaced the starter `schema.sql` with migration 1, which adds device id, game
+  version, level seed, generator version, difficulty, outcome, score and a resumable snapshot.
