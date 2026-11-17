@@ -27,7 +27,11 @@ export function Card({
   const accent = accentColor ? { borderLeftWidth: 6, borderLeftColor: accentColor } : null;
   if (!onPress) {
     return (
-      <View {...(testID ? { testID } : {})} style={[styles.card, accent, style]}>
+      <View
+        {...(accessibilityLabel ? { accessible: true, accessibilityLabel } : {})}
+        {...(testID ? { testID } : {})}
+        style={[styles.card, accent, style]}
+      >
         {children}
       </View>
     );

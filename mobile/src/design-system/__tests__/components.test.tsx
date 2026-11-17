@@ -51,6 +51,16 @@ describe('Card', () => {
     expect(screen.queryByRole('button')).toBeNull();
   });
 
+  it('keeps its accessibility label when it is not pressable', async () => {
+    await render(
+      <Card accessibilityLabel="Block Escape. In development.">
+        <AppText>Block Escape</AppText>
+      </Card>,
+    );
+    expect(screen.getByLabelText('Block Escape. In development.')).toBeTruthy();
+    expect(screen.queryByRole('button')).toBeNull();
+  });
+
   it('becomes a labelled button with onPress', async () => {
     const onPress = jest.fn();
     await render(

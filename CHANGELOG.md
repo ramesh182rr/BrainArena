@@ -29,3 +29,12 @@ All notable changes to BrainArena Solo are recorded here. Dates are ISO 8601.
   reducer with undo/reset, scoring and three-tier hints. Not yet registered as playable (step 6).
   Tests: 60 regression seeds per band, a 1,000-seed property run, solver optimality checked
   against brute force, and full play/pause/restore through the session runtime.
+- 2026-11-17 — Step 6: added the app shell and the playable Arrow Escape vertical slice.
+  Startup opens and migrates SQLite, registers games and loads the guest profile, with a retry
+  screen on failure and an error boundary. Five tabs (Home, Explore, Arena, Progress, Profile) and
+  a stack for World → Game intro → Play → Results. Arrow Escape is registered as playable with an
+  accessible SVG board, tutorials, difficulty choice, undo/reset/hints, pause, and save/resume of
+  unfinished levels (also on backgrounding). Arena is a clearly labelled placeholder; Progress
+  lists recent local sessions. Added `expo-asset` (required by expo-sqlite at bundle time) and
+  `expo-constants`; applied Expo SDK 58 patch updates. `Card` now keeps its accessibility label
+  when not pressable.

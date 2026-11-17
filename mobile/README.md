@@ -25,10 +25,12 @@ Add dependencies with `npx expo install <package>` so versions match the SDK.
 ```text
 index.ts               # registers the root component
 src/
-  app/                 # root component, providers, navigation, startup
+  app/                 # startup, services context, error boundary, navigation
+  features/            # screens: home, explore, game (intro/play/results), arena, progress, profile
   design-system/       # tokens, contrast helpers, base components
   game-runtime/        # game contract, lifecycle, seeded RNG, events, session model
-  games/               # catalogue (30 entries), registry, one folder per game module
+  games/               # catalogue (30 entries), registry, UI registry, one folder per game
+                       # (rules in the module, board UI in its ui/ folder; register in games/index.ts)
   data/sqlite/         # SQL port, expo-sqlite adapter, migrations
   data/repositories/   # profile, session, outbox repositories and GameStore
 ```

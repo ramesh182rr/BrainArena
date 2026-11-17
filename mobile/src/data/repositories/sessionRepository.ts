@@ -122,6 +122,26 @@ export class SessionRepository {
     return row?.snapshot_json ?? null;
   }
 
+  /** Most recently updated unfinished session across all games, for the Home "Continue" card. */
+  async findLatestResumable(profileId: string): Promise<{ gameId: string; sessionId: string } | null> {
+    const row = await this.db.first<{ game_id: string; id: string }>(
+      `SELECT game_id, id FROM game_sessions
+       WHERE profile_id = ? AND ended_at IS NULL AND status IN ('playing', 'paused')
+       ORDER BY updated_at DESC LIMIT 1`,
+      [profileId],
+    );
+    return row ? { gameId: row.game_id, sessionId: row.id } : null;
+  }
+
+  /** Seeds of levels the player has completed for a game, e.g. to track tutorial progress. */
+  async completedSeeds(profileId: string, gameId: string): Promise<Set<string>> {
+    const rows = await this.db.all<{ level_seed: string }>(
+      `SELECT DISTINCT level_seed FROM game_sessions WHERE profile_id = ? AND game_id = ? AND outcome = 'succeeded'`,
+      [profileId, gameId],
+    );
+    return new Set(rows.map((r) => r.level_seed));
+  }
+
   /** Marks leftover unfinished sessions of a game as exited, e.g. when the player starts a new level. */
   async abandonUnfinished(profileId: string, gameId: string, now: string, exceptSessionId?: string): Promise<void> {
     await this.db.run(

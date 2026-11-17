@@ -129,6 +129,23 @@ describe('SessionRepository', () => {
   });
 });
 
+describe('SessionRepository queries for screens', () => {
+  it('finds the latest resumable session across games and the completed seeds', async () => {
+    const { db, deps, store, profile } = await setup();
+    expect(await store.sessions.findLatestResumable(profile.id)).toBeNull();
+
+    const a = startSession(game, { seed: 'a', difficulty: 'easy' }, deps).session;
+    const done = submitAction(game, a, { type: 'add', amount: a.state.target }, deps).session;
+    await store.sessions.save(profile.id, done, deps.now());
+    const b = startSession(game, { seed: 'b', difficulty: 'easy' }, deps).session;
+    await store.sessions.save(profile.id, b, deps.now());
+
+    expect(await store.sessions.findLatestResumable(profile.id)).toEqual({ gameId: game.id, sessionId: b.sessionId });
+    expect(await store.sessions.completedSeeds(profile.id, game.id)).toEqual(new Set(['a']));
+    db.close();
+  });
+});
+
 describe('OutboxRepository', () => {
   it('appends events idempotently by event id', async () => {
     const { db, deps, store, profile } = await setup();
