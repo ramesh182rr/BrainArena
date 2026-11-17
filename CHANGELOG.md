@@ -112,3 +112,11 @@ Known limitations carried into M2:
   breadth-first par (brute-force cross-checked), inventory from a shortest solution, 4 tutorials,
   5 curated fallbacks, cascade pop animation, droplet tray, out-of-droplets guidance, three-tier
   hints.
+- 2026-11-18 — Added **Sequence Recall** (W5-G04, Memory Vault), the fifth playable game. Watch
+  symbols light up at places, then answer through the round's channel (places, symbols, or either
+  in reverse) on an input that differs from the display. Deterministic per (seed, round, attempt);
+  no consecutive repeats; timed show that stops when paused and restarts on resume or restore;
+  words caption every item for screen readers; slot-by-slot miss feedback with a fresh sequence;
+  3 tutorials; hints highlight the next keys. Tones are deferred until audio exists.
+- 2026-11-18 — Tab bar highlight keeps its rounded corners on Android (constant transparent
+  background and border).

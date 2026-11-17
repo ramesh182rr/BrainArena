@@ -4,6 +4,8 @@ import { numberMaze } from './logic-kingdom/number-maze';
 import { numberMazeUi } from './logic-kingdom/number-maze/ui';
 import { colourCascade } from './pattern-universe/colour-cascade';
 import { colourCascadeUi } from './pattern-universe/colour-cascade/ui';
+import { sequenceRecall } from './memory-vault/sequence-recall';
+import { sequenceRecallUi } from './memory-vault/sequence-recall/ui';
 import { gameRegistry, registerGame } from './registry';
 import { ruleBreaker } from './tricksters-lab/rule-breaker';
 import { ruleBreakerUi } from './tricksters-lab/rule-breaker/ui';
@@ -22,4 +24,6 @@ export function registerAllGames(): void {
   registerGameUi(ruleBreakerUi);
   if (!gameRegistry.has(colourCascade.id)) registerGame(colourCascade);
   registerGameUi(colourCascadeUi);
+  if (!gameRegistry.has(sequenceRecall.id)) registerGame(sequenceRecall);
+  registerGameUi(sequenceRecallUi);
 }

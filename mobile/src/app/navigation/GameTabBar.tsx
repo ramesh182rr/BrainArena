@@ -71,7 +71,19 @@ const styles = StyleSheet.create({
     elevation: 12,
   },
   tab: { flex: 1, alignItems: 'center', gap: 2, minHeight: minTouchTarget },
-  iconWrap: { width: 44, height: 32, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
-  iconActive: { backgroundColor: colors.gold, borderWidth: 2, borderColor: 'rgba(255,255,255,0.6)' },
+  // Background and border are always set (transparent when inactive): Android can drop the corner
+  // radius when a view gains a background it did not have before.
+  iconWrap: {
+    width: 44,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    backgroundColor: 'transparent',
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  iconActive: { backgroundColor: colors.gold, borderColor: 'rgba(255,255,255,0.6)' },
   label: { fontSize: 12, lineHeight: 15 },
 });
