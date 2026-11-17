@@ -6,6 +6,8 @@ import { colourCascade } from './pattern-universe/colour-cascade';
 import { colourCascadeUi } from './pattern-universe/colour-cascade/ui';
 import { sequenceRecall } from './memory-vault/sequence-recall';
 import { sequenceRecallUi } from './memory-vault/sequence-recall/ui';
+import { switchChallenge } from './creative-chaos/switch-challenge';
+import { switchChallengeUi } from './creative-chaos/switch-challenge/ui';
 import { gameRegistry, registerGame } from './registry';
 import { ruleBreaker } from './tricksters-lab/rule-breaker';
 import { ruleBreakerUi } from './tricksters-lab/rule-breaker/ui';
@@ -26,4 +28,6 @@ export function registerAllGames(): void {
   registerGameUi(colourCascadeUi);
   if (!gameRegistry.has(sequenceRecall.id)) registerGame(sequenceRecall);
   registerGameUi(sequenceRecallUi);
+  if (!gameRegistry.has(switchChallenge.id)) registerGame(switchChallenge);
+  registerGameUi(switchChallengeUi);
 }

@@ -48,7 +48,8 @@ export function SummaryScreen({ route, navigation }: RootScreenProps<'Summary'>)
   return (
     <Screen scroll edges={['top', 'left', 'right', 'bottom']} overlay={won ? <Celebration seed={`${p.seed}-summary`} /> : null}>
       <View style={styles.head}>
-        <AppText variant="caption" tone="muted">
+        {/* Full width: Android can clip the last glyph of shrink-wrapped centred text in custom fonts. */}
+        <AppText variant="caption" tone="muted" style={styles.fullWidth}>
           {levelLabel(tutorials, { seed: p.seed, difficulty: p.difficulty })}
         </AppText>
         <AppText variant="hero" tone={won ? 'gold' : 'primary'} shadow style={styles.center}>
@@ -124,6 +125,7 @@ function Stat({ label, value }: { label: string; value: string }) {
 const styles = StyleSheet.create({
   head: { alignItems: 'center', gap: spacing.sm, marginTop: spacing.lg },
   center: { textAlign: 'center' },
+  fullWidth: { alignSelf: 'stretch', textAlign: 'center' },
   scoreCard: { alignItems: 'center', gap: spacing.xs },
   best: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, backgroundColor: colors.gold, borderRadius: radii.pill, paddingHorizontal: spacing.md, paddingVertical: spacing.xs },
   stats: { flexDirection: 'row', gap: spacing.md },

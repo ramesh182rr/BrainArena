@@ -47,7 +47,6 @@ describe('play flow', () => {
       const label = new RegExp(`${world.title}\\. .* ${playableCount(world.id)} of 5 games playable\\.`);
       expect(await screen.findByLabelText(label)).toBeTruthy();
     }
-    expect(worlds.some((w) => playableCount(w.id) === 0)).toBe(true);
     await fireEvent.press(screen.getByTestId('world-W3'));
     expect(await screen.findByLabelText('Block Escape. Layered cargo choreography. In development.')).toBeTruthy();
   });

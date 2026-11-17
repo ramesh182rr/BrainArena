@@ -83,7 +83,41 @@ Known limitations carried into M2:
 - 2026-11-17 — Step 7: added the Arrow Escape originality review (decision pending human review;
   flags the name and the overlap with W4-G01/W4-G05 as risks) and closed M1.
 
-### M2: First 6 games (in progress)
+### M2: First 6 games (complete, 2026-11-18)
+Exit gate from `14_Project_Management/Roadmap.md`: "Each has tutorial, scoring, tests and
+originality review". **Met** for all six games, with each originality review pending human
+sign-off. Every world now has one playable game:
+
+| World | Game | Notes |
+|---|---|---|
+| Trickster's Lab | Rule Breaker (W1-G05) | Feedback names the cause on FAIL only (confirm the catalogue change) |
+| Logic Kingdom | Number Maze (W2-G02) | |
+| Spatial Dimension | Volt Courier (W3-G01) | Renamed from Arrow Escape |
+| Pattern Universe | Colour Cascade (W4-G02) | |
+| Memory Vault | Sequence Recall (W5-G04) | Tones deferred until audio exists |
+| Creative Chaos | Switch Challenge (W6-G04) | |
+
+All six games share these properties:
+- Seeded, validated generation over five bands.
+- Tutorials that teach one idea each.
+- Curated fallbacks.
+- Three-tier hints.
+- Stars.
+- Save and resume.
+- Accessibility labels.
+- A 1,000-seed property test.
+
+Every game was played on an Android emulator.
+
+Carried forward:
+- Human originality reviews and name and trademark checks.
+- Comprehension playtests with real players.
+- Audio.
+- App icon and splash.
+- Package id.
+- A gate tutorial for Volt Courier.
+- The design reminders for later games: W4-G01 and W4-G05 must stay distinct from Volt Courier, W4-G04 and W6-G05 from Switch Challenge, and W5-G03 from Sequence Recall.
+
 - 2026-11-17 — Renamed W3-G01 *Arrow Escape* to **Volt Courier** in the app, code (module folder
   `volt-courier`), catalogue, GDD and originality review. The id `W3-G01` is unchanged, so saved
   progress is unaffected. A formal trademark check is still pending.
@@ -120,3 +154,8 @@ Known limitations carried into M2:
   3 tutorials; hints highlight the next keys. Tones are deferred until audio exists.
 - 2026-11-18 — Tab bar highlight keeps its rounded corners on Android (constant transparent
   background and border).
+- 2026-11-18 — Added **Switch Challenge** (W6-G04, Creative Chaos), the sixth playable game, which
+  completes M2. Dials with wrap-around levels, switches with hidden wiring revealed on first press,
+  and locked switches that fire only in a given dial state. Press budget is par + 3; Reset keeps the
+  discovered wiring. Exact BFS par, random-walk targets, locks guaranteed to matter, 4 tutorials,
+  5 fallbacks, hints. The results subtitle no longer clips on Android.
