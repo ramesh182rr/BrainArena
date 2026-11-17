@@ -2,6 +2,8 @@ import { voltCourier } from './spatial-dimension/volt-courier';
 import { voltCourierUi } from './spatial-dimension/volt-courier/ui';
 import { numberMaze } from './logic-kingdom/number-maze';
 import { numberMazeUi } from './logic-kingdom/number-maze/ui';
+import { colourCascade } from './pattern-universe/colour-cascade';
+import { colourCascadeUi } from './pattern-universe/colour-cascade/ui';
 import { gameRegistry, registerGame } from './registry';
 import { ruleBreaker } from './tricksters-lab/rule-breaker';
 import { ruleBreakerUi } from './tricksters-lab/rule-breaker/ui';
@@ -18,4 +20,6 @@ export function registerAllGames(): void {
   registerGameUi(numberMazeUi);
   if (!gameRegistry.has(ruleBreaker.id)) registerGame(ruleBreaker);
   registerGameUi(ruleBreakerUi);
+  if (!gameRegistry.has(colourCascade.id)) registerGame(colourCascade);
+  registerGameUi(colourCascadeUi);
 }

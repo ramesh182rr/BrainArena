@@ -105,3 +105,10 @@ Known limitations carried into M2:
   search (brute-force confirmed). 4 tutorials, 5 curated fallbacks, three-tier hints. Design change
   from the catalogue: a PASS reports no cause (it made simple rules one-scan trivial), recorded in
   the originality review.
+- 2026-11-18 — Added **Colour Cascade** (W4-G02, Pattern Universe), the fourth playable game.
+  Drop limited coloured droplets on watering pads; the colour cascades through connected plants
+  it eats along a feeding cycle (3 colours, 4 in expert); shells absorb one hit and stop the
+  wave; stones block; goal is full bloom (one colour). Patch-based seeded gardens, exact
+  breadth-first par (brute-force cross-checked), inventory from a shortest solution, 4 tutorials,
+  5 curated fallbacks, cascade pop animation, droplet tray, out-of-droplets guidance, three-tier
+  hints.
