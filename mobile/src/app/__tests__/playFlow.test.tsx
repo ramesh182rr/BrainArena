@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 
 import { exitSession, startSession } from '@/game-runtime/session';
+import { playableCount, worlds } from '@/games/catalogue';
 import { numberMaze } from '@/games/logic-kingdom/number-maze';
 import { solvingMoves } from '@/games/logic-kingdom/number-maze/__tests__/helpers';
 import { voltCourier } from '@/games/spatial-dimension/volt-courier';
@@ -42,8 +43,11 @@ async function pressCells(seed: string) {
 describe('play flow', () => {
   it('shows unbuilt games honestly in the catalogue', async () => {
     await openWorldMap();
-    expect(await screen.findByLabelText(/Spatial Dimension\. .* 1 of 5 games playable\./)).toBeTruthy();
-    expect(screen.getByLabelText(/Trickster's Lab\. .* 0 of 5 games playable\./)).toBeTruthy();
+    for (const world of worlds) {
+      const label = new RegExp(`${world.title}\\. .* ${playableCount(world.id)} of 5 games playable\\.`);
+      expect(await screen.findByLabelText(label)).toBeTruthy();
+    }
+    expect(worlds.some((w) => playableCount(w.id) === 0)).toBe(true);
     await fireEvent.press(screen.getByTestId('world-W3'));
     expect(await screen.findByLabelText('Block Escape. Layered cargo choreography. In development.')).toBeTruthy();
   });
@@ -124,9 +128,12 @@ describe('play flow', () => {
 
 describe('home and rewards', () => {
   it('PLAY on Home starts the featured game, and stars show up after solving', async () => {
+    // An abandoned Number Maze tutorial makes it the last-played, featured game.
+    const earlier = startSession(numberMaze, { seed: 'tutorial-2', difficulty: 'easy' }, services.deps);
+    await services.store.recordStep(services.profile, exitSession(earlier.session, services.deps).session, []);
     await render(<AppShell services={services} />);
     expect(await screen.findByLabelText('0 stars')).toBeTruthy();
-    // With no history, the first playable game in catalogue order is featured: Number Maze.
+    expect(await screen.findByText('Number Maze')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('home-play'));
     await screen.findByText('Tutorial 1 of 4');
     const maze = numberMaze.createLevel('tutorial-1', 'intro').initialState;

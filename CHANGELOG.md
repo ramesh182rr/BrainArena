@@ -97,3 +97,11 @@ Known limitations carried into M2:
 - 2026-11-17 — Home now features the unfinished game, else the last played one. The win dialog
   message is per game (`GameUi.successMessage`). Training-path nodes size to fit any number of
   tutorials.
+- 2026-11-17 — Added **Rule Breaker** (W1-G05, Trickster's Lab), the third playable game. Scan
+  tray specimens against a hidden rule (PASS, or FAIL with the causing property), then prove it by
+  sorting six fresh specimens; mistakes become evidence. Rule grammar grows per band (is / is-not /
+  mark counts / AND / OR / but-not; 13 to 278 candidate rules). Trays designed by information
+  gain plus decoys; tests drawn only from specimens the tray evidence forces; exact par by subset
+  search (brute-force confirmed). 4 tutorials, 5 curated fallbacks, three-tier hints. Design change
+  from the catalogue: a PASS reports no cause (it made simple rules one-scan trivial), recorded in
+  the originality review.

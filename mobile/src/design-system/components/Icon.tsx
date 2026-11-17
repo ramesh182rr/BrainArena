@@ -15,6 +15,7 @@ export type IconName =
   | 'progress'
   | 'profile'
   | 'check'
+  | 'cross'
   | 'settings'
   | 'offline';
 
@@ -69,6 +70,7 @@ export function Icon({ name, size = 24, color = '#FFFFFF' }: { name: IconName; s
         </>
       ) : null}
       {name === 'check' ? <Path d="M5 12.5 L10 17.5 L19 7" {...line} /> : null}
+      {name === 'cross' ? <Path d="M6 6 L18 18 M18 6 L6 18" {...line} /> : null}
       {name === 'settings' ? (
         <>
           <Circle cx={12} cy={12} r={3.2} {...line} />
