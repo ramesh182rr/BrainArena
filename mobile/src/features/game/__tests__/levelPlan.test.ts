@@ -1,4 +1,4 @@
-import { levelLabel, nextLevel, nextTutorial, seedFromId } from '../levelPlan';
+import { levelLabel, nextLevel, nextTutorial, playTarget, seedFromId } from '../levelPlan';
 
 const tutorials = [
   { seed: 'tutorial-1', difficulty: 'intro' as const, intro: 'a' },
@@ -25,6 +25,12 @@ describe('levelPlan', () => {
   it('labels levels', () => {
     expect(levelLabel(tutorials, { seed: 'tutorial-2', difficulty: 'easy' })).toBe('Tutorial 2 of 2');
     expect(levelLabel(tutorials, { seed: 'x', difficulty: 'advanced' })).toBe('Advanced level');
+  });
+
+  it('PLAY resumes, then teaches, then serves fresh levels', () => {
+    expect(playTarget(tutorials, new Set(), true, seed)).toEqual({ seed: '', difficulty: 'easy', resume: true });
+    expect(playTarget(tutorials, new Set(['tutorial-1']), false, seed)).toEqual({ seed: 'tutorial-2', difficulty: 'easy', resume: false });
+    expect(playTarget(tutorials, new Set(['tutorial-1', 'tutorial-2']), false, seed)).toEqual({ seed: 'fresh', difficulty: 'easy', resume: false });
   });
 
   it('makes short seeds from uuids', () => {

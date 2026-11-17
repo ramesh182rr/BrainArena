@@ -1,13 +1,18 @@
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { StyleSheet } from 'react-native';
 
-import { AppText, Button, Card, minTouchTarget, typography } from '..';
+import { AppText, Button, Card, colors, IconButton, minTouchTarget, Pill, StarRow, typography } from '..';
 
 describe('AppText', () => {
   it('applies the variant typography and marks headings as headers', async () => {
     await render(<AppText variant="title">Explore</AppText>);
     const node = screen.getByRole('header', { name: 'Explore' });
     expect(StyleSheet.flatten(node.props.style)).toMatchObject(typography.title);
+  });
+
+  it('applies tones', async () => {
+    await render(<AppText tone="gold">Gold</AppText>);
+    expect(StyleSheet.flatten(screen.getByText('Gold').props.style)).toMatchObject({ color: colors.gold });
   });
 
   it('does not mark body text as a header', async () => {
@@ -34,10 +39,18 @@ describe('Button', () => {
     expect(button).toBeDisabled();
   });
 
-  it('meets the minimum touch target', async () => {
-    await render(<Button label="Play" onPress={() => {}} testID="btn" />);
-    const style = StyleSheet.flatten(screen.getByTestId('btn').props.style);
-    expect(style.minHeight).toBeGreaterThanOrEqual(minTouchTarget);
+  it('meets the minimum touch target at every size', async () => {
+    for (const size of ['sm', 'md', 'lg'] as const) {
+      await render(<Button label={`Play ${size}`} size={size} onPress={() => {}} testID={`btn-${size}`} />);
+      const style = StyleSheet.flatten(screen.getByTestId(`btn-${size}`).props.style);
+      expect(style.height).toBeGreaterThanOrEqual(minTouchTarget);
+    }
+  });
+
+  it('shows large labels in capitals but keeps the accessible name as written', async () => {
+    await render(<Button label="Play" size="lg" variant="play" onPress={() => {}} />);
+    expect(screen.getByRole('button', { name: 'Play' })).toBeTruthy();
+    expect(screen.getByText('PLAY')).toBeTruthy();
   });
 });
 
@@ -70,5 +83,25 @@ describe('Card', () => {
     );
     await fireEvent.press(screen.getByRole('button', { name: 'Spatial Dimension' }));
     expect(onPress).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('game widgets', () => {
+  it('StarRow announces the star count', async () => {
+    await render(<StarRow stars={2} />);
+    expect(screen.getByLabelText('2 of 3 stars')).toBeTruthy();
+  });
+
+  it('IconButton is a labelled button with an optional badge', async () => {
+    const onPress = jest.fn();
+    await render(<IconButton icon="hint" label="Hint" badge={2} onPress={onPress} />);
+    await fireEvent.press(screen.getByRole('button', { name: 'Hint' }));
+    expect(onPress).toHaveBeenCalledTimes(1);
+    expect(screen.getByText('2')).toBeTruthy();
+  });
+
+  it('Pill can carry its own accessible label', async () => {
+    await render(<Pill label="12" accessibilityLabel="12 stars" />);
+    expect(screen.getByLabelText('12 stars')).toBeTruthy();
   });
 });

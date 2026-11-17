@@ -31,6 +31,8 @@ export const arrowEscapeUi: GameUi<ArrowEscapeState, ArrowEscapeAction> = {
     if (hintsUsed > 0) parts.push(`${hintsUsed} hint${hintsUsed === 1 ? '' : 's'} used.`);
     return parts.join(' ');
   },
+  // Score is 100 + an efficiency bonus of up to 50 (see module.ts).
+  starsFor: (score) => (score >= 140 ? 3 : score >= 120 ? 2 : 1),
   undoAction: { type: 'undo' },
   resetAction: { type: 'reset' },
 };

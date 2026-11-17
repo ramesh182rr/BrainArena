@@ -32,6 +32,8 @@ export interface GameUi<TState, TAction> {
   levelNote(state: TState): string | null;
   /** Explains a completed level's score in one or two sentences. */
   scoreExplanation(state: TState, context: ScoreContext): string;
+  /** 1–3 stars for a completed level's score. */
+  starsFor(score: number): 1 | 2 | 3;
   undoAction?: TAction;
   resetAction?: TAction;
 }

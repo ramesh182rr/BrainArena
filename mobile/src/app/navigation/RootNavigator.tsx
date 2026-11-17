@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { DefaultTheme, type Theme } from '@react-navigation/native';
+import { DarkTheme, type Theme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { colors } from '@/design-system/tokens';
@@ -12,38 +12,31 @@ import { SummaryScreen } from '@/features/game/SummaryScreen';
 import { HomeScreen } from '@/features/home/HomeScreen';
 import { ProfileScreen } from '@/features/profile/ProfileScreen';
 import { ProgressScreen } from '@/features/progress/ProgressScreen';
-import { getGame, getWorld } from '@/games/catalogue';
 
-import { TabIcon } from './TabIcon';
+import { GameTabBar } from './GameTabBar';
 import type { RootStackParamList, TabParamList } from './types';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const navigationTheme: Theme = {
-  ...DefaultTheme,
+  ...DarkTheme,
   colors: {
-    ...DefaultTheme.colors,
-    primary: colors.primary,
-    background: colors.background,
-    card: colors.card,
+    ...DarkTheme.colors,
+    primary: colors.gold,
+    background: colors.bgTop,
+    card: colors.bgTop,
     text: colors.textPrimary,
-    border: colors.border,
-    notification: colors.accent,
+    border: colors.glassBorder,
+    notification: colors.gold,
   },
 };
 
 function Tabs() {
   return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.textSecondary,
-        tabBarIcon: ({ color, size }) => <TabIcon name={route.name} color={color} size={size} />,
-      })}
-    >
-      <Tab.Screen name="Home" component={HomeScreen} options={{ title: 'BrainArena' , tabBarLabel: 'Home' }} />
-      <Tab.Screen name="Explore" component={ExploreScreen} />
+    <Tab.Navigator screenOptions={{ headerShown: false }} tabBar={(props) => <GameTabBar {...props} />}>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Explore" component={ExploreScreen} options={{ tabBarLabel: 'Worlds' }} />
       <Tab.Screen name="Arena" component={ArenaScreen} />
       <Tab.Screen name="Progress" component={ProgressScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
@@ -51,14 +44,15 @@ function Tabs() {
   );
 }
 
+/** Every screen draws its own game-style header, so native headers are hidden. */
 export function RootNavigator() {
   return (
-    <Stack.Navigator screenOptions={{ headerBackButtonDisplayMode: 'minimal' }}>
-      <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
-      <Stack.Screen name="World" component={WorldScreen} options={({ route }) => ({ title: getWorld(route.params.worldId).title })} />
-      <Stack.Screen name="GameIntro" component={GameIntroScreen} options={({ route }) => ({ title: getGame(route.params.gameId)?.title ?? 'Game' })} />
-      <Stack.Screen name="Play" component={PlayScreen} options={({ route }) => ({ title: getGame(route.params.gameId)?.title ?? 'Play' })} />
-      <Stack.Screen name="Summary" component={SummaryScreen} options={{ title: 'Results', headerBackVisible: false, gestureEnabled: false }} />
+    <Stack.Navigator screenOptions={{ headerShown: false, animation: 'fade_from_bottom', contentStyle: { backgroundColor: colors.bgTop } }}>
+      <Stack.Screen name="Tabs" component={Tabs} />
+      <Stack.Screen name="World" component={WorldScreen} />
+      <Stack.Screen name="GameIntro" component={GameIntroScreen} />
+      <Stack.Screen name="Play" component={PlayScreen} options={{ gestureEnabled: false }} />
+      <Stack.Screen name="Summary" component={SummaryScreen} options={{ gestureEnabled: false, animation: 'fade' }} />
     </Stack.Navigator>
   );
 }

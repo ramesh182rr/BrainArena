@@ -71,6 +71,17 @@ export const migrations: readonly Migration[] = [
       CREATE INDEX idx_sessions_game ON game_sessions(profile_id, game_id, updated_at);
     `,
   },
+  {
+    version: 2,
+    name: 'app_settings',
+    sql: `
+      CREATE TABLE app_settings (
+        key TEXT PRIMARY KEY,
+        value_json TEXT NOT NULL,
+        updated_at TEXT NOT NULL
+      );
+    `,
+  },
 ];
 
 export const LATEST_SCHEMA_VERSION = migrations[migrations.length - 1]?.version ?? 0;

@@ -47,3 +47,19 @@ export function levelLabel(tutorials: readonly TutorialStep[], choice: LevelChoi
 export function seedFromId(id: string): string {
   return id.replace(/-/g, '').slice(0, 10);
 }
+
+/**
+ * What the big PLAY button starts for a game: the saved level if there is one,
+ * otherwise the next unfinished tutorial, otherwise a fresh easy level.
+ */
+export function playTarget(
+  tutorials: readonly TutorialStep[],
+  completedSeeds: ReadonlySet<string>,
+  canResume: boolean,
+  newSeed: () => string,
+): LevelChoice & { resume: boolean } {
+  if (canResume) return { seed: '', difficulty: 'easy', resume: true };
+  const tutorial = nextTutorial(tutorials, completedSeeds);
+  if (tutorial) return { seed: tutorial.seed, difficulty: tutorial.difficulty, resume: false };
+  return { seed: newSeed(), difficulty: 'easy', resume: false };
+}

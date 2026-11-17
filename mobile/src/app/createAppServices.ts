@@ -12,11 +12,12 @@ export const runtimeDeps: RuntimeDeps = {
   newId: () => Crypto.randomUUID(),
 };
 
-/** Startup: register games, open and migrate the local database, load the guest profile. */
+/** Startup: register games, open and migrate the local database, load the guest profile and settings. */
 export async function createAppServices(): Promise<AppServices> {
   registerAllGames();
   const db = await openAppDatabase();
   const store = new GameStore(db, runtimeDeps);
   const profile = await store.getProfile();
-  return { store, profile, deps: runtimeDeps };
+  const initialPreferences = await store.settings.load();
+  return { store, profile, deps: runtimeDeps, initialPreferences };
 }

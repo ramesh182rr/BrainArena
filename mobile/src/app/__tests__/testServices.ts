@@ -14,5 +14,6 @@ export async function createTestServices(): Promise<{ services: AppServices; clo
   const deps = makeDeps();
   const store = new GameStore(db, deps);
   const profile = await store.getProfile();
-  return { services: { store, profile, deps }, close: () => db.close() };
+  const initialPreferences = await store.settings.load();
+  return { services: { store, profile, deps, initialPreferences }, close: () => db.close() };
 }

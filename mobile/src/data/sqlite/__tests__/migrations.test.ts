@@ -17,7 +17,7 @@ describe('migrate', () => {
 
   it('creates the schema on a fresh database', async () => {
     expect(await migrate(db)).toBe(LATEST_SCHEMA_VERSION);
-    expect(await tableNames(db)).toEqual(['game_sessions', 'local_profile', 'sync_outbox']);
+    expect(await tableNames(db)).toEqual(['app_settings', 'game_sessions', 'local_profile', 'sync_outbox']);
     expect(await db.first('PRAGMA user_version;')).toEqual({ user_version: LATEST_SCHEMA_VERSION });
   });
 
@@ -76,6 +76,16 @@ describe('migrate', () => {
          VALUES ('e', 'missing-profile', 'd', 'game_started', 't', 'g', '1', 1, '{}')`,
       ),
     ).rejects.toThrow(/FOREIGN KEY/i);
+  });
+
+  it('upgrades a version-1 database to the latest without losing data', async () => {
+    await migrate(db, migrations.slice(0, 1));
+    await db.run(
+      "INSERT INTO local_profile (id, device_id, created_at, updated_at) VALUES ('p', 'd', 't', 't')",
+    );
+    expect(await migrate(db)).toBe(LATEST_SCHEMA_VERSION);
+    expect(await tableNames(db)).toContain('app_settings');
+    expect(await db.all('SELECT id FROM local_profile')).toEqual([{ id: 'p' }]);
   });
 
   it('ships consecutive migration versions', () => {

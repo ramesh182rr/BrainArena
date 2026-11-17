@@ -38,3 +38,13 @@ All notable changes to BrainArena Solo are recorded here. Dates are ISO 8601.
   lists recent local sessions. Added `expo-asset` (required by expo-sqlite at bundle time) and
   `expo-constants`; applied Expo SDK 58 patch updates. `Card` now keeps its accessibility label
   when not pressable.
+- 2026-11-17 — Step 6b: switched the app to a game look and feel, following the concept board in
+  `06_Visual_Assets` instead of the plain light palette. Dark "cosmic arcade" theme with starfield,
+  Fredoka/Nunito fonts (SIL OFL), glossy press-down buttons, glass panels and an original SVG icon
+  set; floating tab bar; player bar with Explorer level and stars; Home hero with a big PLAY button;
+  world map of SVG floating-island emblems; training path per game; neon Arrow Escape board with
+  animated tile turns and flowing current; win celebration with 1–3 stars; results with count-up.
+  Added Motion (system/reduced/full) and Haptics settings, stored in SQLite via migration 2
+  (`app_settings`). Stars and Explorer level are derived from best scores (never lost). No lives,
+  energy timers or other punitive mechanics. Added reanimated, worklets, linear-gradient, haptics
+  and expo-font; fonts recorded in `mobile/ASSETS_AND_LICENSES.md` and the blueprint asset manifest.

@@ -12,7 +12,8 @@ describe('App startup', () => {
     const { services, close } = await createTestServices();
     mockCreate.mockResolvedValueOnce(services);
     await render(<App />);
-    expect(await screen.findByText('Ready for a puzzle?')).toBeTruthy();
+    expect(await screen.findByTestId('home-play')).toBeTruthy();
+    expect(screen.getByRole('header', { name: 'BrainArena Solo' })).toBeTruthy();
     close();
   });
 
@@ -22,7 +23,7 @@ describe('App startup', () => {
     await render(<App />);
     expect(await screen.findByText(/couldn.t open your saved progress/)).toBeTruthy();
     await fireEvent.press(screen.getByRole('button', { name: 'Try again' }));
-    expect(await screen.findByText('Ready for a puzzle?')).toBeTruthy();
+    expect(await screen.findByTestId('home-play')).toBeTruthy();
     close();
   });
 });

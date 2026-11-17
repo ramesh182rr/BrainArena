@@ -29,6 +29,8 @@ describe('buildBoardView', () => {
     expect(receiver?.satisfied).toBe(true);
     expect(receiver?.label).toMatch(/powered\.$/);
     expect(view.cells[1]?.power).toBe('spark');
+    // The spark enters (row 1, column 2) from the west.
+    expect(view.cells[1]?.flowIn).toBe(3);
     expect(view.cells[1]?.label).toMatch(/carrying spark\.$/);
   });
 

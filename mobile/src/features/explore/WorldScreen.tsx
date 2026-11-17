@@ -1,33 +1,80 @@
+import { LinearGradient } from 'expo-linear-gradient';
+import { StyleSheet, View } from 'react-native';
+
 import type { RootScreenProps } from '@/app/navigation/types';
-import { AppText, Card, Screen, worldAccents } from '@/design-system';
+import { AppText, Card, colors, Icon, Pill, radii, Screen, spacing, worldAccents } from '@/design-system';
 import { gamesInWorld, getWorld, isPlayable } from '@/games/catalogue';
+
+import { ScreenHeader } from '../common/ScreenHeader';
+import { WorldEmblem } from '../common/WorldEmblem';
+import { starsBySeed } from '../progress/rewards';
+import { useRewards } from '../progress/useRewards';
 
 export function WorldScreen({ route, navigation }: RootScreenProps<'World'>) {
   const world = getWorld(route.params.worldId);
   const accent = worldAccents[world.id];
+  const { bests } = useRewards();
+
   return (
-    <Screen scroll edges={['left', 'right', 'bottom']}>
-      <AppText tone="secondary">{world.tagline}</AppText>
+    <Screen scroll header={<ScreenHeader title={world.title} onBack={() => navigation.goBack()} />}>
+      <View style={styles.hero}>
+        <LinearGradient colors={[...accent.gradient]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
+        <LinearGradient colors={['rgba(18,11,51,0)', 'rgba(18,11,51,0.6)']} style={StyleSheet.absoluteFill} />
+        <WorldEmblem worldId={world.id} size={150} />
+        <AppText shadow style={styles.center}>
+          {world.tagline}
+        </AppText>
+      </View>
+
       {gamesInWorld(world.id).map((game) => {
         const playable = isPlayable(game.id);
-        const status = playable ? 'Ready to play' : 'In development';
+        const stars = [...starsBySeed(bests, game.id).values()].reduce((a, b) => a + b, 0);
         return (
           <Card
             key={game.id}
+            testID={`game-${game.id}`}
+            muted={!playable}
             {...(playable
               ? { accentColor: accent.primary, onPress: () => navigation.navigate('GameIntro', { gameId: game.id }) }
               : {})}
-            accessibilityLabel={`${game.title}. ${game.mechanic}. ${status}.`}
-            testID={`game-${game.id}`}
+            accessibilityLabel={`${game.title}. ${game.mechanic}. ${playable ? 'Ready to play' : 'In development'}.`}
           >
-            <AppText variant="heading">{game.title}</AppText>
-            <AppText tone="secondary">{game.mechanic}</AppText>
-            <AppText variant="caption" tone="secondary">
-              {status}
-            </AppText>
+            <View style={styles.row}>
+              <LinearGradient colors={playable ? [...accent.gradient] : ['#4A3E8C', '#2C2072']} style={styles.badge}>
+                {playable ? <Icon name="play" size={26} color="#FFFFFF" /> : <Icon name="lock" size={22} color={colors.textMuted} />}
+              </LinearGradient>
+              <View style={styles.flex}>
+                <AppText variant="heading">{game.title}</AppText>
+                <AppText tone="muted" numberOfLines={1}>
+                  {game.mechanic}
+                </AppText>
+              </View>
+              {playable ? (
+                <View style={styles.right}>
+                  <Pill label={`${stars}`} tone="dark" icon={<Icon name="star" size={14} color={colors.star} />} accessibilityLabel={`${stars} stars`} />
+                </View>
+              ) : (
+                <Pill label="Soon" tone="dark" />
+              )}
+            </View>
           </Card>
         );
       })}
+      <View style={styles.footer}>
+        <AppText variant="caption" tone="muted" style={styles.center}>
+          New games arrive in this world as they are finished.
+        </AppText>
+      </View>
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  hero: { borderRadius: radii.lg, overflow: 'hidden', alignItems: 'center', padding: spacing.lg, gap: spacing.sm, borderWidth: 1.5, borderColor: 'rgba(255,255,255,0.3)' },
+  center: { textAlign: 'center' },
+  row: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
+  badge: { width: 56, height: 56, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
+  flex: { flex: 1 },
+  right: { alignItems: 'flex-end' },
+  footer: { alignItems: 'center', gap: spacing.xs, opacity: 0.7 },
+});

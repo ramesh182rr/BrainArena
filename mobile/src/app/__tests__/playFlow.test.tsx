@@ -18,9 +18,13 @@ beforeEach(async () => {
 });
 afterEach(() => close());
 
-async function openArrowEscapeFromExplore() {
+async function openWorldMap() {
   await render(<AppShell services={services} />);
-  await fireEvent.press(await screen.findByRole('button', { name: 'Explore all worlds' }));
+  await fireEvent.press(await screen.findByRole('tab', { name: 'Worlds' }));
+}
+
+async function openArrowEscapeFromExplore() {
+  await openWorldMap();
   await fireEvent.press(await screen.findByTestId('world-W3'));
   await fireEvent.press(await screen.findByTestId('game-W3-G01'));
   await screen.findByText('How to play');
@@ -35,8 +39,7 @@ async function pressCells(seed: string) {
 
 describe('play flow', () => {
   it('shows unbuilt games honestly in the catalogue', async () => {
-    await render(<AppShell services={services} />);
-    await fireEvent.press(await screen.findByRole('button', { name: 'Explore all worlds' }));
+    await openWorldMap();
     expect(await screen.findByLabelText(/Spatial Dimension\. .* 1 of 5 games playable\./)).toBeTruthy();
     expect(screen.getByLabelText(/Trickster's Lab\. .* 0 of 5 games playable\./)).toBeTruthy();
     await fireEvent.press(screen.getByTestId('world-W3'));
@@ -45,14 +48,15 @@ describe('play flow', () => {
 
   it('plays the first tutorial offline, saves the result and offers the next level', async () => {
     await openArrowEscapeFromExplore();
-    expect(screen.getByText('0 of 3 complete')).toBeTruthy();
-    await fireEvent.press(screen.getByRole('button', { name: 'Start tutorial 1' }));
+    expect(screen.getByRole('button', { name: 'Tutorial 1. Up next.' })).toBeTruthy();
+    await fireEvent.press(screen.getByRole('button', { name: 'Tutorial 1. Up next.' }));
 
     await screen.findByText('Tutorial 1 of 3');
     await pressCells('tutorial-1');
     await fireEvent.press(await screen.findByRole('button', { name: 'See results' }));
 
-    expect(await screen.findByText('Puzzle solved')).toBeTruthy();
+    expect(await screen.findByText('Brilliant!')).toBeTruthy();
+    expect(screen.getByLabelText('3 of 3 stars')).toBeTruthy();
     expect(screen.getByLabelText('Score: 150')).toBeTruthy();
     expect(screen.getByText(/You matched par/)).toBeTruthy();
 
@@ -71,33 +75,33 @@ describe('play flow', () => {
 
   it('keeps a paused board after leaving and resumes it from the game screen and Home', async () => {
     await openArrowEscapeFromExplore();
-    await fireEvent.press(screen.getByRole('button', { name: 'Start tutorial 1' }));
-    await screen.findByText('Turns 0 · Par 4');
+    await fireEvent.press(screen.getByRole('button', { name: /^Tutorial 1\./ }));
+    await screen.findByText('Turns 0');
     await fireEvent.press(screen.getByTestId('cell-1'));
-    expect(await screen.findByText('Turns 1 · Par 4')).toBeTruthy();
+    expect(await screen.findByText('Turns 1')).toBeTruthy();
 
     await fireEvent.press(screen.getByRole('button', { name: 'Pause' }));
     expect(await screen.findByTestId('pause-card')).toBeTruthy();
     await fireEvent.press(screen.getByRole('button', { name: 'Leave' }));
 
     await fireEvent.press(await screen.findByRole('button', { name: 'Continue saved level' }));
-    expect(await screen.findByText('Turns 1 · Par 4')).toBeTruthy();
+    expect(await screen.findByText('Turns 1')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Undo' })).toBeEnabled();
   });
 
-  it('shows the Home continue card for an unfinished level', async () => {
+  it('Home offers Continue for an unfinished level', async () => {
     const started = startSession(arrowEscape, { seed: 'tutorial-2', difficulty: 'easy' }, services.deps);
     await services.store.recordStep(services.profile, started.session, started.events);
 
     await render(<AppShell services={services} />);
-    expect(await screen.findByTestId('continue-card')).toBeTruthy();
+    expect(await screen.findByText('Continue your puzzle')).toBeTruthy();
     await fireEvent.press(screen.getByRole('button', { name: 'Continue' }));
     expect(await screen.findByText('Tutorial 2 of 3')).toBeTruthy();
   });
 
   it('gives progressively more specific hints and highlights the board', async () => {
     await openArrowEscapeFromExplore();
-    await fireEvent.press(screen.getByRole('button', { name: 'Start tutorial 1' }));
+    await fireEvent.press(screen.getByRole('button', { name: /^Tutorial 1\./ }));
     await screen.findByText('Tutorial 1 of 3');
     await fireEvent.press(screen.getByRole('button', { name: 'Hint' }));
     expect(await screen.findByText('Hint 1')).toBeTruthy();
@@ -113,5 +117,29 @@ describe('play flow', () => {
     await fireEvent.press(screen.getByRole('button', { name: 'Play Advanced' }));
     expect(await screen.findByText('Advanced level')).toBeTruthy();
     expect(screen.getByText(/Gates \(tiles with a symbol badge\)/)).toBeTruthy();
+  });
+});
+
+describe('home and rewards', () => {
+  it('PLAY on Home starts the next tutorial, and stars show up after solving', async () => {
+    await render(<AppShell services={services} />);
+    expect(await screen.findByLabelText('0 stars')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('home-play'));
+    await screen.findByText('Tutorial 1 of 3');
+    await pressCells('tutorial-1');
+    await fireEvent.press(await screen.findByRole('button', { name: 'See results' }));
+    await fireEvent.press(await screen.findByRole('button', { name: 'Done' }));
+    expect(await screen.findByLabelText('3 stars')).toBeTruthy();
+  });
+
+  it('saves the motion and haptics settings', async () => {
+    await render(<AppShell services={services} />);
+    await fireEvent.press(await screen.findByRole('tab', { name: 'Profile' }));
+    await fireEvent.press(await screen.findByRole('radio', { name: 'Motion: Reduced' }));
+    await fireEvent(screen.getByLabelText('Haptics'), 'valueChange', false);
+    await waitFor(async () => {
+      expect(await services.store.settings.load()).toEqual({ motion: 'reduced', haptics: false });
+    });
+    expect(screen.getByRole('radio', { name: 'Motion: Reduced' })).toBeSelected();
   });
 });

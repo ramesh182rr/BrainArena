@@ -3,6 +3,13 @@ import { serializeSession, type GameSession } from '@/game-runtime/session';
 
 import type { SqlDatabase } from '../sqlite/database';
 
+export interface LevelBest {
+  gameId: string;
+  levelSeed: string;
+  difficulty: DifficultyBand;
+  best: number;
+}
+
 /** Summary columns of a stored session, for history and progress views. */
 export interface SessionRecord {
   id: string;
@@ -140,6 +147,17 @@ export class SessionRepository {
       [profileId, gameId],
     );
     return new Set(rows.map((r) => r.level_seed));
+  }
+
+  /** Best score per completed level, for stars and the level path. */
+  async bestScoresByLevel(profileId: string): Promise<LevelBest[]> {
+    const rows = await this.db.all<{ game_id: string; level_seed: string; difficulty: string; best: number }>(
+      `SELECT game_id, level_seed, difficulty, MAX(score) AS best FROM game_sessions
+       WHERE profile_id = ? AND outcome = 'succeeded' AND score IS NOT NULL
+       GROUP BY game_id, level_seed, difficulty`,
+      [profileId],
+    );
+    return rows.map((r) => ({ gameId: r.game_id, levelSeed: r.level_seed, difficulty: r.difficulty as DifficultyBand, best: r.best }));
   }
 
   /** Marks leftover unfinished sessions of a game as exited, e.g. when the player starts a new level. */

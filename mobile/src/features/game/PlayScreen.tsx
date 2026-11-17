@@ -1,27 +1,28 @@
+import { useEffect, useRef } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import type { RootScreenProps } from '@/app/navigation/types';
-import { AppText, Button, Card, colors, Screen, spacing } from '@/design-system';
+import { AppText, Button, Card, colors, Icon, IconButton, Pill, radii, Screen, spacing, StarRow, useHaptics } from '@/design-system';
 import { getGameModule } from '@/games/registry';
 import { getGameUi } from '@/games/ui';
 
+import { ScreenHeader } from '../common/ScreenHeader';
+import { Celebration } from './Celebration';
 import { capitalise } from './format';
 import { levelLabel } from './levelPlan';
 import { useGameSession } from './useGameSession';
 
 export function PlayScreen({ route, navigation }: RootScreenProps<'Play'>) {
-  const { gameId } = route.params;
-  const module = getGameModule(gameId);
-  const ui = getGameUi(gameId);
+  const module = getGameModule(route.params.gameId);
+  const ui = getGameUi(route.params.gameId);
   if (!module || !ui) {
     return (
-      <Screen edges={['left', 'right', 'bottom']}>
+      <Screen header={<ScreenHeader title="Unavailable" onBack={() => navigation.goBack()} />}>
         <AppText>This game is not available yet.</AppText>
-        <Button label="Go back" onPress={() => navigation.goBack()} />
       </Screen>
     );
   }
-  return <PlayView {...{ route, navigation }} />;
+  return <PlayView route={route} navigation={navigation} />;
 }
 
 function PlayView({ route, navigation }: RootScreenProps<'Play'>) {
@@ -29,21 +30,32 @@ function PlayView({ route, navigation }: RootScreenProps<'Play'>) {
   const module = getGameModule(gameId)!;
   const ui = getGameUi(gameId)!;
   const game = useGameSession(module, { seed, difficulty, resume });
+  const haptics = useHaptics();
   const { session } = game;
+  const celebrated = useRef(false);
+
+  const won = session?.status === 'succeeded';
+  useEffect(() => {
+    if (won && !celebrated.current) {
+      celebrated.current = true;
+      haptics.success();
+    }
+  }, [won, haptics]);
 
   if (game.loadError) {
     return (
-      <Screen edges={['left', 'right', 'bottom']}>
-        <AppText variant="heading">This level could not be loaded</AppText>
-        <AppText tone="secondary">Please try another level. Your other progress is safe.</AppText>
-        <Button label="Go back" onPress={() => navigation.goBack()} />
+      <Screen header={<ScreenHeader title="Oops" onBack={() => navigation.goBack()} />}>
+        <Card>
+          <AppText variant="heading">This level could not be loaded</AppText>
+          <AppText tone="muted">Please try another level. Your other progress is safe.</AppText>
+        </Card>
       </Screen>
     );
   }
   if (!session) {
     return (
-      <Screen edges={['left', 'right', 'bottom']} contentStyle={styles.center}>
-        <ActivityIndicator color={colors.primary} accessibilityLabel="Preparing level" />
+      <Screen calm contentStyle={styles.center}>
+        <ActivityIndicator color={colors.gold} size="large" accessibilityLabel="Preparing level" />
       </Screen>
     );
   }
@@ -53,7 +65,10 @@ function PlayView({ route, navigation }: RootScreenProps<'Play'>) {
   const note = ui.levelNote(session.state);
   const playing = session.status === 'playing';
   const finished = session.status === 'succeeded' || session.status === 'failed';
+  const label = levelLabel(ui.tutorials, { seed: level.seed, difficulty: level.difficulty });
+  const status = ui.statusLine(session.state);
   const { Board } = ui;
+  const score = session.score ?? 0;
 
   const seeResults = () => {
     const ended = game.finish() ?? session;
@@ -70,82 +85,158 @@ function PlayView({ route, navigation }: RootScreenProps<'Play'>) {
     });
   };
 
-  return (
-    <Screen scroll edges={['left', 'right', 'bottom']}>
-      <View style={styles.header}>
-        <AppText variant="label">{levelLabel(ui.tutorials, { seed: level.seed, difficulty: level.difficulty })}</AppText>
-        <AppText tone="secondary" accessibilityLabel={ui.statusLine(session.state).replace('·', ',')}>
-          {ui.statusLine(session.state)}
-        </AppText>
-      </View>
-      {level.source === 'fallback' ? (
-        <AppText variant="caption" tone="secondary">
-          Showing a hand-made {capitalise(level.difficulty).toLowerCase()} board.
-        </AppText>
+  const overlay = (
+    <>
+      {session.status === 'paused' ? (
+        <View style={styles.overlay} testID="pause-card">
+          <View style={styles.dialog}>
+            <AppText variant="display" style={styles.centerText}>
+              Paused
+            </AppText>
+            <AppText tone="muted" style={styles.centerText}>
+              Your board is saved. Leave any time and continue later.
+            </AppText>
+            <Button label="Resume" variant="play" size="lg" icon={<Icon name="play" size={24} color={colors.textOnGold} />} onPress={game.resume} />
+            <Button label="Leave" variant="secondary" onPress={() => navigation.goBack()} />
+          </View>
+        </View>
       ) : null}
-      {tutorial ? <AppText>{tutorial.intro}</AppText> : null}
+
+      {finished ? (
+        <View style={styles.overlay}>
+          {won ? <Celebration seed={session.sessionId} /> : null}
+          <View style={styles.dialog}>
+            <AppText variant="display" tone={won ? 'gold' : 'primary'} style={styles.centerText} accessibilityLiveRegion="assertive">
+              {won ? 'Puzzle solved!' : 'Out of options'}
+            </AppText>
+            {won ? (
+              <View style={styles.stars}>
+                <StarRow stars={ui.starsFor(score)} size={44} animate />
+              </View>
+            ) : null}
+            <AppText tone="secondary" style={styles.centerText}>
+              {won ? 'Every receiver is powered.' : 'Have another go — every attempt teaches the board.'}
+            </AppText>
+            <Button label="See results" variant="play" size="lg" onPress={seeResults} />
+          </View>
+        </View>
+      ) : null}
+    </>
+  );
+
+  return (
+    <Screen
+      calm
+      scroll
+      overlay={overlay}
+      header={
+        <ScreenHeader
+          title={label}
+          {...(level.source === 'fallback' ? { subtitle: `Hand-made ${capitalise(level.difficulty).toLowerCase()} board` } : {})}
+          backLabel="Pause and leave"
+          onBack={() => {
+            game.pause();
+            navigation.goBack();
+          }}
+        />
+      }
+    >
+      {tutorial ? (
+        <Card accentColor={colors.gold}>
+          <AppText>{tutorial.intro}</AppText>
+        </Card>
+      ) : null}
       {note ? (
-        <AppText variant="caption" tone="secondary">
+        <AppText variant="caption" tone="muted">
           {note}
         </AppText>
       ) : null}
 
-      <Board state={session.state} onAction={game.act} highlightIds={game.hint?.highlightIds ?? []} disabled={!playing} />
+      <View style={styles.statusRow}>
+        {status.split('·').map((part) => (
+          <Pill key={part} label={part.trim()} tone="dark" />
+        ))}
+      </View>
+
+      <View style={styles.boardFrame}>
+        <Board state={session.state} onAction={game.act} highlightIds={game.hint?.highlightIds ?? []} disabled={!playing} />
+      </View>
 
       {game.hint && playing ? (
         <Card accentColor={colors.focus} testID="hint-card">
-          <AppText variant="label">Hint {game.hint.tier}</AppText>
+          <View style={styles.hintHead}>
+            <Icon name="hint" size={20} color={colors.gold} />
+            <AppText variant="label" tone="gold">
+              Hint {game.hint.tier}
+            </AppText>
+          </View>
           <AppText accessibilityLiveRegion="polite">{game.hint.text}</AppText>
         </Card>
       ) : null}
 
       {game.saveFailed ? (
-        <AppText variant="caption" style={styles.warning} accessibilityRole="alert">
+        <AppText variant="caption" tone="danger" accessibilityRole="alert">
           Progress could not be saved just now. We&apos;ll try again on your next move.
         </AppText>
       ) : null}
 
-      {finished ? (
-        <Card accentColor={session.status === 'succeeded' ? colors.success : colors.danger}>
-          <AppText variant="heading" accessibilityLiveRegion="assertive">
-            {session.status === 'succeeded' ? 'Every receiver is powered!' : 'Out of options this time.'}
-          </AppText>
-          <Button label="See results" onPress={seeResults} style={styles.topGap} />
-        </Card>
-      ) : session.status === 'paused' ? (
-        <Card testID="pause-card">
-          <AppText variant="heading">Paused</AppText>
-          <AppText tone="secondary">Your board is saved. You can leave and continue later.</AppText>
-          <View style={styles.row}>
-            <Button label="Resume" onPress={game.resume} />
-            <Button label="Leave" variant="secondary" onPress={() => navigation.goBack()} />
-          </View>
-        </Card>
-      ) : (
+      {!finished && session.status !== 'paused' ? (
         <View style={styles.toolbar}>
-          {ui.undoAction ? <Button label="Undo" variant="secondary" onPress={() => game.act(ui.undoAction)} disabled={!playing} /> : null}
-          {ui.resetAction ? <Button label="Reset" variant="secondary" onPress={() => game.act(ui.resetAction)} disabled={!playing} /> : null}
+          {ui.undoAction ? <IconButton icon="undo" label="Undo" onPress={() => game.act(ui.undoAction)} disabled={!playing} /> : null}
+          {ui.resetAction ? <IconButton icon="reset" label="Reset" onPress={() => game.act(ui.resetAction)} disabled={!playing} /> : null}
           {module.hint ? (
-            <Button
+            <IconButton
+              icon="hint"
               label="Hint"
-              variant="secondary"
               onPress={game.askHint}
               disabled={!playing}
+              badge={session.hintsUsed}
               accessibilityHint="Shows a hint. Each hint is a little more specific."
             />
           ) : null}
-          <Button label="Pause" variant="secondary" onPress={game.pause} disabled={!playing} />
+          <IconButton icon="pause" label="Pause" onPress={game.pause} disabled={!playing} />
         </View>
-      )}
+      ) : null}
+
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   center: { alignItems: 'center', justifyContent: 'center' },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: spacing.sm },
-  toolbar: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, justifyContent: 'center' },
-  row: { flexDirection: 'row', gap: spacing.sm, marginTop: spacing.md, flexWrap: 'wrap' },
-  topGap: { marginTop: spacing.md },
-  warning: { color: colors.danger },
+  boardFrame: {
+    padding: spacing.md,
+    borderRadius: radii.lg,
+    backgroundColor: 'rgba(10,6,30,0.45)',
+    borderWidth: 1.5,
+    borderColor: 'rgba(160,140,255,0.45)',
+  },
+  statusRow: { flexDirection: 'row', justifyContent: 'center', gap: spacing.sm },
+  hintHead: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.xs },
+  toolbar: { flexDirection: 'row', justifyContent: 'space-around', paddingVertical: spacing.sm },
+  overlay: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: colors.scrim,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: spacing.xl,
+    zIndex: 10,
+  },
+  dialog: {
+    width: '100%',
+    maxWidth: 380,
+    alignItems: 'stretch',
+    gap: spacing.lg,
+    padding: spacing.xl,
+    borderRadius: radii.lg,
+    backgroundColor: colors.surface,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,229,138,0.5)',
+  },
+  centerText: { textAlign: 'center', alignSelf: 'center' },
+  stars: { alignItems: 'center' },
 });

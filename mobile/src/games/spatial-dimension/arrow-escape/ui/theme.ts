@@ -1,23 +1,24 @@
-import { colors } from '@/design-system/tokens';
-
 import type { PulseKind } from '../types';
 
 /**
- * Pulse colours. Each kind also has its own symbol (▲ ● ◆), so colour is
- * never the only cue. All meet 3:1 against the white tile background.
+ * Neon board palette. Each pulse kind also has its own symbol (▲ ● ◆), so
+ * colour is never the only cue. Contrast is tested against the tile faces.
  */
 export const pulseColors: Record<PulseKind, string> = {
-  spark: '#C2410C',
-  wave: '#1D6FD1',
-  flux: '#7048E8',
+  spark: '#FFB547',
+  wave: '#4FD1FF',
+  flux: '#E07BFF',
 };
 
 export const boardColors = {
-  tile: colors.card,
-  tileBorder: colors.border,
-  fixedTile: '#E9EDF5',
-  conduit: colors.textSecondary,
-  highlight: colors.focus,
-  overload: colors.danger,
-  onPulse: '#FFFFFF',
+  tile: '#2A1F6B',
+  tileHighlight: '#3A2D8A',
+  tileBorder: 'rgba(170,150,255,0.35)',
+  fixedTile: '#1A1250',
+  conduit: '#8E84D0',
+  highlight: '#FFE58A',
+  overload: '#FF6B6B',
+  /** Symbol colour drawn on top of a lit pulse colour. */
+  onPulse: '#1A1245',
+  emptyDot: 'rgba(255,255,255,0.18)',
 } as const;

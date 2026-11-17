@@ -15,6 +15,8 @@ export interface CellView {
   rotation: number;
   /** Kind of pulse flowing through, for non-crossing cells. */
   power: PulseKind | null;
+  /** Side the current enters from (non-crossing cells), so the flow can be drawn in its direction. */
+  flowIn: Dir | null;
   /** Crossings carry up to two currents, one per axis. */
   powerVertical: PulseKind | null;
   powerHorizontal: PulseKind | null;
@@ -87,6 +89,7 @@ export function buildBoardView(state: ArrowEscapeState): BoardView {
   const powerV: (PulseKind | null)[] = new Array<PulseKind | null>(n).fill(null);
   const powerH: (PulseKind | null)[] = new Array<PulseKind | null>(n).fill(null);
   const satisfied = new Array<boolean>(n).fill(false);
+  const flowIn: (Dir | null)[] = new Array<Dir | null>(n).fill(null);
 
   for (const trace of simulation.traces) {
     trace.steps.forEach((step, i) => {
@@ -104,6 +107,7 @@ export function buildBoardView(state: ArrowEscapeState): BoardView {
         else powerH[step.index] = trace.kind;
       } else {
         power[step.index] = trace.kind;
+        flowIn[step.index] = ((step.dir + 2) % 4) as Dir;
       }
     });
   }
@@ -125,6 +129,7 @@ export function buildBoardView(state: ArrowEscapeState): BoardView {
       cell,
       rotation,
       power: power[index] ?? null,
+      flowIn: flowIn[index] ?? null,
       powerVertical: powerV[index] ?? null,
       powerHorizontal: powerH[index] ?? null,
       satisfied: satisfied[index] ?? false,
