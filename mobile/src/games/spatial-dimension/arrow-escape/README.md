@@ -1,6 +1,8 @@
 # Arrow Escape (W3-G01): energy-current routing
 
 GDD: `BrainArena-Solo-Complete-Development/03_Game_Design_Documents/GDDs/W3-G01_arrow_escape.md`
+Originality review: `BrainArena-Solo-Complete-Development/03_Game_Design_Documents/Originality_Review/W3-G01_arrow_escape_review.md`
+(pending human sign-off; the working name must change before release).
 
 ## Rules
 - **Emitters** fire a pulse of one kind: Spark ▲, Wave ● or Flux ◆. Each kind has its own symbol, so colour is never the only cue.

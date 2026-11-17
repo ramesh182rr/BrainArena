@@ -4,7 +4,38 @@ All notable changes to BrainArena Solo are recorded here. Dates are ISO 8601.
 
 ## Unreleased
 
-### M1 — App shell + game runtime (in progress)
+### M1 summary
+Exit gate from `14_Project_Management/Roadmap.md`: "One game vertical slice works offline". **Met.**
+Arrow Escape (W3-G01) is playable start to finish with no network, its results are saved in SQLite,
+and they survive an app kill and relaunch. Verified on an Android emulator (Pixel 8) as well as in
+automated tests.
+
+Master build prompt checklist: app startup and navigation, design tokens, local SQLite schema and
+repositories, game runtime contracts, catalogue registry, one playable vertical slice, deterministic
+seed and validator, local session persistence, unit tests. All done.
+
+Arrow Escape GDD acceptance criteria:
+- Tutorial level teaches the mechanic: 3 tutorial boards.
+- At least 50 fixed regression seeds pass the validator: 60 per band (300), plus 1,000 property seeds.
+- Success/failure is deterministic.
+- Pause/resume does not corrupt the board, including after an app kill.
+- Offline result persists locally.
+- Not yet verified (needs people): first-time comprehension playtest, and the human originality
+  review (`03_Game_Design_Documents/Originality_Review/W3-G01_arrow_escape_review.md`, decision
+  pending).
+
+Known limitations carried into M2:
+- The name "Arrow Escape" needs replacing before release (see the originality review).
+- Gates have no dedicated tutorial board.
+- No sound effects or music.
+- No mascot art.
+- App icon and splash are still Expo template placeholders.
+- The Android package id is still `com.anonymous.brainarenasolo`.
+- On 320dp-wide screens, expert boards shrink tiles to about 41dp, below the 48dp touch target.
+- Daily Arena, sync, accounts and monetisation are later milestones.
+
+
+### M1: App shell + game runtime (complete, 2026-11-17)
 - 2026-11-17 — Step 1: created the Expo SDK 58 / React Native 0.88 / TypeScript app in `mobile/`
   with pinned dependency versions, Node 22 pin, strict TypeScript, ESLint, Jest and smoke tests.
   Carried over the blueprint starter files (game contract, registry, SQLite schema).
@@ -48,3 +79,5 @@ All notable changes to BrainArena Solo are recorded here. Dates are ISO 8601.
   (`app_settings`). Stars and Explorer level are derived from best scores (never lost). No lives,
   energy timers or other punitive mechanics. Added reanimated, worklets, linear-gradient, haptics
   and expo-font; fonts recorded in `mobile/ASSETS_AND_LICENSES.md` and the blueprint asset manifest.
+- 2026-11-17 — Step 7: added the Arrow Escape originality review (decision pending human review;
+  flags the name and the overlap with W4-G01/W4-G05 as risks) and closed M1.
