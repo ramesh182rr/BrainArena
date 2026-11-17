@@ -34,7 +34,7 @@ All entries are original working concepts. Names may be refined after trademark/
 
 *Spatial reasoning, orientation and movement planning*
 
-- **Arrow Escape** — Energy-current routing. Rotate junctions and redirect moving energy pulses through a network; multiple pulses have different properties and must reach matching receivers.
+- **Volt Courier** (formerly *Arrow Escape*, renamed 2026-11-17) — Energy-current routing. Rotate junctions and redirect moving energy pulses through a network; multiple pulses have different properties and must reach matching receivers.
 
 - **Block Escape** — Layered cargo choreography. Slide modular cargo platforms across a warehouse board; some platforms can carry smaller pieces, changing which moves are legal.
 

@@ -114,8 +114,8 @@ export function GameIntroScreen({ route, navigation }: RootScreenProps<'GameIntr
                     {earned > 0 ? <Icon name="check" size={30} color={colors.textOnGold} /> : <AppText variant="title">{i + 1}</AppText>}
                   </LinearGradient>
                   <StarRow stars={earned} size={16} />
-                  <AppText variant="caption" tone={isNext ? 'gold' : 'muted'}>
-                    {isNext ? 'Up next' : `Tutorial ${i + 1}`}
+                  <AppText variant="caption" tone={isNext ? 'gold' : 'muted'} numberOfLines={1}>
+                    {isNext ? 'Up next' : earned > 0 ? 'Done' : ' '}
                   </AppText>
                 </Pressable>
               );
@@ -169,9 +169,9 @@ const styles = StyleSheet.create({
   step: { flexDirection: 'row', gap: spacing.md, marginTop: spacing.md, alignItems: 'flex-start' },
   stepNum: { width: 28, height: 28, borderRadius: 14, backgroundColor: colors.gold, alignItems: 'center', justifyContent: 'center' },
   path: { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'flex-start' },
-  node: { alignItems: 'center', gap: spacing.xs, minWidth: 88 },
+  node: { flex: 1, alignItems: 'center', gap: spacing.xs, maxWidth: 110 },
   nodeOffset: { marginTop: spacing.xl },
-  nodeCircle: { width: 72, height: 72, borderRadius: 36, alignItems: 'center', justifyContent: 'center', borderWidth: 3, borderColor: 'rgba(255,255,255,0.6)' },
+  nodeCircle: { width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', borderWidth: 3, borderColor: 'rgba(255,255,255,0.6)' },
   nodeNext: { borderColor: colors.gold, shadowColor: colors.gold, shadowOpacity: 0.9, shadowRadius: 14, shadowOffset: { width: 0, height: 0 }, elevation: 10 },
   bands: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginTop: spacing.md },
   band: {

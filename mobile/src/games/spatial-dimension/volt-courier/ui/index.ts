@@ -1,10 +1,10 @@
 import type { GameUi } from '@/games/ui';
 
 import { TUTORIAL_LEVELS } from '../authored';
-import type { ArrowEscapeAction, ArrowEscapeState } from '../types';
-import { ArrowEscapeBoard } from './ArrowEscapeBoard';
+import type { VoltCourierAction, VoltCourierState } from '../types';
+import { VoltCourierBoard } from './VoltCourierBoard';
 
-export const arrowEscapeUi: GameUi<ArrowEscapeState, ArrowEscapeAction> = {
+export const voltCourierUi: GameUi<VoltCourierState, VoltCourierAction> = {
   gameId: 'W3-G01',
   howToPlay: [
     'Each emitter fires a pulse: Spark ▲, Wave ● or Flux ◆.',
@@ -14,12 +14,13 @@ export const arrowEscapeUi: GameUi<ArrowEscapeState, ArrowEscapeAction> = {
     'Gates let only their own pulse kind through.',
   ],
   tutorials: TUTORIAL_LEVELS.map((l) => ({ seed: l.id, difficulty: l.difficulty, intro: l.intro })),
-  Board: ArrowEscapeBoard,
+  Board: VoltCourierBoard,
   statusLine: (state) => `Turns ${state.turns} · Par ${state.par}`,
   levelNote: (state) =>
     state.cells.some((c) => c.t === 'gate')
       ? 'Gates (tiles with a symbol badge) only let their own pulse kind through.'
       : null,
+  successMessage: () => 'Every receiver is powered.',
   scoreExplanation: (state, { hintsUsed }) => {
     const over = Math.max(0, state.turns - state.par);
     const parts = [`100 for powering every receiver.`];

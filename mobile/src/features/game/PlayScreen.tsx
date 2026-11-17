@@ -115,7 +115,7 @@ function PlayView({ route, navigation }: RootScreenProps<'Play'>) {
               </View>
             ) : null}
             <AppText tone="secondary" style={styles.centerText}>
-              {won ? 'Every receiver is powered.' : 'Have another go — every attempt teaches the board.'}
+              {won ? ui.successMessage(session.state) : 'Have another go — every attempt teaches the board.'}
             </AppText>
             <Button label="See results" variant="play" size="lg" onPress={seeResults} />
           </View>

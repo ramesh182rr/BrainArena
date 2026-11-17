@@ -1,11 +1,11 @@
 import { parseBoard } from '../authored';
 import { turnsBetween } from '../grid';
-import { arrowEscape } from '../module';
+import { voltCourier } from '../module';
 import { solve } from '../solver';
-import type { ArrowEscapeAction, ArrowEscapeState, Cell } from '../types';
+import type { VoltCourierAction, VoltCourierState, Cell } from '../types';
 
 /** Builds a playable state from text rows (see authored.ts for the format). */
-export function boardState(rows: readonly string[]): ArrowEscapeState {
+export function boardState(rows: readonly string[]): VoltCourierState {
   const board = parseBoard(rows);
   const result = solve(board);
   return {
@@ -18,10 +18,10 @@ export function boardState(rows: readonly string[]): ArrowEscapeState {
 }
 
 /** The rotate actions that turn `state` into its minimum-turn solution. */
-export function solvingActions(state: ArrowEscapeState): ArrowEscapeAction[] {
+export function solvingActions(state: VoltCourierState): VoltCourierAction[] {
   const result = solve(state);
   if (result.status !== 'solved') throw new Error(`Board not solvable: ${result.status}`);
-  const actions: ArrowEscapeAction[] = [];
+  const actions: VoltCourierAction[] = [];
   result.rotations.forEach((target, index) => {
     const cell = state.cells[index] as Cell;
     const turns = turnsBetween(cell, state.rotations[index] ?? 0, target);
@@ -30,8 +30,8 @@ export function solvingActions(state: ArrowEscapeState): ArrowEscapeAction[] {
   return actions;
 }
 
-export function applyAll(state: ArrowEscapeState, actions: readonly ArrowEscapeAction[]): ArrowEscapeState {
-  return actions.reduce((s, a) => arrowEscape.reduce(s, a), state);
+export function applyAll(state: VoltCourierState, actions: readonly VoltCourierAction[]): VoltCourierState {
+  return actions.reduce((s, a) => voltCourier.reduce(s, a), state);
 }
 
 /** Row-major index helper for readable tests. */

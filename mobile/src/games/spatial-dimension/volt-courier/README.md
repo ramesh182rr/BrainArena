@@ -1,4 +1,4 @@
-# Arrow Escape (W3-G01): energy-current routing
+# Volt Courier (W3-G01): energy-current routing
 
 GDD: `BrainArena-Solo-Complete-Development/03_Game_Design_Documents/GDDs/W3-G01_arrow_escape.md`
 Originality review: `BrainArena-Solo-Complete-Development/03_Game_Design_Documents/Originality_Review/W3-G01_arrow_escape_review.md`

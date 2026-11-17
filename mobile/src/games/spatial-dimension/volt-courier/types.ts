@@ -1,5 +1,5 @@
 /**
- * Arrow Escape (W3-G01): energy-current routing.
+ * Volt Courier (W3-G01): energy-current routing.
  *
  * Emitters fire pulses of a kind (spark, wave, flux). Pulses travel through
  * conduit tiles; the player rotates junctions so each pulse reaches a receiver
@@ -27,7 +27,7 @@ export type Cell =
   | { t: 'emitter'; kind: PulseKind; dir: Dir }
   | { t: 'receiver'; kind: PulseKind };
 
-export interface ArrowEscapeState {
+export interface VoltCourierState {
   width: number;
   height: number;
   /** Row-major, `width * height` entries. Never changes during play. */
@@ -43,7 +43,7 @@ export interface ArrowEscapeState {
   par: number;
 }
 
-export type ArrowEscapeAction =
+export type VoltCourierAction =
   | { type: 'rotate'; index: number }
   | { type: 'undo' }
   | { type: 'reset' };

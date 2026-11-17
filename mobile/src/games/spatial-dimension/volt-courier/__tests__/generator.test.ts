@@ -2,9 +2,9 @@ import { DIFFICULTY_BANDS, type DifficultyBand } from '@/game-runtime/contracts'
 
 import { generateBoard, PROFILES } from '../generator';
 import { isRotatable } from '../grid';
-import { arrowEscape } from '../module';
+import { voltCourier } from '../module';
 import { simulate } from '../simulate';
-import type { ArrowEscapeState } from '../types';
+import type { VoltCourierState } from '../types';
 
 /**
  * Fixed regression seeds: 60 per band (300 total), well above the GDD's
@@ -12,7 +12,7 @@ import type { ArrowEscapeState } from '../types';
  */
 const REGRESSION_SEEDS = Array.from({ length: 60 }, (_, i) => `regression-${i}`);
 
-function stats(state: ArrowEscapeState) {
+function stats(state: VoltCourierState) {
   const count = (t: string) => state.cells.filter((c) => c.t === t).length;
   return {
     emitters: count('emitter'),
@@ -28,18 +28,18 @@ describe.each(DIFFICULTY_BANDS)('generator — %s', (band: DifficultyBand) => {
 
   it('produces valid, unsolved, solvable levels for every regression seed', () => {
     for (const seed of REGRESSION_SEEDS) {
-      const level = arrowEscape.createLevel(seed, band);
-      const result = arrowEscape.validateLevel(level);
+      const level = voltCourier.createLevel(seed, band);
+      const result = voltCourier.validateLevel(level);
       expect({ seed, ...result, solutionFingerprint: undefined }).toEqual({ seed, valid: true, solutionFingerprint: undefined });
       expect(level.source).toBe('generated');
       expect(level.difficulty).toBe(band);
-      expect(level.generatorVersion).toBe(arrowEscape.version);
+      expect(level.generatorVersion).toBe(voltCourier.version);
     }
   });
 
   it('respects the band profile', () => {
     for (const seed of REGRESSION_SEEDS) {
-      const state = arrowEscape.createLevel(seed, band).initialState;
+      const state = voltCourier.createLevel(seed, band).initialState;
       const s = stats(state);
       expect(state.width).toBe(profile.width);
       expect(state.height).toBe(profile.height);
@@ -58,9 +58,9 @@ describe.each(DIFFICULTY_BANDS)('generator — %s', (band: DifficultyBand) => {
   });
 
   it('is deterministic for the same seed and differs across seeds', () => {
-    const a = arrowEscape.createLevel('determinism', band);
-    expect(arrowEscape.createLevel('determinism', band)).toEqual(a);
-    const fingerprints = new Set(REGRESSION_SEEDS.map((seed) => arrowEscape.createLevel(seed, band).fingerprint));
+    const a = voltCourier.createLevel('determinism', band);
+    expect(voltCourier.createLevel('determinism', band)).toEqual(a);
+    const fingerprints = new Set(REGRESSION_SEEDS.map((seed) => voltCourier.createLevel(seed, band).fingerprint));
     // Small intro boards can occasionally coincide; larger bands should not.
     expect(fingerprints.size).toBeGreaterThanOrEqual(REGRESSION_SEEDS.length - (band === 'intro' ? 3 : 0));
   });
@@ -86,8 +86,8 @@ describe('generator properties (1,000 seeds)', () => {
     for (const band of DIFFICULTY_BANDS) {
       for (let i = 0; i < 200; i += 1) {
         const seed = `property-${i}`;
-        const level = arrowEscape.createLevel(seed, band);
-        const result = arrowEscape.validateLevel(level);
+        const level = voltCourier.createLevel(seed, band);
+        const result = voltCourier.validateLevel(level);
         if (!result.valid) failures.push(`${band}/${seed}: ${result.reasonCode}`);
         total += 1;
       }
@@ -100,15 +100,15 @@ describe('generator properties (1,000 seeds)', () => {
 
   it('makes harder bands structurally harder on average', () => {
     const meanPar = DIFFICULTY_BANDS.map((band) => {
-      const pars = REGRESSION_SEEDS.map((seed) => arrowEscape.createLevel(seed, band).initialState.par);
+      const pars = REGRESSION_SEEDS.map((seed) => voltCourier.createLevel(seed, band).initialState.par);
       return pars.reduce((a, b) => a + b, 0) / pars.length;
     });
     for (let i = 1; i < meanPar.length; i += 1) expect(meanPar[i]!).toBeGreaterThan(meanPar[i - 1]!);
   });
 
   it('keys levels by game, version, seed and difficulty', () => {
-    const a = arrowEscape.createLevel('same-seed', 'easy');
-    const b = arrowEscape.createLevel('same-seed', 'standard');
+    const a = voltCourier.createLevel('same-seed', 'easy');
+    const b = voltCourier.createLevel('same-seed', 'standard');
     expect(a.fingerprint).not.toBe(b.fingerprint);
     expect(a.levelId).toBe('W3-G01:easy:same-seed');
   });

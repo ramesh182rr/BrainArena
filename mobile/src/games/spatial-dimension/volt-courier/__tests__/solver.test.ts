@@ -2,14 +2,14 @@ import { DIFFICULTY_BANDS } from '@/game-runtime/contracts';
 
 import { FALLBACK_LEVELS, TUTORIAL_LEVELS, parseBoard } from '../authored';
 import { isRotatable, turnsBetween } from '../grid';
-import { arrowEscape } from '../module';
+import { voltCourier } from '../module';
 import { simulate } from '../simulate';
 import { solve } from '../solver';
-import type { ArrowEscapeState, Cell } from '../types';
+import type { VoltCourierState, Cell } from '../types';
 import { boardState } from './helpers';
 
 /** Tries every rotation of every rotatable cell; only feasible for small boards. */
-function bruteForceCost(board: ArrowEscapeState): number | null {
+function bruteForceCost(board: VoltCourierState): number | null {
   const free = board.cells.flatMap((c, i) => (isRotatable(c) ? [i] : []));
   if (free.length > 9) throw new Error('board too large for brute force');
   let best: number | null = null;
@@ -41,7 +41,7 @@ describe('solve', () => {
 
   it('matches a brute-force search on small boards (optimality)', () => {
     const boards = [
-      ...Array.from({ length: 25 }, (_, i) => arrowEscape.createLevel(`brute-${i}`, 'intro').initialState),
+      ...Array.from({ length: 25 }, (_, i) => voltCourier.createLevel(`brute-${i}`, 'intro').initialState),
       boardState(TUTORIAL_LEVELS[0]!.rows),
       boardState(FALLBACK_LEVELS.intro.rows),
       // Two routes around a block: over the top costs 7 turns, underneath costs 5.

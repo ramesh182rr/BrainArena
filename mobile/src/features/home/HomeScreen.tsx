@@ -20,6 +20,7 @@ export function HomeScreen() {
   const { store, profile, deps } = useAppServices();
   const { bests, rewards } = useRewards();
   const [resumeGameId, setResumeGameId] = useState<string | null>(null);
+  const [lastGameId, setLastGameId] = useState<string | null>(null);
 
   useFocusEffect(
     useCallback(() => {
@@ -28,13 +29,19 @@ export function HomeScreen() {
         (found) => active && setResumeGameId(found && isPlayable(found.gameId) ? found.gameId : null),
         () => active && setResumeGameId(null),
       );
+      store.sessions.listRecent(profile.id, 1).then(
+        ([latest]) => active && setLastGameId(latest && isPlayable(latest.gameId) ? latest.gameId : null),
+        () => undefined,
+      );
       return () => {
         active = false;
       };
     }, [store, profile]),
   );
 
-  const featured = games.find((g) => g.id === resumeGameId) ?? games.find((g) => isPlayable(g.id));
+  // Feature the unfinished game, else the one played last, else the first playable game.
+  const featured =
+    games.find((g) => g.id === resumeGameId) ?? games.find((g) => g.id === lastGameId) ?? games.find((g) => isPlayable(g.id));
   const featuredUi = featured ? getGameUi(featured.id) : undefined;
 
   const play = () => {

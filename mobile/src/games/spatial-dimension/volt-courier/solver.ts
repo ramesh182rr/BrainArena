@@ -1,5 +1,5 @@
 import { candidateRotations, exitDir, neighbor, turnsBetween } from './grid';
-import type { ArrowEscapeState, Cell, Dir, PulseKind } from './types';
+import type { VoltCourierState, Cell, Dir, PulseKind } from './types';
 
 export type SolveResult =
   | { status: 'solved'; rotations: number[]; cost: number; nodes: number }
@@ -8,7 +8,7 @@ export type SolveResult =
 
 export const DEFAULT_SOLVER_BUDGET = 200_000;
 
-type Board = Pick<ArrowEscapeState, 'width' | 'height' | 'cells' | 'rotations'>;
+type Board = Pick<VoltCourierState, 'width' | 'height' | 'cells' | 'rotations'>;
 
 /**
  * Exact solver: finds the solution needing the fewest clockwise turns from the

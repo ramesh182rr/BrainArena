@@ -1,12 +1,12 @@
 import { contrastRatio } from '@/design-system/contrast';
 
-import { arrowEscape } from '../../module';
+import { voltCourier } from '../../module';
 import { applyAll, boardState, solvingActions } from '../../__tests__/helpers';
 import { boardColors, pulseColors } from '../theme';
 import { buildBoardView } from '../view';
 
 describe('buildBoardView', () => {
-  const state = arrowEscape.createLevel('tutorial-1', 'intro').initialState;
+  const state = voltCourier.createLevel('tutorial-1', 'intro').initialState;
 
   it('describes every cell with its position and meaning', () => {
     const view = buildBoardView(state);

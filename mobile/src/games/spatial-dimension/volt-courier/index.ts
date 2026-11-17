@@ -1,4 +1,4 @@
-export { arrowEscape, ARROW_ESCAPE_ID, ARROW_ESCAPE_VERSION, boardFingerprint, cellId, MAX_HISTORY } from './module';
+export { voltCourier, VOLT_COURIER_ID, VOLT_COURIER_VERSION, boardFingerprint, cellId, MAX_HISTORY } from './module';
 export { FALLBACK_LEVELS, TUTORIAL_LEVELS, parseBoard, type AuthoredLevel } from './authored';
 export { PROFILES, generateBoard, GenerationError } from './generator';
 export { simulate, type PulseOutcome, type PulseTrace, type SimulationResult } from './simulate';

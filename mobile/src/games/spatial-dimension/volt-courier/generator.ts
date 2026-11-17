@@ -4,7 +4,7 @@ import { createRng, type Rng } from '@/game-runtime/rng';
 import { DIRS, isRotatable, neighbor, rotationFor } from './grid';
 import { simulate } from './simulate';
 import { solve } from './solver';
-import { PULSE_KINDS, type ArrowEscapeState, type Cell, type Dir, type PulseKind } from './types';
+import { PULSE_KINDS, type VoltCourierState, type Cell, type Dir, type PulseKind } from './types';
 
 export interface DifficultyProfile {
   width: number;
@@ -174,7 +174,7 @@ function buildLayout(rng: Rng, profile: DifficultyProfile): Layout | null {
 }
 
 export interface GeneratedBoard {
-  state: ArrowEscapeState;
+  state: VoltCourierState;
   /** Rotations of a minimum-turn solution, the validator certificate. */
   solution: number[];
 }

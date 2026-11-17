@@ -1,8 +1,10 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 
-import { startSession } from '@/game-runtime/session';
-import { arrowEscape } from '@/games/spatial-dimension/arrow-escape';
-import { solvingActions } from '@/games/spatial-dimension/arrow-escape/__tests__/helpers';
+import { exitSession, startSession } from '@/game-runtime/session';
+import { numberMaze } from '@/games/logic-kingdom/number-maze';
+import { solvingMoves } from '@/games/logic-kingdom/number-maze/__tests__/helpers';
+import { voltCourier } from '@/games/spatial-dimension/volt-courier';
+import { solvingActions } from '@/games/spatial-dimension/volt-courier/__tests__/helpers';
 
 import { AppShell } from '../App';
 import type { AppServices } from '../services';
@@ -23,7 +25,7 @@ async function openWorldMap() {
   await fireEvent.press(await screen.findByRole('tab', { name: 'Worlds' }));
 }
 
-async function openArrowEscapeFromExplore() {
+async function openVoltCourierFromExplore() {
   await openWorldMap();
   await fireEvent.press(await screen.findByTestId('world-W3'));
   await fireEvent.press(await screen.findByTestId('game-W3-G01'));
@@ -31,7 +33,7 @@ async function openArrowEscapeFromExplore() {
 }
 
 async function pressCells(seed: string) {
-  const state = arrowEscape.createLevel(seed, 'intro').initialState;
+  const state = voltCourier.createLevel(seed, 'intro').initialState;
   for (const action of solvingActions(state)) {
     if (action.type === 'rotate') await fireEvent.press(screen.getByTestId(`cell-${action.index}`));
   }
@@ -47,7 +49,7 @@ describe('play flow', () => {
   });
 
   it('plays the first tutorial offline, saves the result and offers the next level', async () => {
-    await openArrowEscapeFromExplore();
+    await openVoltCourierFromExplore();
     expect(screen.getByRole('button', { name: 'Tutorial 1. Up next.' })).toBeTruthy();
     await fireEvent.press(screen.getByRole('button', { name: 'Tutorial 1. Up next.' }));
 
@@ -74,7 +76,7 @@ describe('play flow', () => {
   });
 
   it('keeps a paused board after leaving and resumes it from the game screen and Home', async () => {
-    await openArrowEscapeFromExplore();
+    await openVoltCourierFromExplore();
     await fireEvent.press(screen.getByRole('button', { name: /^Tutorial 1\./ }));
     await screen.findByText('Turns 0');
     await fireEvent.press(screen.getByTestId('cell-1'));
@@ -90,7 +92,7 @@ describe('play flow', () => {
   });
 
   it('Home offers Continue for an unfinished level', async () => {
-    const started = startSession(arrowEscape, { seed: 'tutorial-2', difficulty: 'easy' }, services.deps);
+    const started = startSession(voltCourier, { seed: 'tutorial-2', difficulty: 'easy' }, services.deps);
     await services.store.recordStep(services.profile, started.session, started.events);
 
     await render(<AppShell services={services} />);
@@ -100,7 +102,7 @@ describe('play flow', () => {
   });
 
   it('gives progressively more specific hints and highlights the board', async () => {
-    await openArrowEscapeFromExplore();
+    await openVoltCourierFromExplore();
     await fireEvent.press(screen.getByRole('button', { name: /^Tutorial 1\./ }));
     await screen.findByText('Tutorial 1 of 3');
     await fireEvent.press(screen.getByRole('button', { name: 'Hint' }));
@@ -112,7 +114,7 @@ describe('play flow', () => {
   });
 
   it('starts a generated level at the chosen difficulty', async () => {
-    await openArrowEscapeFromExplore();
+    await openVoltCourierFromExplore();
     await fireEvent.press(screen.getByRole('radio', { name: 'Advanced' }));
     await fireEvent.press(screen.getByRole('button', { name: 'Play Advanced' }));
     expect(await screen.findByText('Advanced level')).toBeTruthy();
@@ -121,15 +123,29 @@ describe('play flow', () => {
 });
 
 describe('home and rewards', () => {
-  it('PLAY on Home starts the next tutorial, and stars show up after solving', async () => {
+  it('PLAY on Home starts the featured game, and stars show up after solving', async () => {
     await render(<AppShell services={services} />);
     expect(await screen.findByLabelText('0 stars')).toBeTruthy();
+    // With no history, the first playable game in catalogue order is featured: Number Maze.
     await fireEvent.press(screen.getByTestId('home-play'));
-    await screen.findByText('Tutorial 1 of 3');
-    await pressCells('tutorial-1');
+    await screen.findByText('Tutorial 1 of 4');
+    const maze = numberMaze.createLevel('tutorial-1', 'intro').initialState;
+    for (const move of solvingMoves(maze)) {
+      if (move.type === 'move') await fireEvent.press(screen.getByTestId(`room-${move.index}`));
+    }
     await fireEvent.press(await screen.findByRole('button', { name: 'See results' }));
     await fireEvent.press(await screen.findByRole('button', { name: 'Done' }));
     expect(await screen.findByLabelText('3 stars')).toBeTruthy();
+    // The last played game is now featured.
+    expect(await screen.findByText('Number Maze')).toBeTruthy();
+  });
+
+  it('features the most recently played game on Home', async () => {
+    const started = startSession(voltCourier, { seed: 'tutorial-1', difficulty: 'intro' }, services.deps);
+    await services.store.recordStep(services.profile, exitSession(started.session, services.deps).session, []);
+    await render(<AppShell services={services} />);
+    expect(await screen.findByText('Volt Courier')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'About Volt Courier' })).toBeTruthy();
   });
 
   it('saves the motion and haptics settings', async () => {

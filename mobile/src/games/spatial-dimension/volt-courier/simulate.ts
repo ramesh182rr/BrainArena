@@ -1,5 +1,5 @@
 import { exitDir, neighbor } from './grid';
-import type { ArrowEscapeState, Cell, Dir, PulseKind } from './types';
+import type { VoltCourierState, Cell, Dir, PulseKind } from './types';
 
 export type PulseOutcome =
   | 'delivered'
@@ -39,7 +39,7 @@ export interface SimulationResult {
   solved: boolean;
 }
 
-type Board = Pick<ArrowEscapeState, 'width' | 'height' | 'cells' | 'rotations'>;
+type Board = Pick<VoltCourierState, 'width' | 'height' | 'cells' | 'rotations'>;
 
 function trace(board: Board, emitterIndex: number, kind: PulseKind, dir: Dir): PulseTrace {
   const { width, height, cells, rotations } = board;

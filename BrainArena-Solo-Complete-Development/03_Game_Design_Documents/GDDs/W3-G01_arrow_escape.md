@@ -1,4 +1,6 @@
-# Game Design Document — Arrow Escape
+# Game Design Document — Volt Courier
+
+> Renamed from *Arrow Escape* on 2026-11-17 after the originality review: the old name described the arrow-exit genre, not this mechanic. The id `W3-G01` is unchanged.
 
 **ID:** W3-G01  
 **World:** Spatial Dimension  

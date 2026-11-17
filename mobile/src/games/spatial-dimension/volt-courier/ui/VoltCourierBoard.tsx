@@ -18,7 +18,7 @@ import type { GameBoardProps } from '@/games/ui';
 
 import { isRotatable, openSides, rotateDir } from '../grid';
 import { cellId } from '../module';
-import { PULSE_KIND_INFO, type ArrowEscapeAction, type ArrowEscapeState, type Dir, type PulseKind } from '../types';
+import { PULSE_KIND_INFO, type VoltCourierAction, type VoltCourierState, type Dir, type PulseKind } from '../types';
 import { boardColors, pulseColors } from './theme';
 import { buildBoardView, type CellView } from './view';
 
@@ -222,7 +222,7 @@ const Tile = memo(function Tile({
   );
 });
 
-export function ArrowEscapeBoard({ state, onAction, highlightIds, disabled }: GameBoardProps<ArrowEscapeState, ArrowEscapeAction>) {
+export function VoltCourierBoard({ state, onAction, highlightIds, disabled }: GameBoardProps<VoltCourierState, VoltCourierAction>) {
   const { width: screenWidth } = useWindowDimensions();
   const reduceMotion = useReduceMotion();
   const haptics = useHaptics();

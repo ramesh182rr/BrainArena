@@ -14,11 +14,11 @@ import { generateBoard, PROFILES } from './generator';
 import { isRotatable, sameOrientation, turnsBetween } from './grid';
 import { simulate } from './simulate';
 import { solve } from './solver';
-import { PULSE_KIND_INFO, type ArrowEscapeAction, type ArrowEscapeState, type Cell } from './types';
+import { PULSE_KIND_INFO, type VoltCourierAction, type VoltCourierState, type Cell } from './types';
 
-export const ARROW_ESCAPE_ID = 'W3-G01';
+export const VOLT_COURIER_ID = 'W3-G01';
 /** Bump when the same seed would produce a different board or rules change. */
-export const ARROW_ESCAPE_VERSION = '1.0.0';
+export const VOLT_COURIER_VERSION = '1.0.0';
 
 /** Undo depth kept in saved state. */
 export const MAX_HISTORY = 100;
@@ -29,22 +29,22 @@ const MAX_EFFICIENCY_BONUS = 50;
 export const cellId = (index: number) => `cell-${index}`;
 
 /** Fingerprint of the board structure, independent of the player's rotations (FR-027). */
-export function boardFingerprint(state: Pick<ArrowEscapeState, 'width' | 'height' | 'cells'>): string {
+export function boardFingerprint(state: Pick<VoltCourierState, 'width' | 'height' | 'cells'>): string {
   return fingerprint(JSON.stringify([state.width, state.height, state.cells]));
 }
 
 function toLevel(
-  state: ArrowEscapeState,
+  state: VoltCourierState,
   seed: string,
   difficulty: DifficultyBand,
   source: PuzzleLevel['source'],
   levelId: string,
-): PuzzleLevel<ArrowEscapeState> {
+): PuzzleLevel<VoltCourierState> {
   const pulses = state.cells.filter((c) => c.t === 'emitter');
   return {
-    gameId: ARROW_ESCAPE_ID,
+    gameId: VOLT_COURIER_ID,
     levelId,
-    generatorVersion: ARROW_ESCAPE_VERSION,
+    generatorVersion: VOLT_COURIER_VERSION,
     seed,
     difficulty,
     source,
@@ -60,7 +60,7 @@ function toLevel(
   };
 }
 
-function authoredState(level: AuthoredLevel): ArrowEscapeState {
+function authoredState(level: AuthoredLevel): VoltCourierState {
   const board = parseBoard(level.rows);
   const result = solve(board);
   return {
@@ -73,13 +73,13 @@ function authoredState(level: AuthoredLevel): ArrowEscapeState {
   };
 }
 
-function authoredLevel(level: AuthoredLevel, source: PuzzleLevel['source']): PuzzleLevel<ArrowEscapeState> {
-  return toLevel(authoredState(level), level.id, level.difficulty, source, `${ARROW_ESCAPE_ID}:${level.id}`);
+function authoredLevel(level: AuthoredLevel, source: PuzzleLevel['source']): PuzzleLevel<VoltCourierState> {
+  return toLevel(authoredState(level), level.id, level.difficulty, source, `${VOLT_COURIER_ID}:${level.id}`);
 }
 
 const isInt = (v: unknown): v is number => typeof v === 'number' && Number.isInteger(v);
 
-function structureProblem(state: ArrowEscapeState): string | null {
+function structureProblem(state: VoltCourierState): string | null {
   const { width, height, cells, rotations, initialRotations } = state;
   if (!isInt(width) || !isInt(height) || width < 2 || height < 2 || width > 12 || height > 12) return 'bad_dimensions';
   const n = width * height;
@@ -97,7 +97,7 @@ function structureProblem(state: ArrowEscapeState): string | null {
   return null;
 }
 
-function hintFor(state: ArrowEscapeState, tier: HintTier): GameHint {
+function hintFor(state: VoltCourierState, tier: HintTier): GameHint {
   const result = solve(state);
   if (result.status !== 'solved') {
     return { tier, text: 'Try undoing your last few turns, then follow each pulse from its emitter.', highlightIds: [] };
@@ -131,16 +131,16 @@ function hintFor(state: ArrowEscapeState, tier: HintTier): GameHint {
   return { tier, text: 'Every junction is lined up. Watch the pulses flow!', highlightIds: [] };
 }
 
-export const arrowEscape: GameModule<ArrowEscapeState, ArrowEscapeAction> = {
-  id: ARROW_ESCAPE_ID,
-  version: ARROW_ESCAPE_VERSION,
+export const voltCourier: GameModule<VoltCourierState, VoltCourierAction> = {
+  id: VOLT_COURIER_ID,
+  version: VOLT_COURIER_VERSION,
 
   createLevel(seed, difficulty) {
     const authored = findAuthoredLevel(seed);
     if (authored) return authoredLevel(authored, 'authored');
-    const key = levelSeedKey(ARROW_ESCAPE_ID, ARROW_ESCAPE_VERSION, `${seed}/${difficulty}`);
+    const key = levelSeedKey(VOLT_COURIER_ID, VOLT_COURIER_VERSION, `${seed}/${difficulty}`);
     const { state } = generateBoard(key, PROFILES[difficulty]);
-    return toLevel(state, seed, difficulty, 'generated', `${ARROW_ESCAPE_ID}:${difficulty}:${seed}`);
+    return toLevel(state, seed, difficulty, 'generated', `${VOLT_COURIER_ID}:${difficulty}:${seed}`);
   },
 
   fallbackLevel(difficulty) {
@@ -148,7 +148,7 @@ export const arrowEscape: GameModule<ArrowEscapeState, ArrowEscapeAction> = {
   },
 
   validateLevel(level): ValidationResult {
-    if (level.gameId !== ARROW_ESCAPE_ID) return { valid: false, reasonCode: 'wrong_game' };
+    if (level.gameId !== VOLT_COURIER_ID) return { valid: false, reasonCode: 'wrong_game' };
     const state = level.initialState;
     const problem = structureProblem(state);
     if (problem) return { valid: false, reasonCode: problem };

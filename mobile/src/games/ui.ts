@@ -30,6 +30,8 @@ export interface GameUi<TState, TAction> {
   statusLine(state: TState): string;
   /** Optional reminder about a rule that appears on this board. */
   levelNote(state: TState): string | null;
+  /** One celebratory line for the win dialog, e.g. "Every receiver is powered." */
+  successMessage(state: TState): string;
   /** Explains a completed level's score in one or two sentences. */
   scoreExplanation(state: TState, context: ScoreContext): string;
   /** 1–3 stars for a completed level's score. */

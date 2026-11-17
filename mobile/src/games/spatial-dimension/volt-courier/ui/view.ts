@@ -1,6 +1,6 @@
 import { openSides } from '../grid';
 import { simulate, type PulseTrace, type SimulationResult } from '../simulate';
-import { PULSE_KIND_INFO, type ArrowEscapeState, type Cell, type Dir, type PulseKind } from '../types';
+import { PULSE_KIND_INFO, type VoltCourierState, type Cell, type Dir, type PulseKind } from '../types';
 
 /**
  * Pure presentation model for the board: which conduits carry current,
@@ -82,7 +82,7 @@ function describePulse(trace: PulseTrace, width: number): string {
   }
 }
 
-export function buildBoardView(state: ArrowEscapeState): BoardView {
+export function buildBoardView(state: VoltCourierState): BoardView {
   const simulation = simulate(state);
   const n = state.cells.length;
   const power: (PulseKind | null)[] = new Array<PulseKind | null>(n).fill(null);

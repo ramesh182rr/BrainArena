@@ -86,7 +86,7 @@ export const games: readonly GameEntry[] = [
   game('W2-G04', 'logic-grid', 'Logic Grid', 'Multi-attribute deduction', 'Match characters, objects and time slots using clue tiles; a detector highlights the smallest conflicting clue set.', 'Deduction', 'hybrid'),
   game('W2-G05', 'number-lock', 'Number Lock', 'Code inference', 'Crack a lock by proposing short number strings; a distinct signal system marks position and value constraints.', 'Deductive inference', 'procedural'),
   // W3 — Spatial Dimension
-  game('W3-G01', 'arrow-escape', 'Arrow Escape', 'Energy-current routing', 'Rotate junctions to redirect moving energy pulses through a network so each pulse reaches its matching receiver.', 'Spatial planning', 'hybrid'),
+  game('W3-G01', 'volt-courier', 'Volt Courier', 'Energy-current routing', 'Rotate junctions to redirect moving energy pulses through a network so each pulse reaches its matching receiver.', 'Spatial planning', 'hybrid'),
   game('W3-G02', 'block-escape', 'Block Escape', 'Layered cargo choreography', 'Slide modular cargo platforms across a warehouse board; some platforms carry smaller pieces, changing which moves are legal.', 'Spatial planning', 'procedural'),
   game('W3-G03', 'path-finder', 'Path Finder', 'Living path construction', 'Draw a route through a shifting garden where each step changes nearby terrain.', 'Path planning', 'hybrid'),
   game('W3-G04', 'shape-shift', 'Shape Shift', 'Projection assembly', 'Rotate silhouettes and arrange flat facets so their combined shadow matches a target outline.', 'Mental rotation', 'hybrid'),

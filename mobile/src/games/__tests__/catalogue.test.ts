@@ -52,7 +52,7 @@ describe('catalogue', () => {
 
   it('looks up worlds and games', () => {
     expect(getWorld('W3').title).toBe('Spatial Dimension');
-    expect(getGame('W3-G01')?.title).toBe('Arrow Escape');
+    expect(getGame('W3-G01')?.title).toBe('Volt Courier');
     expect(getGame('W9-G01')).toBeUndefined();
   });
 

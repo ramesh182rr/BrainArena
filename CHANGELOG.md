@@ -25,7 +25,8 @@ Arrow Escape GDD acceptance criteria:
   pending).
 
 Known limitations carried into M2:
-- The name "Arrow Escape" needs replacing before release (see the originality review).
+- The name "Arrow Escape" needed replacing (see the originality review); renamed to Volt Courier
+  at the start of M2.
 - Gates have no dedicated tutorial board.
 - No sound effects or music.
 - No mascot art.
@@ -81,3 +82,18 @@ Known limitations carried into M2:
   and expo-font; fonts recorded in `mobile/ASSETS_AND_LICENSES.md` and the blueprint asset manifest.
 - 2026-11-17 — Step 7: added the Arrow Escape originality review (decision pending human review;
   flags the name and the overlap with W4-G01/W4-G05 as risks) and closed M1.
+
+### M2: First 6 games (in progress)
+- 2026-11-17 — Renamed W3-G01 *Arrow Escape* to **Volt Courier** in the app, code (module folder
+  `volt-courier`), catalogue, GDD and originality review. The id `W3-G01` is unchanged, so saved
+  progress is unaffected. A formal trademark check is still pending.
+- 2026-11-17 — Added **Number Maze** (W2-G02, Logic Kingdom), the second playable game. Grid routes
+  through +, −, ×, ÷ gates with a value range, exact division and EVEN/ODD locks; the exit opens only
+  at the target. Exact route solver (cross-checked with breadth-first search), seeded generator over
+  five bands (one new idea each), 4 tutorials including locks, 5 curated fallbacks, refusal
+  explanations, route-length scoring, three-tier hints with dead-end rescue. Tests: 60 regression
+  seeds per band, 1,000 property seeds, rules, solver, UI view and board. Originality review added
+  (pending human sign-off).
+- 2026-11-17 — Home now features the unfinished game, else the last played one. The win dialog
+  message is per game (`GameUi.successMessage`). Training-path nodes size to fit any number of
+  tutorials.

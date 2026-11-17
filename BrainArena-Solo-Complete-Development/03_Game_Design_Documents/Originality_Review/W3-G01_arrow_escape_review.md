@@ -1,4 +1,4 @@
-# Originality Review: W3-G01 Arrow Escape (energy-current routing)
+# Originality Review: W3-G01 Volt Courier (formerly Arrow Escape), energy-current routing
 
 - **Game ID/name:** W3-G01, *Arrow Escape* (working title; see the naming risk below)
 - **Design owner:** Solo developer (implementation drafted with Claude Code)
@@ -72,8 +72,18 @@ These are general principles of the puzzle genre, which no single game owns:
 - Kept the board free of arrows, sliding or removal mechanics, so it shares no rules with the arrow-exit genre beyond broad planning.
 - Scored against a solver-proven par instead of a timer or move limit.
 
+## Follow-up (2026-11-17)
+- **Renamed to *Volt Courier*.** A web search found no game with that exact title. The nearest
+  results were unrelated (a space-courier roguelike and a stealth driving game). The other
+  candidates were rejected because each sits near an existing routing puzzle:
+  - *Current Weaver*: close to "The Weaver", a colour-matched line-routing game.
+  - *Pulse Junction*: close to "Pulse Loop", a circuit-connecting puzzle.
+  - *Flux Routes*: close to "Flux Grid", a light-routing puzzle.
+- **Not a trademark clearance.** A formal trademark and store search is still required before
+  release.
+
 ## Recommendations before release
-- **Rename the game:** pick a name that matches the mechanic and clears a store and trademark search. Candidates to check: *Current Weaver*, *Pulse Junction*, *Flux Routes*. Changing the display name doesn't touch saved progress, which is keyed by the id `W3-G01`.
+- **Rename the game** (done, see the follow-up above): pick a name that matches the mechanic and clears a store and trademark search. Candidates to check: *Current Weaver*, *Pulse Junction*, *Flux Routes*. Changing the display name doesn't touch saved progress, which is keyed by the id `W3-G01`.
 - **Keep Dot Connect and Chain Reaction apart:** when designing W4-G01, use a different input grammar (for example, drawing edges between nodes, with no tile rotation) and avoid crossings as a mechanic. Make sure Chain Reaction's timing and delay model, not routing, is its core.
 - **Teach gates:** add a dedicated tutorial board, since gates currently appear in the advanced band with only an on-screen note.
 - **Playtest comprehension:** run a first-time player test without any external explanation (GDD acceptance criterion; this cannot be verified by automated tests).
@@ -82,4 +92,4 @@ These are general principles of the puzzle genre, which no single game owns:
 _Not yet reviewed. To be completed by a human reviewer before production content is approved._
 
 ## Decision
-**Pending human review.** Implementation-level assessment: no reproduction of any recognisable level, story, layout, character or asset was found. The **name** needs to change (risk 2) before release, and the catalogue overlap (risk 3) must be handled when designing W4-G01 and W4-G05.
+**Pending human review.** Implementation-level assessment: no reproduction of any recognisable level, story, layout, character or asset was found. The name issue (risk 2) has been addressed by renaming to *Volt Courier*, pending a formal trademark check, and the catalogue overlap (risk 3) must be handled when designing W4-G01 and W4-G05.
