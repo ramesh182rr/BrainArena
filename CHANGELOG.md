@@ -22,3 +22,10 @@ All notable changes to BrainArena Solo are recorded here. Dates are ISO 8601.
   and sync-outbox repositories behind a `GameStore` that saves a session and its events in one
   transaction. Replaced the starter `schema.sql` with migration 1, which adds device id, game
   version, level seed, generator version, difficulty, outcome, score and a resumable snapshot.
+- 2026-11-17 — Step 5: added Arrow Escape (W3-G01) game logic in
+  `mobile/src/games/spatial-dimension/arrow-escape`: energy-current routing rules (conduits,
+  crossings, gates, three pulse kinds), pulse simulator, exact minimum-turn solver, seeded
+  generator with five difficulty bands, three tutorial boards, one curated fallback per band,
+  reducer with undo/reset, scoring and three-tier hints. Not yet registered as playable (step 6).
+  Tests: 60 regression seeds per band, a 1,000-seed property run, solver optimality checked
+  against brute force, and full play/pause/restore through the session runtime.
