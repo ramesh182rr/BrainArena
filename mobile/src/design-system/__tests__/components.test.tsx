@@ -66,11 +66,11 @@ describe('Card', () => {
 
   it('keeps its accessibility label when it is not pressable', async () => {
     await render(
-      <Card accessibilityLabel="Block Escape. In development.">
-        <AppText>Block Escape</AppText>
+      <Card accessibilityLabel="Pallet Ferry. In development.">
+        <AppText>Pallet Ferry</AppText>
       </Card>,
     );
-    expect(screen.getByLabelText('Block Escape. In development.')).toBeTruthy();
+    expect(screen.getByLabelText('Pallet Ferry. In development.')).toBeTruthy();
     expect(screen.queryByRole('button')).toBeNull();
   });
 

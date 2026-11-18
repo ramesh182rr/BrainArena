@@ -12,6 +12,9 @@ import { capitalise } from './format';
 import { levelLabel } from './levelPlan';
 import { useGameSession } from './useGameSession';
 
+/** How long a finished board stays visible before the results dialog. */
+export const FINISH_HOLD_MS = 1500;
+
 export function PlayScreen({ route, navigation }: RootScreenProps<'Play'>) {
   const module = getGameModule(route.params.gameId);
   const ui = getGameUi(route.params.gameId);
@@ -26,10 +29,10 @@ export function PlayScreen({ route, navigation }: RootScreenProps<'Play'>) {
 }
 
 function PlayView({ route, navigation }: RootScreenProps<'Play'>) {
-  const { gameId, seed, difficulty, resume } = route.params;
+  const { gameId, seed, difficulty, resume, mode } = route.params;
   const module = getGameModule(gameId)!;
   const ui = getGameUi(gameId)!;
-  const game = useGameSession(module, { seed, difficulty, resume });
+  const game = useGameSession(module, mode ? { seed, difficulty, resume, mode } : { seed, difficulty, resume });
   const haptics = useHaptics();
   const { session } = game;
   const celebrated = useRef(false);
@@ -37,21 +40,22 @@ function PlayView({ route, navigation }: RootScreenProps<'Play'>) {
   const won = session?.status === 'succeeded';
   const ended = session?.status === 'succeeded' || session?.status === 'failed';
   const reduceMotion = useReduceMotion();
-  // Let the board finish its last animation (e.g. a launch) before the dialog covers it.
+  // Hold the finished board on screen (plus any finishing animation) so the player sees how it ended,
+  // then show the results dialog.
   const [revealed, setRevealed] = useState(false);
-  const delay = ended && session && ui.finishDelayMs && !reduceMotion ? ui.finishDelayMs(session.state) : 0;
+  const delay = ended && session ? FINISH_HOLD_MS + (ui.finishDelayMs && !reduceMotion ? ui.finishDelayMs(session.state) : 0) : 0;
   useEffect(() => {
     if (!ended) return;
     const id = setTimeout(() => setRevealed(true), delay);
     return () => clearTimeout(id);
   }, [ended, delay]);
-  const celebrate = won && (revealed || delay === 0);
+  // Cheer the moment the puzzle is solved; the stars follow after the hold.
   useEffect(() => {
-    if (celebrate && !celebrated.current) {
+    if (won && !celebrated.current) {
       celebrated.current = true;
       haptics.success();
     }
-  }, [celebrate, haptics]);
+  }, [won, haptics]);
 
   if (game.loadError) {
     return (
@@ -75,7 +79,8 @@ function PlayView({ route, navigation }: RootScreenProps<'Play'>) {
   const tutorial = ui.tutorials.find((t) => t.seed === level.seed);
   const note = ui.levelNote(session.state);
   const playing = session.status === 'playing';
-  const finished = ended && (revealed || delay === 0);
+  const finished = ended && revealed;
+  const holding = ended && !revealed;
   const label = levelLabel(ui.tutorials, { seed: level.seed, difficulty: level.difficulty });
   const status = ui.statusLine(session.state);
   const { Board } = ui;
@@ -93,6 +98,7 @@ function PlayView({ route, navigation }: RootScreenProps<'Play'>) {
       hintsUsed: ended.hintsUsed,
       activeMs: ended.activeMs,
       explanation: ui.scoreExplanation(ended.state, { moves: ended.moves, hintsUsed: ended.hintsUsed }),
+      ...(ended.mode === 'arena' ? { mode: 'arena' as const } : {}),
     });
   };
 
@@ -170,6 +176,13 @@ function PlayView({ route, navigation }: RootScreenProps<'Play'>) {
       </View>
 
       <View style={styles.boardFrame}>
+        {holding ? (
+          <View pointerEvents="none" style={styles.endBanner} accessibilityLiveRegion="assertive">
+            <AppText variant="heading" tone={won ? 'gold' : 'primary'}>
+              {won ? 'Solved!' : 'Out of options'}
+            </AppText>
+          </View>
+        ) : null}
         <Board state={session.state} onAction={game.act} highlightIds={game.hint?.highlightIds ?? []} disabled={!playing} />
       </View>
 
@@ -215,6 +228,7 @@ function PlayView({ route, navigation }: RootScreenProps<'Play'>) {
 
 const styles = StyleSheet.create({
   center: { alignItems: 'center', justifyContent: 'center' },
+  endBanner: { position: 'absolute', top: -18, alignSelf: 'center', zIndex: 2, paddingHorizontal: spacing.lg, paddingVertical: spacing.xs, borderRadius: radii.pill, backgroundColor: 'rgba(26,18,69,0.92)', borderWidth: 2, borderStyle: 'solid', borderColor: colors.gold },
   boardFrame: {
     padding: spacing.md,
     borderRadius: radii.lg,

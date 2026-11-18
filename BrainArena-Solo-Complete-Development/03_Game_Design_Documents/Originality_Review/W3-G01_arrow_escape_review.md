@@ -63,7 +63,7 @@ These are general principles of the puzzle genre, which no single game owns:
    - Store searches for "arrow escape" are likely to surface unrelated existing titles, which risks confusion and a trademark conflict.
    - The catalogue already says names "may be refined after trademark/store search".
 3. **Overlap with other games in this catalogue (medium risk, internal):**
-   - **W4-G01 Dot Connect** ("route a signal through a graph… crossings can alter signal phase") and **W4-G05 Chain Reaction** ("pulses travel… redirect at junctions") share the vocabulary of signals, routing and crossings.
+   - **W4-G01 Star Thread** ("route a signal through a graph… crossings can alter signal phase") and **W4-G05 Pulsewick** ("pulses travel… redirect at junctions") share the vocabulary of signals, routing and crossings.
    - If those games are built with tile rotation or crossing-as-a-feature, players will feel the catalogue repeating itself (GDD acceptance criterion: "materially different from other games in the catalogue").
 4. **Visual treatment (low risk):** neon conduits on a dark board are a common aesthetic for energy and circuit puzzles. The rendering is original, but the look alone is not a differentiator.
 
@@ -84,7 +84,7 @@ These are general principles of the puzzle genre, which no single game owns:
 
 ## Recommendations before release
 - **Rename the game** (done, see the follow-up above): pick a name that matches the mechanic and clears a store and trademark search. Candidates to check: *Current Weaver*, *Pulse Junction*, *Flux Routes*. Changing the display name doesn't touch saved progress, which is keyed by the id `W3-G01`.
-- **Keep Dot Connect and Chain Reaction apart:** when designing W4-G01, use a different input grammar (for example, drawing edges between nodes, with no tile rotation) and avoid crossings as a mechanic. Make sure Chain Reaction's timing and delay model, not routing, is its core.
+- **Keep Star Thread and Pulsewick apart:** when designing W4-G01, use a different input grammar (for example, drawing edges between nodes, with no tile rotation) and avoid crossings as a mechanic. Make sure Pulsewick's timing and delay model, not routing, is its core.
 - **Teach gates:** add a dedicated tutorial board, since gates currently appear in the advanced band with only an on-screen note.
 - **Playtest comprehension:** run a first-time player test without any external explanation (GDD acceptance criterion; this cannot be verified by automated tests).
 

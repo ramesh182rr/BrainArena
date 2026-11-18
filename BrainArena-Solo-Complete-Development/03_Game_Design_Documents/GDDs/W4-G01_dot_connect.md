@@ -1,4 +1,4 @@
-# Game Design Document — Dot Connect
+# Game Design Document — Star Thread
 
 **ID:** W4-G01  
 **World:** Pattern Universe  

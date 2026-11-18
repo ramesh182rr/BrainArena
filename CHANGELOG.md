@@ -83,6 +83,13 @@ Known limitations carried into M2:
 - 2026-11-17 — Step 7: added the Arrow Escape originality review (decision pending human review;
   flags the name and the overlap with W4-G01/W4-G05 as risks) and closed M1.
 
+### Polish pass (2026-11-19)
+- **Renamed eight games** to names a web search found no clash for (formal trademark checks still pending): Meow Grid → **Cattice**, Block Escape → **Pallet Ferry**, Shape Shift → **Shadow Tumble**, Mirror World → **Echo Rooms**, Dot Connect → **Star Thread**, Chain Reaction → **Pulsewick**, Draw the Solution → **Plank & Spring**, Object Illusion → **Balance Alchemy**. Ids, folders and saved progress are unchanged.
+- **Animated how-to-play demos** for all 30 games ("Watch how to play" on each game's intro). The real board plays the first tutorial by itself: each step highlights what to tap and explains why, then acts; timed shows play as normal. Skip any time or go straight into the tutorial. Scripts live in `mobile/src/games/demos.ts` and drive each game's own solver; a test plays every demo to completion.
+- **See how it ended:** every finished board now stays on screen for 1.5 s (plus any finishing animation) with a "Solved!" banner before the stars dialog. The success sound and haptic play the moment the puzzle is solved.
+- **Livelier world emblems:** layered islands (rock strata, crystals, roots, a waterfall, plants) with a pulsing halo, the world motif floating above, drifting rocks and orbiting sparkles. Motion stops with reduced motion.
+- **Game icons:** an original pictogram for each game on its card, with a gentle wobble, and cards slide in one by one.
+
 ### M4: 30 games (complete, 2026-11-18)
 Batch 1 (2026-11-18): five more games, bringing the catalogue to 20.
 

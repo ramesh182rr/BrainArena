@@ -6,6 +6,7 @@ import { colors } from '@/design-system/tokens';
 import { ArenaScreen } from '@/features/arena/ArenaScreen';
 import { ExploreScreen } from '@/features/explore/ExploreScreen';
 import { WorldScreen } from '@/features/explore/WorldScreen';
+import { DemoScreen } from '@/features/game/DemoScreen';
 import { GameIntroScreen } from '@/features/game/GameIntroScreen';
 import { PlayScreen } from '@/features/game/PlayScreen';
 import { SummaryScreen } from '@/features/game/SummaryScreen';
@@ -51,6 +52,7 @@ export function RootNavigator() {
       <Stack.Screen name="Tabs" component={Tabs} />
       <Stack.Screen name="World" component={WorldScreen} />
       <Stack.Screen name="GameIntro" component={GameIntroScreen} />
+      <Stack.Screen name="Demo" component={DemoScreen} />
       <Stack.Screen name="Play" component={PlayScreen} options={{ gestureEnabled: false }} />
       <Stack.Screen name="Summary" component={SummaryScreen} options={{ gestureEnabled: false, animation: 'fade' }} />
     </Stack.Navigator>

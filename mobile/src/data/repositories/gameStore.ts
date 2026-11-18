@@ -6,6 +6,7 @@ import { OutboxRepository } from './outboxRepository';
 import { ProfileRepository, type LocalProfile } from './profileRepository';
 import { SessionRepository } from './sessionRepository';
 import { SettingsRepository } from './settingsRepository';
+import { DailyRepository } from './dailyRepository';
 
 /**
  * Per-move events stay on the device: the session row already records the
@@ -22,6 +23,7 @@ export class GameStore {
   readonly sessions: SessionRepository;
   readonly outbox: OutboxRepository;
   readonly settings: SettingsRepository;
+  readonly daily: DailyRepository;
   private queue: Promise<void> = Promise.resolve();
 
   constructor(
@@ -32,6 +34,7 @@ export class GameStore {
     this.sessions = new SessionRepository(db);
     this.outbox = new OutboxRepository(db);
     this.settings = new SettingsRepository(db);
+    this.daily = new DailyRepository(db);
   }
 
   getProfile(): Promise<LocalProfile> {

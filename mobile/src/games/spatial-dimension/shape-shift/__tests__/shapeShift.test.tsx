@@ -9,7 +9,7 @@ import { currentCubes, frontShadow, normalise, rotate, ROTATIONS, SHAPE_PROFILES
 
 const L: Cube[] = [[0, 0, 0], [1, 0, 0], [0, 1, 0]];
 
-describe('Shape Shift', () => {
+describe('Shadow Tumble', () => {
   it('four of any rotation return the shape; there are 24 orientations', () => {
     for (const r of ROTATIONS) {
       let c = normalise(L);

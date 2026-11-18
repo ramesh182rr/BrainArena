@@ -2,7 +2,7 @@ import type { DifficultyBand, GameHint, GameModule, HintTier, PuzzleLevel, Valid
 import { createRng, fingerprint, levelSeedKey, type Rng } from '@/game-runtime/rng';
 
 /**
- * Draw the Solution (W6-G02): stroke engineering on a grid.
+ * Plank & Spring (W6-G02): stroke engineering on a grid.
  *
  * A ball drops from a chute, falls and rolls. Draw one continuous stroke from
  * an anchor peg (tap squares one after another), choosing plank (solid) or

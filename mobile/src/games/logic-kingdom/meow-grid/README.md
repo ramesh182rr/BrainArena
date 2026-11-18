@@ -1,4 +1,4 @@
-# Meow Grid (W2-G01): symbol constraint lattice
+# Cattice (W2-G01): symbol constraint lattice
 
 GDD: `BrainArena-Solo-Complete-Development/03_Game_Design_Documents/GDDs/` (W2-G01)
 Originality review: `BrainArena-Solo-Complete-Development/03_Game_Design_Documents/Originality_Review/W2-G01_meow_grid_review.md`

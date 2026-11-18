@@ -1,4 +1,4 @@
-# Game Design Document — Mirror World
+# Game Design Document — Echo Rooms
 
 **ID:** W3-G05  
 **World:** Spatial Dimension  

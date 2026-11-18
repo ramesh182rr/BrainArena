@@ -1,6 +1,6 @@
-# Originality Review: W2-G01 Meow Grid (symbol constraint lattice)
+# Originality Review: W2-G01 Cattice (formerly Meow Grid) (symbol constraint lattice)
 
-- **Game ID/name:** W2-G01, *Meow Grid*
+- **Game ID/name:** W2-G01, *Cattice* (formerly *Meow Grid*)
 - **Design owner:** Solo developer (implementation drafted with Claude Code)
 - **Review date:** 2026-11-18 (implementation review; human review pending)
 - **Implementation reviewed:** `mobile/src/games/logic-kingdom/meow-grid/` at version 1.0.0
@@ -43,6 +43,10 @@ These are general principles of the genre:
 ## Similarity risks found
 1. **Genre convention (medium-low):** the core is a Latin-square-with-regions puzzle, which is a broad public-domain form. Echo pairs and cat symbols are the differentiators, but the base grammar is familiar.
 2. **Name (low-medium):** check the store for cat-themed grid puzzles with similar names.
+
+## Follow-up (2026-11-19)
+- **Renamed to *Cattice*.** The old name, *Meow Grid*, is a common store title. A web search found no game with the exact new title; the nearest results were unrelated or only loosely similar. This is not a trademark clearance: a formal store and trademark search is still required before release.
+- The id `W2-G01` is unchanged, so saved progress is unaffected.
 
 ## Human reviewer
 _Not yet reviewed._

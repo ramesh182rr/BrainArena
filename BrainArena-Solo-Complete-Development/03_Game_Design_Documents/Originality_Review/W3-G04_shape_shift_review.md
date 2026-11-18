@@ -1,6 +1,6 @@
-# Originality Review: W3-G04 Shape Shift (projection matching)
+# Originality Review: W3-G04 Shadow Tumble (formerly Shape Shift) (projection matching)
 
-- **Game ID/name:** W3-G04, *Shape Shift*
+- **Game ID/name:** W3-G04, *Shadow Tumble* (formerly *Shape Shift*)
 - **Design owner:** Solo developer (implementation drafted with Claude Code)
 - **Review date:** 2026-11-18 (implementation review; human review pending)
 - **Implementation reviewed:** `mobile/src/games/spatial-dimension/shape-shift/` at version 1.0.0
@@ -42,6 +42,10 @@ These are general principles of the genre:
 ## Similarity risks found
 1. **Genre convention (low):** mental rotation is a widely used task; matching shadows instead of shapes is the distinctive twist.
 2. **Name (medium):** "Shape Shift" is a common phrase with existing apps; a store/trademark search is needed and a rename is likely.
+
+## Follow-up (2026-11-19)
+- **Renamed to *Shadow Tumble*.** The old name, *Shape Shift*, is a common store title. A web search found no game with the exact new title; the nearest results were unrelated or only loosely similar. This is not a trademark clearance: a formal store and trademark search is still required before release.
+- The id `W3-G04` is unchanged, so saved progress is unaffected.
 
 ## Human reviewer
 _Not yet reviewed._

@@ -1,6 +1,6 @@
-# Originality Review: W4-G05 Chain Reaction (pulse timing)
+# Originality Review: W4-G05 Pulsewick (formerly Chain Reaction) (pulse timing)
 
-- **Game ID/name:** W4-G05, *Chain Reaction*
+- **Game ID/name:** W4-G05, *Pulsewick* (formerly *Chain Reaction*)
 - **Design owner:** Solo developer (implementation drafted with Claude Code)
 - **Review date:** 2026-11-18 (implementation review; human review pending)
 - **Implementation reviewed:** `mobile/src/games/pattern-universe/chain-reaction/` at version 1.0.0
@@ -44,6 +44,10 @@ These are general principles of the genre:
 ## Similarity risks found
 1. **Inside the catalogue (medium, addressed):** the Volt Courier review warned about routing overlap. Chain Reaction uses timing (delays, twin locks), no conduits or crossings.
 2. **Name (medium):** "Chain Reaction" is a very common game title; a rename is likely after a store search.
+
+## Follow-up (2026-11-19)
+- **Renamed to *Pulsewick*.** The old name, *Chain Reaction*, is a common store title. A web search found no game with the exact new title; the nearest results were unrelated or only loosely similar. This is not a trademark clearance: a formal store and trademark search is still required before release.
+- The id `W4-G05` is unchanged, so saved progress is unaffected.
 
 ## Human reviewer
 _Not yet reviewed._

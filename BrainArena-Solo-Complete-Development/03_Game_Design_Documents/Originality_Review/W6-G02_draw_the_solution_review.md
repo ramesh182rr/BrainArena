@@ -1,6 +1,6 @@
-# Originality Review: W6-G02 Draw the Solution (stroke engineering on a grid)
+# Originality Review: W6-G02 Plank & Spring (formerly Draw the Solution) (stroke engineering on a grid)
 
-- **Game ID/name:** W6-G02, *Draw the Solution*
+- **Game ID/name:** W6-G02, *Plank & Spring* (formerly *Draw the Solution*)
 - **Design owner:** Solo developer (implementation drafted with Claude Code)
 - **Review date:** 2026-11-18 (implementation review; human review pending)
 - **Implementation reviewed:** `mobile/src/games/creative-chaos/draw-the-solution/` at version 1.0.0
@@ -44,6 +44,10 @@ These are general principles of the genre:
 1. **Catalogue wording (note):** the catalogue says "elastic bridge or brace" with flexing materials; this version is a discrete grid for determinism. Confirm the change.
 2. **Genre (medium):** draw-to-solve games are popular; the grid and spring rules differ from free-drawn physics.
 3. **Name (medium):** "Draw the Solution" is a common phrase; a rename is likely.
+
+## Follow-up (2026-11-19)
+- **Renamed to *Plank & Spring*.** The old name, *Draw the Solution*, is a common store title. A web search found no game with the exact new title; the nearest results were unrelated or only loosely similar. This is not a trademark clearance: a formal store and trademark search is still required before release.
+- The id `W6-G02` is unchanged, so saved progress is unaffected.
 
 ## Human reviewer
 _Not yet reviewed._

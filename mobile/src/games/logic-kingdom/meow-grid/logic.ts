@@ -2,7 +2,7 @@ import type { DifficultyBand, GameHint, GameModule, HintTier, PuzzleLevel, Valid
 import { createRng, fingerprint, levelSeedKey, type Rng } from '@/game-runtime/rng';
 
 /**
- * Meow Grid (W2-G01): symbol constraint lattice.
+ * Cattice (W2-G01): symbol constraint lattice.
  *
  * Place cats so every row, column and outlined region holds each cat once.
  * Paired echo cells (in different regions) must hold the same cat. Every grid

@@ -11,7 +11,7 @@ jest.setTimeout(300_000);
 
 const solve = (s0: IllusionState) => solveIllusion(s0.things0, s0.goals, s0.allowMove)!.reduce((s, change) => objectIllusion.reduce(s, { type: 'change', change }), s0);
 
-describe('Object Illusion properties and goals', () => {
+describe('Balance Alchemy properties and goals', () => {
   const things = [
     { item: 0, weight: 2, warmth: 2, left: true },
     { item: 1, weight: 1, warmth: 0, left: false },
@@ -30,7 +30,7 @@ describe('Object Illusion properties and goals', () => {
   });
 });
 
-describe('Object Illusion levels', () => {
+describe('Balance Alchemy levels', () => {
   it.each(DIFFICULTY_BANDS)('%s: seeds validate with an exact par', (band) => {
     const p = ILLUSION_PROFILES[band];
     const count = band === 'expert' ? 80 : 200;

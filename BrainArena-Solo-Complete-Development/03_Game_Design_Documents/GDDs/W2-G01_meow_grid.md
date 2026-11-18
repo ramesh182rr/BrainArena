@@ -1,4 +1,4 @@
-# Game Design Document — Meow Grid
+# Game Design Document — Cattice
 
 **ID:** W2-G01  
 **World:** Logic Kingdom  

@@ -1,4 +1,4 @@
-# Game Design Document — Object Illusion
+# Game Design Document — Balance Alchemy
 
 **ID:** W6-G03  
 **World:** Creative Chaos  

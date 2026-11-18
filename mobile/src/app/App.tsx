@@ -7,6 +7,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AppText, Button, colors, GameBackground, PreferencesProvider, spacing, type UiPreferences } from '@/design-system';
 import { appFonts } from '@/design-system/fonts';
+import { preloadSounds } from '@/design-system/sound';
 
 import { createAppServices } from './createAppServices';
 import { ErrorBoundary } from './ErrorBoundary';
@@ -50,6 +51,10 @@ function Bootstrap() {
   // Fonts are decoration: if they fail to load, the system font is used instead.
   const [fontsLoaded, fontError] = useFonts(appFonts);
   const fontsReady = fontsLoaded || fontError !== null;
+
+  useEffect(() => {
+    preloadSounds();
+  }, []);
 
   useEffect(() => {
     let active = true;

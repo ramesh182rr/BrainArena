@@ -21,7 +21,7 @@ function solve(s: ChainState): ChainState {
   return chainReaction.reduce(x, { type: 'fire' });
 }
 
-describe('Chain Reaction simulation', () => {
+describe('Pulsewick simulation', () => {
   it('relays re-fire one tick later, slow relays two', () => {
     // source → relay (pointing down) → star below it
     const nodes: ChainNode[] = [{ t: 'source', dir: 1 }, { t: 'relay', slow: false }, E, E, { t: 'star' }, E];
@@ -49,7 +49,7 @@ describe('Chain Reaction simulation', () => {
   });
 });
 
-describe('Chain Reaction levels', () => {
+describe('Pulsewick levels', () => {
   it.each(DIFFICULTY_BANDS)('%s: 200 seeds validate within the band', (band) => {
     const p = CHAIN_PROFILES[band];
     for (let i = 0; i < 200; i += 1) {

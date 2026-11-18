@@ -1,4 +1,4 @@
-# Object Illusion (W6-G03): property transformation
+# Balance Alchemy (W6-G03): property transformation
 
 GDD: `BrainArena-Solo-Complete-Development/03_Game_Design_Documents/GDDs/` (W6-G03)
 Originality review: `BrainArena-Solo-Complete-Development/03_Game_Design_Documents/Originality_Review/W6-G03_object_illusion_review.md`

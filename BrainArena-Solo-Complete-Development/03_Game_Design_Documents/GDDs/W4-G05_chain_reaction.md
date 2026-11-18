@@ -1,4 +1,4 @@
-# Game Design Document — Chain Reaction
+# Game Design Document — Pulsewick
 
 **ID:** W4-G05  
 **World:** Pattern Universe  

@@ -37,7 +37,7 @@ export interface GameSessionController {
  */
 export function useGameSession(
   module: GameModule,
-  params: { seed: string; difficulty: DifficultyBand; resume: boolean },
+  params: { seed: string; difficulty: DifficultyBand; resume: boolean; mode?: 'arena' },
 ): GameSessionController {
   const { store, profile, deps } = useAppServices();
   const [session, setSession] = useState<GameSession | null>(null);
@@ -59,7 +59,7 @@ export function useGameSession(
     [store, profile],
   );
 
-  const { seed, difficulty, resume } = params;
+  const { seed, difficulty, resume, mode } = params;
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -76,7 +76,7 @@ export function useGameSession(
         // Starting a new level closes any older unfinished one for this game.
         await store.sessions.abandonUnfinished(profile.id, module.id, deps.now());
         if (cancelled) return;
-        commit(startSession(module, { seed, difficulty }, deps));
+        commit(startSession(module, { seed, difficulty, mode: mode ?? 'explore' }, deps));
       } catch (error) {
         if (!cancelled) setLoadError(error instanceof Error ? error.message : String(error));
       }
@@ -84,7 +84,7 @@ export function useGameSession(
     return () => {
       cancelled = true;
     };
-  }, [module, seed, difficulty, resume, store, profile, deps, commit]);
+  }, [module, seed, difficulty, resume, mode, store, profile, deps, commit]);
 
   // Pause (and save) when the app is backgrounded or the screen is left mid-level.
   useEffect(() => {

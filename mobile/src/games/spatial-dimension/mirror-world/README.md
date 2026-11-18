@@ -1,4 +1,4 @@
-# Mirror World (W3-G05): dual-board coordination
+# Echo Rooms (W3-G05): dual-board coordination
 
 GDD: `BrainArena-Solo-Complete-Development/03_Game_Design_Documents/GDDs/` (W3-G05)
 Originality review: `BrainArena-Solo-Complete-Development/03_Game_Design_Documents/Originality_Review/W3-G05_mirror_world_review.md`

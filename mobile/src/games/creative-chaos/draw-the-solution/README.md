@@ -1,4 +1,4 @@
-# Draw the Solution (W6-G02): stroke engineering on a grid
+# Plank & Spring (W6-G02): stroke engineering on a grid
 
 GDD: `BrainArena-Solo-Complete-Development/03_Game_Design_Documents/GDDs/` (W6-G02)
 Originality review: `BrainArena-Solo-Complete-Development/03_Game_Design_Documents/Originality_Review/W6-G02_draw_the_solution_review.md`

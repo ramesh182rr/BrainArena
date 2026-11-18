@@ -1,4 +1,4 @@
-# Game Design Document — Block Escape
+# Game Design Document — Pallet Ferry
 
 **ID:** W3-G02  
 **World:** Spatial Dimension  

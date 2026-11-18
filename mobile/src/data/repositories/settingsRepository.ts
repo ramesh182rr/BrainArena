@@ -11,6 +11,8 @@ function sanitize(raw: unknown): UiPreferences {
   return {
     motion: MOTION.includes(value.motion as MotionPreference) ? (value.motion as MotionPreference) : defaultPreferences.motion,
     haptics: typeof value.haptics === 'boolean' ? value.haptics : defaultPreferences.haptics,
+    sound: typeof value.sound === 'boolean' ? value.sound : defaultPreferences.sound,
+    arenaSize: value.arenaSize === 3 || value.arenaSize === 4 || value.arenaSize === 5 ? value.arenaSize : defaultPreferences.arenaSize,
   };
 }
 

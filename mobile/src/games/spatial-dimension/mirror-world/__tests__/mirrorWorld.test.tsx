@@ -9,7 +9,7 @@ import { MIRROR_PROFILES, MIRROR_TUTORIALS, mirrorWorld, moveBoth, solveMirror, 
 
 const solve = (s: MirrorState) => solveMirror(s, s.startA, s.startB, 0)!;
 
-describe('Mirror World', () => {
+describe('Echo Rooms', () => {
   it('transforms directions per mode', () => {
     expect([0, 1, 2, 3].map((d) => transformDir('mirror', d as 0, 0))).toEqual([0, 3, 2, 1]);
     expect([0, 1, 2, 3].map((d) => transformDir('flip', d as 0, 0))).toEqual([2, 1, 0, 3]);

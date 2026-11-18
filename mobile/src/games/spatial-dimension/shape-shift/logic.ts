@@ -2,7 +2,7 @@ import type { DifficultyBand, GameHint, GameModule, HintTier, PuzzleLevel, Valid
 import { createRng, fingerprint, levelSeedKey, type Rng } from '@/game-runtime/rng';
 
 /**
- * Shape Shift (W3-G04): projection matching.
+ * Shadow Tumble (W3-G04): projection matching.
  *
  * A small shape of cubes casts a front shadow (and, in expert, a side shadow).
  * Turn, tilt and roll the shape until its shadows match the targets.

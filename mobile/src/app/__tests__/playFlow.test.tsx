@@ -59,7 +59,7 @@ describe('play flow', () => {
 
     await screen.findByText('Tutorial 1 of 3');
     await pressCells('tutorial-1');
-    await fireEvent.press(await screen.findByRole('button', { name: 'See results' }));
+    await fireEvent.press(await screen.findByRole('button', { name: 'See results' }, { timeout: 4000 }));
 
     expect(await screen.findByText('Brilliant!')).toBeTruthy();
     expect(screen.getByLabelText('3 of 3 stars')).toBeTruthy();
@@ -140,7 +140,7 @@ describe('home and rewards', () => {
     for (const move of solvingMoves(maze)) {
       if (move.type === 'move') await fireEvent.press(screen.getByTestId(`room-${move.index}`));
     }
-    await fireEvent.press(await screen.findByRole('button', { name: 'See results' }));
+    await fireEvent.press(await screen.findByRole('button', { name: 'See results' }, { timeout: 4000 }));
     await fireEvent.press(await screen.findByRole('button', { name: 'Done' }));
     expect(await screen.findByLabelText('3 stars')).toBeTruthy();
     // The last played game is now featured.

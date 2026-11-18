@@ -14,11 +14,13 @@ import { WorldEmblem } from '../common/WorldEmblem';
 import { playTarget, seedFromId } from '../game/levelPlan';
 import { starsBySeed } from '../progress/rewards';
 import { useRewards } from '../progress/useRewards';
+import { useDailyArena } from '../arena/useDailyArena';
 
 export function HomeScreen() {
   const navigation = useNavigation<RootNavigation>();
   const { store, profile, deps } = useAppServices();
   const { bests, rewards } = useRewards();
+  const arena = useDailyArena();
   const [resumeGameId, setResumeGameId] = useState<string | null>(null);
   const [lastGameId, setLastGameId] = useState<string | null>(null);
 
@@ -106,16 +108,27 @@ export function HomeScreen() {
         </View>
       ) : null}
 
-      <Card accentColor={colors.gold} testID="arena-banner" accessibilityLabel="Daily Arena. Coming soon.">
+      <Card
+        accentColor={colors.gold}
+        testID="arena-banner"
+        accessibilityLabel={arena.plan ? `Daily Arena. ${arena.done.size} of ${arena.plan.picks.length} done today.` : 'Daily Arena.'}
+        onPress={() => navigation.navigate('Tabs', { screen: 'Arena' })}
+      >
         <View style={styles.arenaRow}>
           <View style={styles.trophy}>
             <Icon name="arena" size={30} color={colors.textOnGold} />
           </View>
           <View style={styles.flex}>
             <AppText variant="heading">Daily Arena</AppText>
-            <AppText tone="muted">A short daily mix of your favourite puzzles.</AppText>
+            <AppText tone="muted">
+              {!arena.plan
+                ? "Today's short mix of puzzles."
+                : arena.done.size >= arena.plan.picks.length
+                  ? 'Complete for today. See you tomorrow!'
+                  : `${arena.plan.picks.length} puzzles picked for you today.`}
+            </AppText>
           </View>
-          <Pill label="Soon" icon={<Icon name="lock" size={14} color={colors.textPrimary} />} />
+          {arena.plan ? <Pill label={`${arena.done.size}/${arena.plan.picks.length}`} icon={<Icon name="star" size={14} color={colors.gold} />} /> : null}
         </View>
       </Card>
 

@@ -1,4 +1,4 @@
-# Game Design Document — Draw the Solution
+# Game Design Document — Plank & Spring
 
 **ID:** W6-G02  
 **World:** Creative Chaos  

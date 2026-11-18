@@ -1,6 +1,6 @@
-# Originality Review: W3-G05 Mirror World (dual-board coordination)
+# Originality Review: W3-G05 Echo Rooms (formerly Mirror World) (dual-board coordination)
 
-- **Game ID/name:** W3-G05, *Mirror World*
+- **Game ID/name:** W3-G05, *Echo Rooms* (formerly *Mirror World*)
 - **Design owner:** Solo developer (implementation drafted with Claude Code)
 - **Review date:** 2026-11-18 (implementation review; human review pending)
 - **Implementation reviewed:** `mobile/src/games/spatial-dimension/mirror-world/` at version 1.0.0
@@ -43,6 +43,10 @@ These are general principles of the genre:
 ## Similarity risks found
 1. **Genre (medium-low):** mirrored twin movement is a known puzzle idea; rotated and alternating transforms plus the guaranteed bump are the differentiators.
 2. **Name (medium):** "Mirror World" is a common title phrase; a rename may be needed after a store search.
+
+## Follow-up (2026-11-19)
+- **Renamed to *Echo Rooms*.** The old name, *Mirror World*, is a common store title. A web search found no game with the exact new title; the nearest results were unrelated or only loosely similar. This is not a trademark clearance: a formal store and trademark search is still required before release.
+- The id `W3-G05` is unchanged, so saved progress is unaffected.
 
 ## Human reviewer
 _Not yet reviewed._

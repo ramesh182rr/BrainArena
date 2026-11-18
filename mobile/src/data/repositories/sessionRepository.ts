@@ -1,4 +1,5 @@
 import type { DifficultyBand, GameStatus } from '@/game-runtime/contracts';
+import type { Attempt, GameHistory } from '@/features/arena/dailyPlan';
 import { serializeSession, type GameSession } from '@/game-runtime/session';
 
 import type { SqlDatabase } from '../sqlite/database';
@@ -192,5 +193,48 @@ export class SessionRepository {
       [profileId, gameId],
     );
     return row?.n ?? 0;
+  }
+
+  /**
+   * Finished attempts per game, newest first (at most `perGame` each), for Daily Arena.
+   * A session that ended without an outcome counts as left part-way.
+   */
+  async histories(profileId: string, perGame = 8): Promise<Map<string, GameHistory>> {
+    const rows = await this.db.all<{ game_id: string; difficulty: string; outcome: string | null; hints_used: number; started_at: string }>(
+      `SELECT game_id, difficulty, outcome, hints_used, started_at FROM game_sessions
+       WHERE profile_id = ? AND ended_at IS NOT NULL ORDER BY started_at DESC`,
+      [profileId],
+    );
+    const out = new Map<string, Attempt[]>();
+    for (const r of rows) {
+      const list = out.get(r.game_id) ?? [];
+      if (list.length >= perGame) continue;
+      const outcome = r.outcome === 'succeeded' ? 'succeeded' : r.outcome === 'failed' ? 'failed' : 'abandoned';
+      list.push({ difficulty: r.difficulty as DifficultyBand, outcome, hintsUsed: r.hints_used, at: r.started_at });
+      out.set(r.game_id, list);
+    }
+    return new Map([...out].map(([gameId, attempts]) => [gameId, { gameId, attempts }]));
+  }
+
+  /** "gameId|seed" keys of Daily Arena levels the player has completed. */
+  async arenaWins(profileId: string, seeds: readonly string[]): Promise<Set<string>> {
+    if (!seeds.length) return new Set();
+    const rows = await this.db.all<{ game_id: string; level_seed: string }>(
+      `SELECT DISTINCT game_id, level_seed FROM game_sessions
+       WHERE profile_id = ? AND mode = 'arena' AND outcome = 'succeeded' AND level_seed IN (${seeds.map(() => '?').join(', ')})`,
+      [profileId, ...seeds],
+    );
+    return new Set(rows.map((r) => `${r.game_id}|${r.level_seed}`));
+  }
+
+  /** Seed of the game's unfinished session, if any, so the Arena can resume rather than restart it. */
+  async resumableSeed(profileId: string, gameId: string): Promise<string | null> {
+    const row = await this.db.first<{ level_seed: string }>(
+      `SELECT level_seed FROM game_sessions
+       WHERE profile_id = ? AND game_id = ? AND ended_at IS NULL AND status IN ('playing', 'paused')
+       ORDER BY updated_at DESC LIMIT 1`,
+      [profileId, gameId],
+    );
+    return row?.level_seed ?? null;
   }
 }

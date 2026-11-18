@@ -80,23 +80,23 @@ export const games: readonly GameEntry[] = [
   game('W1-G04', 'picture-riddle', 'Picture Riddle', 'Visual relationship mapping', 'Connect visual fragments by meaning, then test the relationship by revealing a transformation result.', 'Visual reasoning', 'hybrid'),
   game('W1-G05', 'rule-breaker', 'Rule Breaker', 'Rule discovery', 'Arrange experiments to test objects against a hidden rule; feedback shows which property caused a pass or fail.', 'Hypothesis testing', 'procedural'),
   // W2 — Logic Kingdom
-  game('W2-G01', 'meow-grid', 'Meow Grid', 'Symbol constraint lattice', 'Place themed tokens on a multi-region board with row, column and region rules; echo cells carry a clue across regions.', 'Deduction', 'hybrid'),
+  game('W2-G01', 'meow-grid', 'Cattice', 'Symbol constraint lattice', 'Place themed tokens on a multi-region board with row, column and region rules; echo cells carry a clue across regions.', 'Deduction', 'hybrid'),
   game('W2-G02', 'number-maze', 'Number Maze', 'Arithmetic route planning', 'Choose a route through gates that transform a running value; reach the target without breaking the bounds.', 'Numerical reasoning', 'procedural'),
   game('W2-G03', 'sequence-master', 'Sequence Master', 'Rule composition', 'Complete sequences where each step applies two alternating transformations, with a rule-history strip to inspect.', 'Pattern logic', 'procedural'),
   game('W2-G04', 'logic-grid', 'Logic Grid', 'Multi-attribute deduction', 'Match characters, objects and time slots using clue tiles; a detector highlights the smallest conflicting clue set.', 'Deduction', 'hybrid'),
   game('W2-G05', 'number-lock', 'Number Lock', 'Code inference', 'Crack a lock by proposing short number strings; a distinct signal system marks position and value constraints.', 'Deductive inference', 'procedural'),
   // W3 — Spatial Dimension
   game('W3-G01', 'volt-courier', 'Volt Courier', 'Energy-current routing', 'Rotate junctions to redirect moving energy pulses through a network so each pulse reaches its matching receiver.', 'Spatial planning', 'hybrid'),
-  game('W3-G02', 'block-escape', 'Block Escape', 'Layered cargo choreography', 'Slide modular cargo platforms across a warehouse board; some platforms carry smaller pieces, changing which moves are legal.', 'Spatial planning', 'procedural'),
+  game('W3-G02', 'block-escape', 'Pallet Ferry', 'Layered cargo choreography', 'Slide modular cargo platforms across a warehouse board; some platforms carry smaller pieces, changing which moves are legal.', 'Spatial planning', 'procedural'),
   game('W3-G03', 'path-finder', 'Path Finder', 'Living path construction', 'Draw a route through a shifting garden where each step changes nearby terrain.', 'Path planning', 'hybrid'),
-  game('W3-G04', 'shape-shift', 'Shape Shift', 'Projection assembly', 'Rotate silhouettes and arrange flat facets so their combined shadow matches a target outline.', 'Mental rotation', 'hybrid'),
-  game('W3-G05', 'mirror-world', 'Mirror World', 'Dual-board coordination', 'Guide two linked explorers through mirrored rooms; a move in one room causes a different change in the other.', 'Spatial transformation', 'hybrid'),
+  game('W3-G04', 'shape-shift', 'Shadow Tumble', 'Projection assembly', 'Rotate silhouettes and arrange flat facets so their combined shadow matches a target outline.', 'Mental rotation', 'hybrid'),
+  game('W3-G05', 'mirror-world', 'Echo Rooms', 'Dual-board coordination', 'Guide two linked explorers through mirrored rooms; a move in one room causes a different change in the other.', 'Spatial transformation', 'hybrid'),
   // W4 — Pattern Universe
-  game('W4-G01', 'dot-connect', 'Dot Connect', 'Signal constellation', 'Connect nodes to route a signal through a graph under colour and degree rules; crossings can alter the signal phase.', 'Graph reasoning', 'procedural'),
+  game('W4-G01', 'dot-connect', 'Star Thread', 'Signal constellation', 'Connect nodes to route a signal through a graph under colour and degree rules; crossings can alter the signal phase.', 'Graph reasoning', 'procedural'),
   game('W4-G02', 'colour-cascade', 'Colour Cascade', 'Colour ecology', 'Drop colour droplets into a layered garden; neighbouring plants transform by a local rule table until the board is stable.', 'Pattern and strategy', 'procedural'),
   game('W4-G03', 'pattern-link', 'Pattern Link', 'Motif weaving', 'Trace a path through motif tiles; each tile changes which motif may come next, forming a grammar to infer.', 'Pattern recognition', 'procedural'),
   game('W4-G04', 'limited-moves', 'Limited Moves', 'Resource choreography', 'Activate a board of mechanisms with a fixed number of actions; the order changes later costs and available moves.', 'Planning', 'hybrid'),
-  game('W4-G05', 'chain-reaction', 'Chain Reaction', 'Pulse timing', 'Trigger one node; pulses travel with delays and amplify, dampen or redirect at junctions to reach a target state.', 'Causal reasoning', 'procedural'),
+  game('W4-G05', 'chain-reaction', 'Pulsewick', 'Pulse timing', 'Trigger one node; pulses travel with delays and amplify, dampen or redirect at junctions to reach a target state.', 'Causal reasoning', 'procedural'),
   // W5 — Memory Vault
   game('W5-G01', 'memory-detective', 'Memory Detective', 'Scene reconstruction', 'Study a lively scene briefly, then rebuild how its objects relate on a blank scene map.', 'Visual memory', 'hybrid'),
   game('W5-G02', 'object-recall', 'Object Recall', 'Contextual recall', 'Observe objects in small stories, then answer questions about location, relation and order after a distraction task.', 'Recall in context', 'hybrid'),
@@ -105,8 +105,8 @@ export const games: readonly GameEntry[] = [
   game('W5-G05', 'snapshot-memory', 'Snapshot Memory', 'Spatial snapshot', 'A camera view sweeps across a room; later place landmarks and objects on a coarse map.', 'Spatial memory', 'procedural'),
   // W6 — Creative Chaos
   game('W6-G01', 'gravity-lab', 'Gravity Lab', 'Force-field tinkering', 'Place a limited set of attractor and repulsor devices to guide a drifting object through gates.', 'Creative and spatial', 'hybrid'),
-  game('W6-G02', 'draw-the-solution', 'Draw the Solution', 'Stroke engineering', 'Draw one continuous elastic bridge or brace that redirects a moving object; materials flex and anchor differently.', 'Creative problem solving', 'authored'),
-  game('W6-G03', 'object-illusion', 'Object Illusion', 'Property transformation', 'Combine objects by changing one property at a time, such as weight or warmth, to satisfy a scene objective.', 'Analogical reasoning', 'authored'),
+  game('W6-G02', 'draw-the-solution', 'Plank & Spring', 'Stroke engineering', 'Draw one continuous elastic bridge or brace that redirects a moving object; materials flex and anchor differently.', 'Creative problem solving', 'authored'),
+  game('W6-G03', 'object-illusion', 'Balance Alchemy', 'Property transformation', 'Combine objects by changing one property at a time, such as weight or warmth, to satisfy a scene objective.', 'Analogical reasoning', 'authored'),
   game('W6-G04', 'switch-challenge', 'Switch Challenge', 'State-machine puzzle', 'Operate switches that change several linked devices and reach a target configuration with limited toggles.', 'Systems reasoning', 'procedural'),
   game('W6-G05', 'impossible-machine', 'Impossible Machine', 'Causal machine repair', 'Inspect a whimsical machine and place modules so its output matches a target rhythm and flow.', 'Causal reasoning', 'authored'),
 ];

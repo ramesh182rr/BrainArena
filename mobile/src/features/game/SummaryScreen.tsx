@@ -90,19 +90,29 @@ export function SummaryScreen({ route, navigation }: RootScreenProps<'Summary'>)
         </AppText>
       </Card>
 
-      <Button
-        label="Next level"
-        variant="play"
-        size="lg"
-        icon={<Icon name="play" size={24} color={colors.textOnGold} />}
-        onPress={() => navigation.replace('Play', { gameId: p.gameId, ...next, resume: false })}
-      />
+      {p.mode === 'arena' ? (
+        <Button
+          label="Back to Daily Arena"
+          variant="play"
+          size="lg"
+          icon={<Icon name="arena" size={24} color={colors.textOnGold} />}
+          onPress={() => navigation.navigate('Tabs', { screen: 'Arena' })}
+        />
+      ) : (
+        <Button
+          label="Next level"
+          variant="play"
+          size="lg"
+          icon={<Icon name="play" size={24} color={colors.textOnGold} />}
+          onPress={() => navigation.replace('Play', { gameId: p.gameId, ...next, resume: false })}
+        />
+      )}
       <View style={styles.row}>
         <Button
           label="Replay"
           variant="primary"
           icon={<Icon name="reset" size={20} color={colors.textPrimary} />}
-          onPress={() => navigation.replace('Play', { gameId: p.gameId, seed: p.seed, difficulty: p.difficulty, resume: false })}
+          onPress={() => navigation.replace('Play', { gameId: p.gameId, seed: p.seed, difficulty: p.difficulty, resume: false, ...(p.mode ? { mode: p.mode } : {}) })}
           style={styles.flex}
         />
         <Button label="Done" variant="secondary" onPress={() => navigation.goBack()} style={styles.flex} />

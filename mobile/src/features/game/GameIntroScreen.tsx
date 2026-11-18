@@ -5,6 +5,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import type { RootScreenProps } from '@/app/navigation/types';
 import { useAppServices } from '@/app/services';
+import { DEMOS } from '@/games/demos';
 import { AppText, Button, Card, colors, Icon, Pill, radii, Screen, spacing, StarRow, worldAccents } from '@/design-system';
 import { DIFFICULTY_BANDS, type DifficultyBand } from '@/game-runtime/contracts';
 import { getGame, getWorld, isPlayable } from '@/games/catalogue';
@@ -76,6 +77,20 @@ export function GameIntroScreen({ route, navigation }: RootScreenProps<'GameIntr
         <>
           {canResume ? (
             <Button label="Continue saved level" variant="play" icon={<Icon name="play" size={22} color={colors.textOnGold} />} onPress={() => play('', 'easy', true)} />
+          ) : null}
+
+          {DEMOS[gameId] ? (
+            <Card accentColor={colors.gold} onPress={() => navigation.navigate('Demo', { gameId })} testID="watch-demo" accessibilityLabel="Watch how to play. The board plays a level by itself.">
+              <View style={styles.demoRow}>
+                <View style={styles.demoBadge}>
+                  <Icon name="play" size={26} color={colors.textOnGold} />
+                </View>
+                <View style={styles.flex}>
+                  <AppText variant="heading">Watch how to play</AppText>
+                  <AppText tone="muted">A 30-second animated demo on a real board.</AppText>
+                </View>
+              </View>
+            </Card>
           ) : null}
 
           <Card>
@@ -189,4 +204,6 @@ const styles = StyleSheet.create({
   bandSelected: { backgroundColor: colors.gold, borderColor: '#FFFFFF' },
   topGap: { marginTop: spacing.lg },
   pressed: { transform: [{ scale: 0.95 }] },
+  demoRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
+  demoBadge: { width: 52, height: 52, borderRadius: 26, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.gold, borderWidth: 3, borderStyle: 'solid', borderColor: '#FFFFFF' },
 });

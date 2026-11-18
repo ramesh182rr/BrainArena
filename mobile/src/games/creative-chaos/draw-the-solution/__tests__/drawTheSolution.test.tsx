@@ -16,7 +16,7 @@ function solve(s0: DrawState): DrawState {
   return drawTheSolution.reduce(s, { type: 'drop' });
 }
 
-describe('Draw the Solution physics', () => {
+describe('Plank & Spring physics', () => {
   // 4 wide, 3 high: ball at top-left heading right; floor only under columns 0-1; basket at bottom-right.
   const cells: Cell[] = ['air', 'air', 'air', 'air', 'air', 'anchor', 'air', 'air', 'wall', 'wall', 'air', 'basket'];
   const s = { width: 4, height: 3, cells, start: 0, startDir: 1 as const };
@@ -31,7 +31,7 @@ describe('Draw the Solution physics', () => {
   });
 });
 
-describe('Draw the Solution levels', () => {
+describe('Plank & Spring levels', () => {
   it.each(DIFFICULTY_BANDS)('%s: 150 seeds validate with a proven minimum ink', (band) => {
     const p = DRAW_PROFILES[band];
     for (let i = 0; i < 150; i += 1) {

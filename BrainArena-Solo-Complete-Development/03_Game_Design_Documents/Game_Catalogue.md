@@ -20,7 +20,7 @@ All entries are original working concepts. Names may be refined after trademark/
 
 *Deduction, number logic and structured reasoning*
 
-- **Meow Grid** — Symbol constraint lattice. Place themed tokens into a multi-region board where row, column and region constraints differ per chapter; special 'echo' cells carry one clue across regions.
+- **Cattice** — Symbol constraint lattice. Place themed tokens into a multi-region board where row, column and region constraints differ per chapter; special 'echo' cells carry one clue across regions.
 
 - **Number Maze** — Arithmetic route planning. Choose a route through gates whose arithmetic transformations update a running value; reach the target without violating bounds.
 
@@ -36,19 +36,19 @@ All entries are original working concepts. Names may be refined after trademark/
 
 - **Volt Courier** (formerly *Arrow Escape*, renamed 2026-11-17) — Energy-current routing. Rotate junctions and redirect moving energy pulses through a network; multiple pulses have different properties and must reach matching receivers.
 
-- **Block Escape** — Layered cargo choreography. Slide modular cargo platforms across a warehouse board; some platforms can carry smaller pieces, changing which moves are legal.
+- **Pallet Ferry** — Layered cargo choreography. Slide modular cargo platforms across a warehouse board; some platforms can carry smaller pieces, changing which moves are legal.
 
 - **Path Finder** — Living path construction. Draw a route through a shifting garden; each step changes nearby terrain, so the route must be planned as a sequence of state changes.
 
-- **Shape Shift** — Projection assembly. Rotate 3D-like silhouettes and arrange 2D facets so their combined shadow matches a target outline.
+- **Shadow Tumble** — Projection assembly. Rotate 3D-like silhouettes and arrange 2D facets so their combined shadow matches a target outline.
 
-- **Mirror World** — Dual-board coordination. Control two linked explorers in mirrored rooms; a move in one room causes a different transformation in the other.
+- **Echo Rooms** — Dual-board coordination. Control two linked explorers in mirrored rooms; a move in one room causes a different transformation in the other.
 
 ## W4 — Pattern Universe
 
 *Pattern recognition, matching and strategic connections*
 
-- **Dot Connect** — Signal constellation. Connect nodes to route a signal through a graph while satisfying colour and degree constraints; crossings can alter signal phase.
+- **Star Thread** — Signal constellation. Connect nodes to route a signal through a graph while satisfying colour and degree constraints; crossings can alter signal phase.
 
 - **Colour Cascade** — Colour ecology. Drop colour droplets into a layered garden; adjacent plants transform according to a local rule table, and the objective is to stabilise the whole board.
 
@@ -56,7 +56,7 @@ All entries are original working concepts. Names may be refined after trademark/
 
 - **Limited Moves** — Resource choreography. Use a fixed number of actions to activate a board of mechanisms; action order changes later action costs and available moves.
 
-- **Chain Reaction** — Pulse timing. Trigger one node in a network; pulses travel with delays and can amplify, dampen or redirect at junctions. Reach a target state in a move budget.
+- **Pulsewick** — Pulse timing. Trigger one node in a network; pulses travel with delays and can amplify, dampen or redirect at junctions. Reach a target state in a move budget.
 
 ## W5 — Memory Vault
 
@@ -78,9 +78,9 @@ All entries are original working concepts. Names may be refined after trademark/
 
 - **Gravity Lab** — Force-field tinkering. Place limited attractor/repulsor devices to guide a drifting object through gates; gravity direction and field strength are puzzle variables.
 
-- **Draw the Solution** — Stroke engineering. Draw one continuous elastic bridge/brace that redirects a moving object; materials have different flex and anchor rules.
+- **Plank & Spring** — Stroke engineering. Draw one continuous elastic bridge/brace that redirects a moving object; materials have different flex and anchor rules.
 
-- **Object Illusion** — Property transformation. Combine objects by changing one property at a time (weight, transparency, conductivity, warmth) to satisfy a scene objective.
+- **Balance Alchemy** — Property transformation. Combine objects by changing one property at a time (weight, transparency, conductivity, warmth) to satisfy a scene objective.
 
 - **Switch Challenge** — State-machine puzzle. Operate switches that change several linked devices; players infer the transition system and reach a target configuration with limited toggles.
 

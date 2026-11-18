@@ -2,7 +2,7 @@ import type { DifficultyBand, GameHint, GameModule, HintTier, PuzzleLevel, Valid
 import { createRng, fingerprint, levelSeedKey, type Rng } from '@/game-runtime/rng';
 
 /**
- * Chain Reaction (W4-G05): pulse timing.
+ * Pulsewick (W4-G05): pulse timing.
  *
  * Firing the source sends a pulse one cell per tick. Relays re-fire along
  * their arrow one tick after a pulse arrives (slow relays: two ticks).

@@ -1,6 +1,6 @@
-# Originality Review: W6-G03 Object Illusion (property transformation)
+# Originality Review: W6-G03 Balance Alchemy (formerly Object Illusion) (property transformation)
 
-- **Game ID/name:** W6-G03, *Object Illusion*
+- **Game ID/name:** W6-G03, *Balance Alchemy* (formerly *Object Illusion*)
 - **Design owner:** Solo developer (implementation drafted with Claude Code)
 - **Review date:** 2026-11-18 (implementation review; human review pending)
 - **Implementation reviewed:** `mobile/src/games/creative-chaos/object-illusion/` at version 1.0.0
@@ -42,6 +42,10 @@ These are general principles of the genre:
 ## Similarity risks found
 1. **Name vs content (medium):** "Object Illusion" suggests visual illusions; the mechanic is property change. Consider a rename such as "Change of Heart".
 2. **Inside the catalogue (low):** shares stepwise changes with Switch Challenge, but the goals are property constraints, not dial states.
+
+## Follow-up (2026-11-19)
+- **Renamed to *Balance Alchemy*.** The old name, *Object Illusion*, is a common store title. A web search found no game with the exact new title; the nearest results were unrelated or only loosely similar. This is not a trademark clearance: a formal store and trademark search is still required before release.
+- The id `W6-G03` is unchanged, so saved progress is unaffected.
 
 ## Human reviewer
 _Not yet reviewed._

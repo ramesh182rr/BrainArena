@@ -1,12 +1,15 @@
 import { useEffect } from 'react';
 import Animated, { cancelAnimation, Easing, useAnimatedStyle, useSharedValue, withDelay, withRepeat, withTiming } from 'react-native-reanimated';
+import { View } from 'react-native';
 import Svg, { Circle, Defs, Ellipse, G, LinearGradient, Line, Path, Polygon, RadialGradient, Rect, Stop } from 'react-native-svg';
 
 import { useReduceMotion, worldAccents, type WorldId } from '@/design-system';
 
 /**
  * Original floating-island emblem for each world, drawn in SVG on a 120×120 grid:
- * a grassy island in the world's colours with a motif on top. Purely decorative.
+ * a layered island (strata, crystals, roots, a waterfall) in the world's colours,
+ * its motif floating above, drifting rocks and orbiting sparkles. Motion stops with
+ * reduced motion. Purely decorative.
  */
 function Motif({ worldId }: { worldId: WorldId }) {
   switch (worldId) {
@@ -89,6 +92,19 @@ function Motif({ worldId }: { worldId: WorldId }) {
   }
 }
 
+/** A four-point sparkle centred on (x, y). */
+const sparkle = (x: number, y: number, r: number) => `M${x} ${y - r} Q${x} ${y} ${x + r} ${y} Q${x} ${y} ${x} ${y + r} Q${x} ${y} ${x - r} ${y} Q${x} ${y} ${x} ${y - r} Z`;
+
+function useLoop(active: boolean, duration: number, delayMs = 0, reverse = true) {
+  const v = useSharedValue(0);
+  useEffect(() => {
+    if (!active) return;
+    v.value = withDelay(delayMs, withRepeat(withTiming(1, { duration, easing: reverse ? Easing.inOut(Easing.sin) : Easing.linear }), -1, reverse));
+    return () => cancelAnimation(v);
+  }, [active, duration, delayMs, reverse, v]);
+  return v;
+}
+
 export function WorldEmblem({
   worldId,
   size = 120,
@@ -101,52 +117,103 @@ export function WorldEmblem({
   delayMs?: number;
 }) {
   const reduceMotion = useReduceMotion();
-  const [top, bottom] = worldAccents[worldId].gradient;
-  const lift = useSharedValue(0);
+  const accent = worldAccents[worldId];
+  const [top, bottom] = accent.gradient;
   const animate = bob && !reduceMotion;
+  const lift = useLoop(animate, 2200, delayMs);
+  const float = useLoop(animate, 1700, delayMs + 300);
+  const spin = useLoop(animate, 9000, 0, false);
+  const glow = useLoop(animate, 2600, delayMs);
+  const drift = useLoop(animate, 3100, delayMs + 600);
 
-  useEffect(() => {
-    if (!animate) return;
-    lift.value = withDelay(delayMs, withRepeat(withTiming(1, { duration: 2200, easing: Easing.inOut(Easing.sin) }), -1, true));
-    return () => cancelAnimation(lift);
-  }, [animate, delayMs, lift]);
-
-  const style = useAnimatedStyle(() => ({ transform: [{ translateY: -6 * lift.value }] }));
+  const islandStyle = useAnimatedStyle(() => ({ transform: [{ translateY: -6 * lift.value }] }));
+  const motifStyle = useAnimatedStyle(() => ({ transform: [{ translateY: -6 * lift.value - 4 * float.value }, { scale: 1 + 0.04 * float.value }] }));
+  const orbitStyle = useAnimatedStyle(() => ({ transform: [{ rotate: `${spin.value * 360}deg` }] }));
+  const glowStyle = useAnimatedStyle(() => ({ opacity: 0.55 + 0.45 * glow.value, transform: [{ scale: 0.94 + 0.08 * glow.value }] }));
+  const rockStyle = useAnimatedStyle(() => ({ transform: [{ translateY: 5 * drift.value - 2 }, { rotate: `${drift.value * 8 - 4}deg` }] }));
   const id = `${worldId}-${size}`;
+  const layer = { position: 'absolute' as const, left: 0, top: 0, width: size, height: size };
 
   return (
-    <Animated.View style={[{ width: size, height: size }, style]} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-      <Svg width={size} height={size} viewBox="0 0 120 120">
-        <Defs>
-          <LinearGradient id={`grass-${id}`} x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor={top} />
-            <Stop offset="1" stopColor={bottom} />
-          </LinearGradient>
-          <LinearGradient id={`rock-${id}`} x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor="#6B5BA8" />
-            <Stop offset="1" stopColor="#2B2163" />
-          </LinearGradient>
-          <RadialGradient id={`halo-${id}`} cx="50%" cy="50%" r="50%">
-            <Stop offset="0" stopColor={top} stopOpacity="0.55" />
-            <Stop offset="1" stopColor={top} stopOpacity="0" />
-          </RadialGradient>
-          <RadialGradient id="orbGlow" cx="50%" cy="50%" r="50%">
-            <Stop offset="0" stopColor="#FFF2C2" stopOpacity="0.9" />
-            <Stop offset="1" stopColor="#FFF2C2" stopOpacity="0" />
-          </RadialGradient>
-        </Defs>
-        <Circle cx={60} cy={62} r={56} fill={`url(#halo-${id})`} />
-        {/* Rocky underside */}
-        <Path d="M18 74 C24 96 44 112 60 114 C76 112 96 96 102 74 Z" fill={`url(#rock-${id})`} />
-        <Path d="M40 96 L46 104 M74 100 L80 92 M58 108 L60 114" stroke="#1E1650" strokeWidth={3} strokeLinecap="round" />
-        {/* Grass top */}
-        <Ellipse cx={60} cy={72} rx={44} ry={13} fill={`url(#grass-${id})`} />
-        <Ellipse cx={60} cy={69} rx={40} ry={9} fill="#FFFFFF" opacity={0.18} />
-        {/* Little floating rocks */}
-        <Path d="M10 58 L18 54 L20 62 L13 64 Z" fill="#6B5BA8" />
-        <Path d="M104 48 L112 50 L109 57 L102 55 Z" fill="#6B5BA8" />
-        <Motif worldId={worldId} />
-      </Svg>
-    </Animated.View>
+    <View style={{ width: size, height: size }} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+      {/* Pulsing halo */}
+      <Animated.View style={[layer, glowStyle]}>
+        <Svg width={size} height={size} viewBox="0 0 120 120">
+          <Defs>
+            <RadialGradient id={`halo-${id}`} cx="50%" cy="50%" r="50%">
+              <Stop offset="0" stopColor={top} stopOpacity="0.6" />
+              <Stop offset="1" stopColor={top} stopOpacity="0" />
+            </RadialGradient>
+          </Defs>
+          <Circle cx={60} cy={60} r={58} fill={`url(#halo-${id})`} />
+        </Svg>
+      </Animated.View>
+      {/* Island */}
+      <Animated.View style={[layer, islandStyle]}>
+        <Svg width={size} height={size} viewBox="0 0 120 120">
+          <Defs>
+            <LinearGradient id={`grass-${id}`} x1="0" y1="0" x2="0" y2="1">
+              <Stop offset="0" stopColor={top} />
+              <Stop offset="1" stopColor={bottom} />
+            </LinearGradient>
+            <LinearGradient id={`rock-${id}`} x1="0" y1="0" x2="0" y2="1">
+              <Stop offset="0" stopColor="#7A69C2" />
+              <Stop offset="0.5" stopColor="#4A3C96" />
+              <Stop offset="1" stopColor="#231A57" />
+            </LinearGradient>
+            <LinearGradient id={`fall-${id}`} x1="0" y1="0" x2="0" y2="1">
+              <Stop offset="0" stopColor="#BFF3FF" stopOpacity="0.95" />
+              <Stop offset="1" stopColor="#BFF3FF" stopOpacity="0" />
+            </LinearGradient>
+          </Defs>
+          {/* Rocky underside with strata, crystals and hanging roots */}
+          <Path d="M16 74 C22 98 44 114 60 116 C76 114 98 98 104 74 Z" fill={`url(#rock-${id})`} />
+          <Path d="M22 84 C40 90 80 90 98 84" stroke="#8D7FD6" strokeWidth={2} fill="none" opacity={0.6} />
+          <Path d="M32 98 C46 103 74 103 88 98" stroke="#8D7FD6" strokeWidth={2} fill="none" opacity={0.45} />
+          <Polygon points="44,100 48,92 52,100 48,108" fill={accent.secondary} opacity={0.9} />
+          <Polygon points="70,104 73,97 76,104 73,110" fill={accent.primary} opacity={0.9} />
+          <Path d="M36 90 C36 96 34 100 32 104 M84 88 C85 95 88 99 90 102" stroke="#5BBF7A" strokeWidth={2} strokeLinecap="round" fill="none" opacity={0.8} />
+          {/* A little waterfall spilling off the edge */}
+          <Path d="M92 74 C94 86 95 100 96 116 L101 116 C100 100 99 86 98 74 Z" fill={`url(#fall-${id})`} />
+          {/* Grass top with tufts and plants */}
+          <Ellipse cx={60} cy={72} rx={45} ry={13} fill={`url(#grass-${id})`} />
+          <Ellipse cx={60} cy={69} rx={40} ry={8.5} fill="#FFFFFF" opacity={0.22} />
+          <Path d="M20 74 l3 -6 l2 6 M26 76 l2 -5 l2 5 M96 74 l2 -6 l2 6 M90 77 l2 -5 l2 5" stroke={bottom} strokeWidth={2} strokeLinecap="round" fill="none" />
+          <Circle cx={28} cy={68} r={4} fill="#FFFFFF" opacity={0.9} />
+          <Circle cx={28} cy={68} r={1.8} fill="#FFC83D" />
+          <Circle cx={93} cy={66} r={3.4} fill="#FF8FB8" />
+          <Circle cx={93} cy={66} r={1.5} fill="#FFFFFF" />
+        </Svg>
+      </Animated.View>
+      {/* Drifting rock fragments */}
+      <Animated.View style={[layer, rockStyle]}>
+        <Svg width={size} height={size} viewBox="0 0 120 120">
+          <Path d="M8 58 L17 53 L19 62 L11 65 Z" fill="#6B5BA8" stroke="#8D7FD6" strokeWidth={1} />
+          <Path d="M104 46 L113 49 L110 57 L102 54 Z" fill="#6B5BA8" stroke="#8D7FD6" strokeWidth={1} />
+          <Path d="M100 86 L106 84 L106 90 Z" fill="#6B5BA8" />
+        </Svg>
+      </Animated.View>
+      {/* The world's motif floats above the island */}
+      <Animated.View style={[layer, motifStyle]}>
+        <Svg width={size} height={size} viewBox="0 0 120 120">
+          <Defs>
+            <RadialGradient id="orbGlow" cx="50%" cy="50%" r="50%">
+              <Stop offset="0" stopColor="#FFF2C2" stopOpacity="0.9" />
+              <Stop offset="1" stopColor="#FFF2C2" stopOpacity="0" />
+            </RadialGradient>
+          </Defs>
+          <Ellipse cx={60} cy={68} rx={20} ry={4} fill="#000000" opacity={0.18} />
+          <Motif worldId={worldId} />
+        </Svg>
+      </Animated.View>
+      {/* Orbiting sparkles */}
+      <Animated.View style={[layer, orbitStyle]}>
+        <Svg width={size} height={size} viewBox="0 0 120 120">
+          <Path d={sparkle(60, 6, 4.5)} fill="#FFFFFF" />
+          <Path d={sparkle(112, 70, 3.5)} fill={accent.secondary} />
+          <Path d={sparkle(10, 84, 3)} fill="#FFE58A" />
+        </Svg>
+      </Animated.View>
+    </View>
   );
 }

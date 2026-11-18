@@ -5,3 +5,5 @@ BA-VIS-003,06_Visual_Assets/six_worlds_visual_reference.png,Six-world visual ref
 BA-VIS-004,06_Visual_Assets/brainarena_product_concept_board.png,Product concept board,Generated original concept,Review terms before commercial use,1.0,Concept only
 BA-FNT-001,mobile (npm @expo-google-fonts/fredoka),Fredoka 600/700 display font,Google Fonts / The Fredoka Project Authors,SIL OFL 1.1,0.4.1,Approved for bundling
 BA-FNT-002,mobile (npm @expo-google-fonts/nunito),Nunito 600/800 body font,Google Fonts / The Nunito Project Authors,SIL OFL 1.1,0.4.2,Approved for bundling
+BA-APP-001,mobile/assets/icon.png (+ android-icon-*.png; splash-icon.png; favicon.png),"App icon, adaptive icon layers and splash image",Original SVG drawn in code (mobile/scripts/make-brand-assets.mjs),Original work,1.0,Pending brand review
+BA-SFX-001,mobile/assets/sounds/*.wav,Sound effects (tap; pop; success; miss),Synthesised in code (mobile/scripts/make-sounds.mjs),Original work,1.0,Pending audio review

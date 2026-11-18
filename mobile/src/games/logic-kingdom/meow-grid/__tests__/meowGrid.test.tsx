@@ -13,7 +13,7 @@ function solve(s: MeowState): MeowState {
 
 jest.setTimeout(120_000);
 
-describe('Meow Grid', () => {
+describe('Cattice', () => {
   it.each(DIFFICULTY_BANDS)('%s: 200 seeds are unique-solution grids within the band', (band) => {
     const p = MEOW_PROFILES[band];
     for (let i = 0; i < 200; i += 1) {

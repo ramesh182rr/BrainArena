@@ -5,6 +5,12 @@ import { Pressable, StyleSheet, Switch, View } from 'react-native';
 import { useAppServices, usePreferencesControl } from '@/app/services';
 import { AppText, Card, colors, Icon, radii, Screen, spacing, type MotionPreference } from '@/design-system';
 
+const ARENA_OPTIONS: readonly { value: 3 | 4 | 5; label: string }[] = [
+  { value: 3, label: 'Short' },
+  { value: 4, label: 'Medium' },
+  { value: 5, label: 'Long' },
+];
+
 const MOTION_OPTIONS: { value: MotionPreference; label: string }[] = [
   { value: 'system', label: 'System' },
   { value: 'reduced', label: 'Reduced' },
@@ -68,6 +74,46 @@ export function ProfileScreen() {
             accessibilityLabel="Haptics"
             value={preferences.haptics}
             onValueChange={(haptics) => update({ haptics })}
+            trackColor={{ true: colors.gold, false: 'rgba(255,255,255,0.25)' }}
+            thumbColor="#FFFFFF"
+          />
+        </View>
+        <AppText variant="label" style={styles.topGap}>
+          Daily Arena length
+        </AppText>
+        <AppText variant="caption" tone="muted">
+          How many puzzles in each day&apos;s mix.
+        </AppText>
+        <View accessibilityRole="radiogroup" accessibilityLabel="Daily Arena length" style={styles.segment}>
+          {ARENA_OPTIONS.map((o) => {
+            const selected = preferences.arenaSize === o.value;
+            return (
+              <Pressable
+                key={o.value}
+                accessibilityRole="radio"
+                accessibilityState={{ selected }}
+                accessibilityLabel={`Daily Arena length: ${o.label}, ${o.value} puzzles`}
+                onPress={() => update({ arenaSize: o.value })}
+                style={[styles.segmentItem, selected && styles.segmentSelected]}
+              >
+                <AppText variant="label" tone={selected ? 'onGold' : 'primary'}>
+                  {o.label}
+                </AppText>
+              </Pressable>
+            );
+          })}
+        </View>
+        <View style={styles.switchRow}>
+          <View style={styles.flex}>
+            <AppText variant="label">Sound effects</AppText>
+            <AppText variant="caption" tone="muted">
+              Short sounds on taps, wins and misses. Silent mode is respected.
+            </AppText>
+          </View>
+          <Switch
+            accessibilityLabel="Sound effects"
+            value={preferences.sound}
+            onValueChange={(sound) => update({ sound })}
             trackColor={{ true: colors.gold, false: 'rgba(255,255,255,0.25)' }}
             thumbColor="#FFFFFF"
           />

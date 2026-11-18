@@ -1,4 +1,4 @@
-# Chain Reaction (W4-G05): pulse timing
+# Pulsewick (W4-G05): pulse timing
 
 GDD: `BrainArena-Solo-Complete-Development/03_Game_Design_Documents/GDDs/` (W4-G05)
 Originality review: `BrainArena-Solo-Complete-Development/03_Game_Design_Documents/Originality_Review/W4-G05_chain_reaction_review.md`

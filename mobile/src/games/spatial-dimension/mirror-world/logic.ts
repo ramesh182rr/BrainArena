@@ -2,7 +2,7 @@ import type { DifficultyBand, GameHint, GameModule, HintTier, PuzzleLevel, Valid
 import { createRng, fingerprint, levelSeedKey, type Rng } from '@/game-runtime/rng';
 
 /**
- * Mirror World (W3-G05): dual-board coordination.
+ * Echo Rooms (W3-G05): dual-board coordination.
  *
  * One arrow moves two explorers in two rooms. The left explorer moves as
  * pressed; the right explorer receives a transformed move (mirrored, flipped,

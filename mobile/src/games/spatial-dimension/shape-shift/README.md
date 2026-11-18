@@ -1,4 +1,4 @@
-# Shape Shift (W3-G04): projection matching
+# Shadow Tumble (W3-G04): projection matching
 
 GDD: `BrainArena-Solo-Complete-Development/03_Game_Design_Documents/GDDs/` (W3-G04)
 Originality review: `BrainArena-Solo-Complete-Development/03_Game_Design_Documents/Originality_Review/W3-G04_shape_shift_review.md`

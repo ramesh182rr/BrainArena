@@ -2,7 +2,7 @@ import type { DifficultyBand, GameHint, GameModule, HintTier, PuzzleLevel, Valid
 import { createRng, fingerprint, levelSeedKey, type Rng } from '@/game-runtime/rng';
 
 /**
- * Object Illusion (W6-G03): property transformation.
+ * Balance Alchemy (W6-G03): property transformation.
  *
  * Objects sit on the two pans of a scale. Each has a weight (1–3) and a warmth
  * (cold, mild, hot). One change alters one property of one object by one step

@@ -22,14 +22,18 @@ export interface SummaryParams {
   hintsUsed: number;
   activeMs: number;
   explanation: string;
+  /** Set for Daily Arena levels, so the results screen leads back to the Arena. */
+  mode?: 'arena';
 }
 
 export type RootStackParamList = {
   Tabs: NavigatorScreenParams<TabParamList> | undefined;
   World: { worldId: WorldId };
   GameIntro: { gameId: string };
+  /** Animated how-to-play demo of a game's first tutorial. */
+  Demo: { gameId: string };
   /** `resume` restores the latest unfinished session instead of starting `seed`. */
-  Play: { gameId: string; seed: string; difficulty: DifficultyBand; resume: boolean };
+  Play: { gameId: string; seed: string; difficulty: DifficultyBand; resume: boolean; mode?: 'arena' };
   Summary: SummaryParams;
 };
 

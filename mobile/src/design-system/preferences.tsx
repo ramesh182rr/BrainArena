@@ -2,15 +2,20 @@ import * as Haptics from 'expo-haptics';
 import { createContext, useContext, useMemo, type ReactNode } from 'react';
 import { useReducedMotion } from 'react-native-reanimated';
 
+import { playSound } from './sound';
+
 export type MotionPreference = 'system' | 'reduced' | 'full';
 
 /** Player comfort settings the UI layer reacts to (PRD FR-074/075). */
 export interface UiPreferences {
   motion: MotionPreference;
   haptics: boolean;
+  sound: boolean;
+  /** Puzzles in the Daily Arena: short 3, medium 4, long 5 (FR-030). */
+  arenaSize: 3 | 4 | 5;
 }
 
-export const defaultPreferences: UiPreferences = { motion: 'system', haptics: true };
+export const defaultPreferences: UiPreferences = { motion: 'system', haptics: true, sound: true, arenaSize: 3 };
 
 const PreferencesContext = createContext<UiPreferences>(defaultPreferences);
 
@@ -44,16 +49,31 @@ export interface HapticFeedback {
   warning(): void;
 }
 
-/** Haptics that respect the player's setting. Never the only feedback channel. */
+/**
+ * Feedback for taps and outcomes: haptics and sound effects, each respecting its own setting.
+ * Never the only feedback channel.
+ */
 export function useHaptics(): HapticFeedback {
-  const { haptics } = usePreferences();
+  const { haptics, sound } = usePreferences();
   return useMemo(
     () => ({
-      tap: () => haptics && safely(() => Haptics.selectionAsync()),
-      impact: () => haptics && safely(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)),
-      success: () => haptics && safely(() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)),
-      warning: () => haptics && safely(() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning)),
+      tap: () => {
+        if (sound) playSound('tap');
+        if (haptics) safely(() => Haptics.selectionAsync());
+      },
+      impact: () => {
+        if (sound) playSound('pop');
+        if (haptics) safely(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium));
+      },
+      success: () => {
+        if (sound) playSound('success');
+        if (haptics) safely(() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success));
+      },
+      warning: () => {
+        if (sound) playSound('miss');
+        if (haptics) safely(() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning));
+      },
     }),
-    [haptics],
+    [haptics, sound],
   );
 }

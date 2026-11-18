@@ -1,4 +1,4 @@
-# Game Design Document — Shape Shift
+# Game Design Document — Shadow Tumble
 
 **ID:** W3-G04  
 **World:** Spatial Dimension  

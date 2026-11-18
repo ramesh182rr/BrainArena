@@ -1,8 +1,10 @@
 import { LinearGradient } from 'expo-linear-gradient';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { StyleSheet, View } from 'react-native';
 
 import type { RootScreenProps } from '@/app/navigation/types';
-import { AppText, Card, colors, Icon, Pill, radii, Screen, spacing, worldAccents } from '@/design-system';
+import { AppText, Card, colors, Icon, Pill, radii, Screen, spacing, useReduceMotion, worldAccents } from '@/design-system';
+import { GameIcon } from '@/games/GameIcon';
 import { gamesInWorld, getWorld, isPlayable } from '@/games/catalogue';
 
 import { ScreenHeader } from '../common/ScreenHeader';
@@ -11,6 +13,7 @@ import { starsBySeed } from '../progress/rewards';
 import { useRewards } from '../progress/useRewards';
 
 export function WorldScreen({ route, navigation }: RootScreenProps<'World'>) {
+  const reduceMotion = useReduceMotion();
   const world = getWorld(route.params.worldId);
   const accent = worldAccents[world.id];
   const { bests } = useRewards();
@@ -26,12 +29,12 @@ export function WorldScreen({ route, navigation }: RootScreenProps<'World'>) {
         </AppText>
       </View>
 
-      {gamesInWorld(world.id).map((game) => {
+      {gamesInWorld(world.id).map((game, index) => {
         const playable = isPlayable(game.id);
         const stars = [...starsBySeed(bests, game.id).values()].reduce((a, b) => a + b, 0);
         return (
+          <Animated.View key={game.id} {...(reduceMotion ? {} : { entering: FadeInDown.delay(index * 70).springify().damping(14) })}>
           <Card
-            key={game.id}
             testID={`game-${game.id}`}
             muted={!playable}
             {...(playable
@@ -41,7 +44,7 @@ export function WorldScreen({ route, navigation }: RootScreenProps<'World'>) {
           >
             <View style={styles.row}>
               <LinearGradient colors={playable ? [...accent.gradient] : ['#4A3E8C', '#2C2072']} style={styles.badge}>
-                {playable ? <Icon name="play" size={26} color="#FFFFFF" /> : <Icon name="lock" size={22} color={colors.textMuted} />}
+                {playable ? <GameIcon gameId={game.id} size={44} delayMs={index * 400} /> : <Icon name="lock" size={22} color={colors.textMuted} />}
               </LinearGradient>
               <View style={styles.flex}>
                 <AppText variant="heading">{game.title}</AppText>
@@ -58,6 +61,7 @@ export function WorldScreen({ route, navigation }: RootScreenProps<'World'>) {
               )}
             </View>
           </Card>
+          </Animated.View>
         );
       })}
       <View style={styles.footer}>
