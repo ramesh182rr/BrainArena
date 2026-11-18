@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import type { RootScreenProps } from '@/app/navigation/types';
-import { AppText, Button, Card, colors, Icon, IconButton, Pill, radii, Screen, spacing, StarRow, useHaptics } from '@/design-system';
+import { AppText, Button, Card, colors, Icon, IconButton, Pill, radii, Screen, spacing, StarRow, useHaptics, useReduceMotion } from '@/design-system';
 import { getGameModule } from '@/games/registry';
 import { getGameUi } from '@/games/ui';
 
@@ -35,12 +35,23 @@ function PlayView({ route, navigation }: RootScreenProps<'Play'>) {
   const celebrated = useRef(false);
 
   const won = session?.status === 'succeeded';
+  const ended = session?.status === 'succeeded' || session?.status === 'failed';
+  const reduceMotion = useReduceMotion();
+  // Let the board finish its last animation (e.g. a launch) before the dialog covers it.
+  const [revealed, setRevealed] = useState(false);
+  const delay = ended && session && ui.finishDelayMs && !reduceMotion ? ui.finishDelayMs(session.state) : 0;
   useEffect(() => {
-    if (won && !celebrated.current) {
+    if (!ended) return;
+    const id = setTimeout(() => setRevealed(true), delay);
+    return () => clearTimeout(id);
+  }, [ended, delay]);
+  const celebrate = won && (revealed || delay === 0);
+  useEffect(() => {
+    if (celebrate && !celebrated.current) {
       celebrated.current = true;
       haptics.success();
     }
-  }, [won, haptics]);
+  }, [celebrate, haptics]);
 
   if (game.loadError) {
     return (
@@ -64,7 +75,7 @@ function PlayView({ route, navigation }: RootScreenProps<'Play'>) {
   const tutorial = ui.tutorials.find((t) => t.seed === level.seed);
   const note = ui.levelNote(session.state);
   const playing = session.status === 'playing';
-  const finished = session.status === 'succeeded' || session.status === 'failed';
+  const finished = ended && (revealed || delay === 0);
   const label = levelLabel(ui.tutorials, { seed: level.seed, difficulty: level.difficulty });
   const status = ui.statusLine(session.state);
   const { Board } = ui;

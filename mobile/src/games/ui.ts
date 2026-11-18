@@ -32,6 +32,8 @@ export interface GameUi<TState, TAction> {
   levelNote(state: TState): string | null;
   /** One celebratory line for the win dialog, e.g. "Every receiver is powered." */
   successMessage(state: TState): string;
+  /** Optional: how long the finishing animation runs (ms), so the win dialog waits for it. Skipped with reduced motion. */
+  finishDelayMs?(state: TState): number;
   /** Explains a completed level's score in one or two sentences. */
   scoreExplanation(state: TState, context: ScoreContext): string;
   /** 1–3 stars for a completed level's score. */

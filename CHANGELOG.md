@@ -83,6 +83,36 @@ Known limitations carried into M2:
 - 2026-11-17 — Step 7: added the Arrow Escape originality review (decision pending human review;
   flags the name and the overlap with W4-G01/W4-G05 as risks) and closed M1.
 
+### M3: 15 games (complete, 2026-11-18)
+Nine games were added, bringing the catalogue to 15 playable games, with at least two per world.
+Each new game has seeded generation and validation over five bands (200 seeds per band in tests),
+tutorials, a curated fallback per band, three-tier hints, stars, save and resume, accessibility
+labels, a README and an originality review (pending human sign-off).
+
+| World | Game | Core idea |
+|---|---|---|
+| Trickster's Lab | The Missing Clue (W1-G01) | Order events from clue cards; a mid-story witness reframes "first" |
+| Logic Kingdom | Meow Grid (W2-G01) | Cat Latin square with irregular regions and echo pairs |
+| Logic Kingdom | Sequence Master (W2-G03) | Fill blanks in sequences built from repeating step cycles; every blank proven forced |
+| Spatial Dimension | Shape Shift (W3-G04) | Turn, tilt and roll a cube shape until its shadows match |
+| Spatial Dimension | Mirror World (W3-G05) | One arrow moves two explorers; the second gets a transformed move |
+| Pattern Universe | Chain Reaction (W4-G05) | Pulse timing: relays, slow relays, splitters and twin locks |
+| Memory Vault | What's Changed? (W5-G03) | Study a scene, then mark every changed square |
+| Memory Vault | Snapshot Memory (W5-G05) | A camera window sweeps a room; rebuild its map |
+| Creative Chaos | Gravity Lab (W6-G01) | Place attractors and repulsors; launch the orb through gates to the exit |
+
+Design notes to confirm:
+- Chain Reaction is about timing, not routing (Volt Courier overlap addressed).
+- What's Changed? has no ordering step (Sequence Recall overlap addressed).
+- Gravity Lab uses discrete corner-swing physics instead of continuous gravity, for determinism.
+
+Carried forward: human originality reviews, name and trademark checks (Shape Shift, Mirror World and
+Chain Reaction are common titles), comprehension playtests, a colour-free option for recolour changes
+in What's Changed?, audio, app icon and splash, and the package id.
+
+- 2026-11-18 — Release APK built for real-device testing (signed with the debug keystore; not for
+  store upload).
+
 ### M2: First 6 games (complete, 2026-11-18)
 Exit gate from `14_Project_Management/Roadmap.md`: "Each has tutorial, scoring, tests and
 originality review". **Met** for all six games, with each originality review pending human
