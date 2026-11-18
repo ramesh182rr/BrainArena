@@ -41,14 +41,15 @@ async function pressCells(seed: string) {
 }
 
 describe('play flow', () => {
-  it('shows unbuilt games honestly in the catalogue', async () => {
+  it('shows every world with all five games playable', async () => {
     await openWorldMap();
     for (const world of worlds) {
-      const label = new RegExp(`${world.title}\\. .* ${playableCount(world.id)} of 5 games playable\\.`);
+      expect(playableCount(world.id)).toBe(5);
+      const label = new RegExp(`${world.title}\\. .* 5 of 5 games playable\\.`);
       expect(await screen.findByLabelText(label)).toBeTruthy();
     }
-    await fireEvent.press(screen.getByTestId('world-W3'));
-    expect(await screen.findByLabelText('Block Escape. Layered cargo choreography. In development.')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('world-W1'));
+    expect(screen.queryByLabelText(/In development\./)).toBeNull();
   });
 
   it('plays the first tutorial offline, saves the result and offers the next level', async () => {
@@ -160,7 +161,7 @@ describe('home and rewards', () => {
     await fireEvent.press(await screen.findByRole('radio', { name: 'Motion: Reduced' }));
     await fireEvent(screen.getByLabelText('Haptics'), 'valueChange', false);
     await waitFor(async () => {
-      expect(await services.store.settings.load()).toEqual({ motion: 'reduced', haptics: false });
+      expect(await services.store.settings.load()).toEqual({ motion: 'reduced', haptics: false, sound: true, arenaSize: 3 });
     });
     expect(screen.getByRole('radio', { name: 'Motion: Reduced' })).toBeSelected();
   });

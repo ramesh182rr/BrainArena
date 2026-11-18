@@ -31,7 +31,7 @@ Known limitations carried into M2:
 - No sound effects or music.
 - No mascot art.
 - App icon and splash are still Expo template placeholders.
-- The Android package id is still `com.anonymous.brainarenasolo`.
+- The Android package id was still `com.anonymous.brainarenasolo` (changed to `com.yourname.brainarena` on 2026-11-18).
 - On 320dp-wide screens, expert boards shrink tiles to about 41dp, below the 48dp touch target.
 - Daily Arena, sync, accounts and monetisation are later milestones.
 
@@ -82,6 +82,74 @@ Known limitations carried into M2:
   and expo-font; fonts recorded in `mobile/ASSETS_AND_LICENSES.md` and the blueprint asset manifest.
 - 2026-11-17 — Step 7: added the Arrow Escape originality review (decision pending human review;
   flags the name and the overlap with W4-G01/W4-G05 as risks) and closed M1.
+
+### M4: 30 games (complete, 2026-11-18)
+Batch 1 (2026-11-18): five more games, bringing the catalogue to 20.
+
+| World | Game | Core idea |
+|---|---|---|
+| Logic Kingdom | Number Lock (W2-G05) | Each tumbler reports exact, one away or far; harder locks give counts only |
+| Logic Kingdom | Logic Grid (W2-G04) | Row-per-traveller deduction with a live conflict detector |
+| Spatial Dimension | Block Escape (W3-G02) | Ferry the gold crate over pits on sliding platforms |
+| Pattern Universe | Dot Connect (W4-G01) | Route a signal through every star; no same-colour hops; one-way links |
+| Pattern Universe | Pattern Link (W4-G03) | Walk a motif grid by a hidden grammar inferred from examples |
+
+Notes: Block Escape's expert generation takes about a second; consider a precomputed level pack.
+Logic Kingdom is now complete (5 of 5).
+
+Batch 2 (2026-11-18): five more games, bringing the catalogue to 25.
+
+| World | Game | Core idea |
+|---|---|---|
+| Spatial Dimension | Path Finder (W3-G03) | Every step toggles neighbouring hedges; flowers toggle a row |
+| Pattern Universe | Limited Moves (W4-G04) | Start machines in the right order: gears cheapen, boilers raise prices, locks wait |
+| Memory Vault | Memory Detective (W5-G01) | Rebuild a room; only pairwise arrangement counts |
+| Memory Vault | Object Recall (W5-G02) | Story cards, a distraction, then where / who / which-first questions |
+| Creative Chaos | Impossible Machine (W6-G05) | Chain rhythm modules so the output matches the target |
+
+Spatial Dimension, Pattern Universe and Memory Vault are now complete (5 of 5).
+
+Batch 3 (2026-11-18): the last five games. **All 30 games are playable; every world is 5 of 5.**
+
+| World | Game | Core idea |
+|---|---|---|
+| Trickster's Lab | Impossible Answer (W1-G02) | Flip double-sided rule cards until the goal becomes possible |
+| Trickster's Lab | Hidden Truth (W1-G03) | Walk round a table; find the statement true from every side |
+| Trickster's Lab | Picture Riddle (W1-G04) | Visual analogy over shape, colour, count and size |
+| Creative Chaos | Draw the Solution (W6-G02) | Draw a plank or spring stroke from an anchor to land the ball |
+| Creative Chaos | Object Illusion (W6-G03) | Change weight or warmth one step at a time to meet every goal |
+
+Exit gate "All games pass quality gate": every game has seeded validated levels, tutorials, fallbacks, hints,
+stars, save/resume, accessibility labels, tests and an originality review. Still pending for every game:
+human originality sign-off, name checks and comprehension playtests. Design changes to confirm: Gravity
+Lab and Draw the Solution are discrete grids rather than free physics; Rule Breaker's PASS reports no cause.
+
+### Release basics (2026-11-18)
+- **Package id** is now `com.yourname.brainarena` (Android and iOS). The Play Store has no published
+  app with this id; it is confirmed only on the first Play Console upload.
+- **Release signing:** `mobile/plugins/withReleaseSigning.js` signs release builds with an upload key
+  read from Gradle properties (`BRAINARENA_UPLOAD_*`, kept in `~/.gradle/gradle.properties`, never
+  in the repo). Without them, builds fall back to the debug key. Resource shrinking and minification
+  are on for release builds.
+- **App icon, adaptive icon and splash screen:** original artwork drawn in code
+  (`mobile/scripts/make-brand-assets.mjs`, SVG sources in `mobile/assets/brand/`).
+- **Sound effects:** tap, pop, success and miss sounds, synthesised by `mobile/scripts/make-sounds.mjs`
+  and played through `expo-audio` alongside haptics. A new "Sound effects" setting turns them off;
+  silent mode is respected and other audio keeps playing.
+- Smaller test APK: build with `-PreactNativeArchitectures=arm64-v8a` (about 33 MB, down from 104 MB).
+
+### M6: Daily Arena (2026-11-18)
+- The Arena tab and the Home card now show today's mix of 3, 4 or 5 games (Profile → "Daily Arena
+  length"), made on the device from local play history and cached for the day (FR-030, FR-036).
+- Selection: one comfortable favourite and one new game when history allows, different worlds, and
+  no repeats of yesterday's games. Every pick explains why it was chosen (FR-031).
+- Difficulty moves at most one band: up after 3 of the last 4 solved with few hints, down only after
+  2 of the last 3 missed or left, never from one miss, with a cooldown against oscillation (FR-033,
+  FR-034).
+- Swap any game for another (it isn't offered again that day), or ignore the Arena and explore
+  freely (FR-032). Arena levels are recorded with mode `arena`; their results screen leads back to
+  the Arena.
+- Not built yet: weekly missions, special challenges, and a non-punitive "days played" record.
 
 ### M3: 15 games (complete, 2026-11-18)
 Nine games were added, bringing the catalogue to 15 playable games, with at least two per world.
